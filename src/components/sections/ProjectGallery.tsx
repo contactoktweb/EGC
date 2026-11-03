@@ -54,7 +54,7 @@ export function ProjectGallery({
               type="button"
               aria-pressed={filter === t.key}
               onClick={() => setFilter(t.key)}
-              className={`rounded-full border-[1.5px] border-ink px-4 py-2 text-sm font-bold transition ${
+              className={`rounded-full border-[1.5px] border-ink px-4 py-2 text-sm font-bold transition duration-300 hover:-translate-y-0.5 ${
                 filter === t.key ? "bg-ink text-white" : "hover:bg-ink/5"
               }`}
             >
@@ -64,7 +64,7 @@ export function ProjectGallery({
         </div>
       )}
 
-      <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4">
+      <ul key={filter} className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4" data-reveal-stagger="60">
         {visible.map((p) => (
           <li key={p.id}>
             <button
@@ -78,8 +78,18 @@ export function ProjectGallery({
                 fill
                 placeholder="blur"
                 sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
-                className="object-cover transition duration-500 group-hover:scale-105"
+                className="object-cover transition duration-700 group-hover:scale-110"
               />
+              <span
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100"
+              />
+              <span
+                aria-hidden="true"
+                className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 scale-50 items-center justify-center rounded-full bg-brand-deep text-xl font-bold text-white opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100"
+              >
+                +
+              </span>
               <span className="absolute bottom-2 left-2 rounded-sm bg-ink/85 px-2 py-1 text-[0.65rem] font-bold tracking-wide text-white uppercase">
                 {catLabel(p.category)}
               </span>

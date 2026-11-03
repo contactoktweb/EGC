@@ -70,16 +70,19 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
           <div>
             <p className="eyebrow mb-3">{t.common.whatWeOffer}</p>
             <h2 className="text-3xl font-bold">{s.name[lang]}</h2>
-            <ul className="mt-6 grid gap-3">
+            <ul className="mt-6 grid gap-3" data-reveal-stagger="60">
               {s.items[lang].map((item) => (
-                <li key={item} className="flex gap-3 rounded border border-line bg-ink-2 px-4 py-3">
+                <li
+                  key={item}
+                  className="flex gap-3 rounded border border-line bg-ink-2 px-4 py-3 hover:border-brand hover:bg-ink-3"
+                >
                   <UpArrow className="mt-0.5 h-4 w-4 shrink-0 text-brand-light" />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-md lg:sticky lg:top-28">
+          <div data-reveal="zoom" className="relative aspect-[4/3] overflow-hidden rounded-md lg:sticky lg:top-28">
             <Image
               src={s.image}
               alt={s.imageAlt[lang]}
@@ -110,7 +113,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
             <h2 className="mb-5 text-2xl font-bold">{t.common.relatedServices}</h2>
-            <ul className="grid gap-3">
+            <ul className="grid gap-3" data-reveal-stagger="80">
               {related.map((r) => (
                 <li key={r.slug}>
                   <Link
@@ -129,7 +132,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
             <h2 className="mb-5 text-2xl font-bold">
               {s.name[lang]} — {t.nav.areas}
             </h2>
-            <ul className="flex flex-wrap gap-2">
+            <ul className="flex flex-wrap gap-2" data-reveal-stagger="40">
               {cities.map((c) => (
                 <li key={c.slug}>
                   <Link

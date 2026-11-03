@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { JsonLd } from "./JsonLd";
 import { breadcrumbJsonLd } from "@/lib/seo";
 
@@ -19,9 +19,13 @@ export function SectionTitle({
   className?: string;
 }) {
   return (
-    <div className={`${align === "center" ? "mx-auto text-center" : ""} mb-10 max-w-3xl ${className}`}>
+    <div data-reveal className={`${align === "center" ? "mx-auto text-center" : ""} mb-10 max-w-3xl ${className}`}>
       {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
       <Tag className="text-3xl leading-tight font-bold text-balance md:text-4xl">{title}</Tag>
+      <span
+        aria-hidden="true"
+        className={`reveal-line mt-4 block h-1 w-14 rounded bg-brand ${align === "center" ? "mx-auto" : ""}`}
+      />
       {lead && <p className="mt-4 text-base leading-relaxed text-pretty opacity-80 md:text-lg">{lead}</p>}
     </div>
   );
@@ -97,14 +101,34 @@ export function PageHero({
     <section className="relative overflow-hidden border-b border-line bg-ink-2 py-14 md:py-20">
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-brand/10 blur-3xl"
+        className="float-up pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-brand/15 blur-3xl"
       />
       <div className="container-site relative">
-        <Breadcrumbs items={crumbs} />
-        {eyebrow && <p className="eyebrow mb-3">{eyebrow}</p>}
-        <h1 className="max-w-4xl text-4xl leading-[1.1] font-bold text-balance md:text-5xl">{title}</h1>
-        {lead && <p className="mt-5 max-w-3xl text-lg leading-relaxed text-neutral-300">{lead}</p>}
-        {children}
+        <div className="hero-rise" style={{ "--d": "0ms" } as CSSProperties}>
+          <Breadcrumbs items={crumbs} />
+        </div>
+        {eyebrow && (
+          <p className="hero-rise eyebrow mb-3" style={{ "--d": "80ms" } as CSSProperties}>
+            {eyebrow}
+          </p>
+        )}
+        <h1
+          className="hero-rise max-w-4xl text-4xl leading-[1.1] font-bold text-balance md:text-5xl"
+          style={{ "--d": "140ms" } as CSSProperties}
+        >
+          {title}
+        </h1>
+        <span aria-hidden="true" className="hero-bar mt-5 block h-1 w-16 rounded bg-brand" style={{ "--d": "380ms" } as CSSProperties} />
+        {lead && (
+          <p className="hero-rise mt-5 max-w-3xl text-lg leading-relaxed text-neutral-300" style={{ "--d": "240ms" } as CSSProperties}>
+            {lead}
+          </p>
+        )}
+        {children && (
+          <div className="hero-rise" style={{ "--d": "340ms" } as CSSProperties}>
+            {children}
+          </div>
+        )}
       </div>
     </section>
   );

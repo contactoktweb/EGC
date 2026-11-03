@@ -21,6 +21,14 @@ export function Header({ lang, nav, services, phoneDisplay, telHref }: Props) {
   // El menú queda abierto solo en la ruta donde se abrió: al navegar se cierra solo.
   const [openOn, setOpenOn] = useState<string | null>(null);
   const open = openOn === pathname;
+  const [scrolled, setScrolled] = useState(false);
+
+  // Header más compacto y con sombra al bajar.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Bloquea el scroll del fondo con el menú abierto.
   useEffect(() => {
@@ -45,7 +53,13 @@ export function Header({ lang, nav, services, phoneDisplay, telHref }: Props) {
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line/70 bg-ink/95 backdrop-blur supports-[backdrop-filter]:bg-ink/85">
+    <header
+      className={`sticky top-0 z-50 border-b backdrop-blur transition-[background-color,box-shadow,border-color] duration-300 ${
+        scrolled
+          ? "border-line bg-ink/95 shadow-[0_10px_30px_-12px_rgb(0_0_0/0.8)]"
+          : "border-line/40 bg-ink/80"
+      }`}
+    >
       <a
         href="#main"
         className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:z-50 focus:rounded focus:bg-brand-deep focus:px-3 focus:py-2"
@@ -54,7 +68,7 @@ export function Header({ lang, nav, services, phoneDisplay, telHref }: Props) {
       </a>
       <div className="container-site flex h-[72px] items-center justify-between gap-6">
         <Link href={href("/")} aria-label="ECG Construction — home" className="shrink-0">
-          <Logo />
+          <Logo className={`origin-left transition-transform duration-300 ${scrolled ? "scale-90" : ""}`} />
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">
@@ -94,7 +108,8 @@ export function Header({ lang, nav, services, phoneDisplay, telHref }: Props) {
               <li key={l.path}>
                 <Link
                   href={href(l.path)}
-                  className={`hover:text-white ${isActive(l.path) ? "text-white underline decoration-brand decoration-2 underline-offset-8" : ""}`}
+                  aria-current={isActive(l.path) ? "page" : undefined}
+                  className={`nav-link hover:text-white ${isActive(l.path) ? "text-white" : ""}`}
                 >
                   {l.label}
                 </Link>
@@ -105,7 +120,9 @@ export function Header({ lang, nav, services, phoneDisplay, telHref }: Props) {
 
         <div className="flex items-center gap-3">
           <a href={telHref} className="hidden items-center gap-2 text-sm font-semibold xl:inline-flex">
-            <PhoneIcon className="h-4 w-4 text-brand-light" />
+            <span className="pulse-ring inline-flex rounded-full">
+              <PhoneIcon className="h-4 w-4 text-brand-light" />
+            </span>
             {phoneDisplay}
           </a>
           <LangSwitch lang={lang} switchTo={switchTo} label={nav.language} />

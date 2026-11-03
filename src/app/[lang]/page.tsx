@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Hero } from "@/components/sections/Hero";
+import { ServiceMarquee } from "@/components/motion/ServiceMarquee";
 import { FeaturedServices, ServicesGrid } from "@/components/sections/ServiceSections";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { AboutSplit, FaqList, ServiceArea, WhoWeServe, WhyChoose } from "@/components/sections/InfoSections";
@@ -37,6 +38,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
     <>
       {/* 2 · Hero */}
       <Hero lang={lang} />
+      {/* Franja animada con todos los servicios */}
+      <ServiceMarquee lang={lang} />
       {/* 3 · Servicios destacados: Pour concrete / Polishing / Epoxy */}
       <FeaturedServices lang={lang} />
       {/* 4 · Los 7 servicios */}
@@ -45,8 +48,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <Section tone="light">
         <SectionTitle eyebrow={t.projects.eyebrow} title={t.projects.title} lead={t.projects.lead} />
         <ProjectGallery projects={projects} lang={lang} labels={t.projects} limit={12} />
-        <div className="mt-10 text-center">
-          <Link href={localePath("/projects", lang)} className="btn btn-primary">
+        <div data-reveal className="mt-10 text-center">
+          <Link href={localePath("/projects", lang)} className="btn btn-primary hero-lift">
             {t.common.seeAllProjects} <ArrowRight />
           </Link>
         </div>

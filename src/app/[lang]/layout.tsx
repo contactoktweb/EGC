@@ -5,6 +5,7 @@ import "../globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
+import { ScrollReveal } from "@/components/motion/ScrollReveal";
 import { services } from "@/content/services";
 import { getDictionary } from "@/content/dictionary";
 import { hasLocale, htmlLang, locales } from "@/lib/i18n";
@@ -44,8 +45,11 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
   const t = getDictionary(lang);
 
   return (
-    <html lang={htmlLang[lang]} className={archivo.variable}>
+    <html lang={htmlLang[lang]} className={archivo.variable} suppressHydrationWarning>
       <body className="flex min-h-dvh flex-col">
+        {/* Marca <html data-js> antes del primer pintado: activa las animaciones de scroll sin parpadeo. */}
+        <script dangerouslySetInnerHTML={{ __html: `document.documentElement.setAttribute("data-js","")` }} />
+        <ScrollReveal />
         <Header
           lang={lang}
           nav={t.nav}

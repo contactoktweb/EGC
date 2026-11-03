@@ -42,7 +42,7 @@ export default async function ServiceAreasPage({ params }: PageProps<"/[lang]/se
             {groups.map((g) => (
               <div key={g.county}>
                 <h2 className="mb-4 text-2xl font-bold capitalize">{countyName(g.county, lang)}</h2>
-                <ul className="grid gap-3 sm:grid-cols-2">
+                <ul className="grid gap-3 sm:grid-cols-2" data-reveal-stagger="60">
                   {g.items.map((c) => (
                     <li key={c.slug}>
                       <Link
@@ -60,7 +60,9 @@ export default async function ServiceAreasPage({ params }: PageProps<"/[lang]/se
             ))}
             <p className="text-neutral-400">{t.area.andMore}</p>
           </div>
-          <ServiceMap title={t.area.mapTitle} />
+          <div data-reveal="zoom">
+            <ServiceMap title={t.area.mapTitle} />
+          </div>
         </div>
       </Section>
       <CtaBand lang={lang} />

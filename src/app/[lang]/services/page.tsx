@@ -39,16 +39,17 @@ export default async function ServicesPage({ params }: PageProps<"/[lang]/servic
             <article
               key={s.slug}
               id={s.slug}
-              className="grid overflow-hidden rounded-md border border-line bg-ink-2 md:grid-cols-[0.8fr_1.2fr]"
+              data-reveal={i % 2 ? "right" : "left"}
+              className="group grid overflow-hidden rounded-md border border-line bg-ink-2 hover:border-brand/60 md:grid-cols-[0.8fr_1.2fr]"
             >
-              <div className={`relative min-h-[220px] ${i % 2 ? "md:order-2" : ""}`}>
+              <div className={`relative min-h-[220px] overflow-hidden ${i % 2 ? "md:order-2" : ""}`}>
                 <Image
                   src={s.image}
                   alt={s.imageAlt[lang]}
                   fill
                   placeholder="blur"
                   sizes="(min-width: 768px) 40vw, 100vw"
-                  className="object-cover"
+                  className="object-cover transition duration-700 group-hover:scale-105"
                 />
               </div>
               <div className="p-6 md:p-8">

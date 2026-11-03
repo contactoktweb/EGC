@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, PhoneIcon, PinIcon, ShieldIcon } from "../Icons";
 import { Section, SectionTitle } from "../ui";
+import { CountUp } from "../motion/CountUp";
 import aboutImg from "@/content/images/concrete-grinding-polishing-in-progress.jpg";
 import { getDictionary } from "@/content/dictionary";
 import { cities } from "@/content/cities";
@@ -15,10 +16,15 @@ export function WhyChoose({ lang }: { lang: Locale }) {
   return (
     <Section>
       <SectionTitle eyebrow={t.why.eyebrow} title={t.why.title} />
-      <ul className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="80">
         {t.why.items.map(([title, text], i) => (
-          <li key={title} className={`border-t-[3px] pt-4 ${i === t.why.items.length - 1 ? "border-white" : "border-brand"}`}>
-            <h3 className="font-bold">{title}</h3>
+          <li key={title} className="group relative pt-4">
+            <span aria-hidden="true" className="absolute top-0 left-0 h-[3px] w-full bg-line" />
+            <span
+              aria-hidden="true"
+              className={`reveal-line absolute top-0 left-0 h-[3px] w-full ${i === t.why.items.length - 1 ? "bg-white" : "bg-brand"}`}
+            />
+            <h3 className="font-bold transition group-hover:text-brand-light">{title}</h3>
             <p className="mt-1.5 text-sm text-neutral-400">{text}</p>
           </li>
         ))}
@@ -33,17 +39,18 @@ export function AboutSplit({ lang, full = false }: { lang: Locale; full?: boolea
   return (
     <Section tone="darker">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <div className="relative aspect-[4/3] overflow-hidden rounded-md">
+        <div data-reveal="left" className="group relative aspect-[4/3] overflow-hidden rounded-md">
           <Image
             src={aboutImg}
             alt={t.about.imageAlt}
             fill
             placeholder="blur"
             sizes="(min-width: 1024px) 50vw, 100vw"
-            className="object-cover"
+            className="object-cover transition duration-700 group-hover:scale-105"
           />
+          <span aria-hidden="true" className="absolute bottom-0 left-0 h-1.5 w-1/3 bg-brand" />
         </div>
-        <div>
+        <div data-reveal="right">
           <p className="eyebrow mb-3">{t.about.eyebrow}</p>
           <h2 className="text-3xl leading-tight font-bold text-balance md:text-4xl">{t.about.title}</h2>
           <div className="prose-ecg mt-5">
@@ -60,7 +67,9 @@ export function AboutSplit({ lang, full = false }: { lang: Locale; full?: boolea
             {t.about.stats.map(([value, label]) => (
               <div key={label}>
                 <dt className="text-xs text-neutral-400">{label}</dt>
-                <dd className="text-3xl font-extrabold text-brand-light">{value}</dd>
+                <dd className="text-4xl font-extrabold text-brand-light">
+                  <CountUp value={value} />
+                </dd>
               </div>
             ))}
           </dl>
@@ -84,12 +93,16 @@ export function WhoWeServe({ lang }: { lang: Locale }) {
   return (
     <Section tone="light">
       <SectionTitle eyebrow={t.serve.eyebrow} title={t.serve.title} />
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="110">
         {t.serve.items.map(([title, text]) => (
-          <li key={title} className="rounded-md border border-neutral-300 bg-white p-6">
-            <ShieldIcon className="h-7 w-7 text-brand-deep" />
+          <li key={title}>
+          <div className="card-lift group h-full rounded-md border border-neutral-300 bg-white p-6 hover:border-brand">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand/10 transition duration-300 group-hover:bg-brand-deep group-hover:text-white">
+              <ShieldIcon className="h-7 w-7 text-brand-deep transition group-hover:text-white" />
+            </span>
             <h3 className="mt-4 font-bold">{title}</h3>
             <p className="mt-2 text-sm leading-relaxed text-neutral-600">{text}</p>
+          </div>
           </li>
         ))}
       </ul>
@@ -103,25 +116,27 @@ export function ServiceArea({ lang }: { lang: Locale }) {
   return (
     <Section>
       <div className="grid items-center gap-10 lg:grid-cols-2">
-        <div>
+        <div data-reveal="left">
           <p className="eyebrow mb-3">{t.area.eyebrow}</p>
           <h2 className="text-3xl font-bold md:text-4xl">{t.area.title}</h2>
           <p className="mt-4 text-neutral-300">{t.area.lead}</p>
-          <ul className="mt-6 flex flex-wrap gap-2">
+          <ul className="mt-6 flex flex-wrap gap-2" data-reveal-stagger="45">
             {cities.map((c) => (
               <li key={c.slug}>
                 <Link
                   href={localePath(`/service-areas/${c.slug}`, lang)}
-                  className="inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-sm hover:border-brand hover:text-brand-light"
+                  className="group inline-flex items-center gap-1 rounded-full border border-line px-3 py-1.5 text-sm transition hover:-translate-y-0.5 hover:border-brand hover:bg-brand/10 hover:text-brand-light"
                 >
-                  <PinIcon className="h-3.5 w-3.5" /> {c.name}
+                  <PinIcon className="h-3.5 w-3.5 transition group-hover:-translate-y-0.5" /> {c.name}
                 </Link>
               </li>
             ))}
           </ul>
           <p className="mt-4 text-sm text-neutral-400">{t.area.andMore}</p>
         </div>
-        <ServiceMap title={t.area.mapTitle} />
+        <div data-reveal="zoom">
+          <ServiceMap title={t.area.mapTitle} />
+        </div>
       </div>
     </Section>
   );
@@ -157,7 +172,7 @@ export function FaqList({
   return (
     <Section tone={tone}>
       <SectionTitle title={title} />
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-3xl" data-reveal-stagger="80">
         {faqs.map((f, i) => (
           <details
             key={f.q.en}
@@ -185,14 +200,14 @@ export function FaqList({
 export function CtaBand({ lang }: { lang: Locale }) {
   const t = getDictionary(lang);
   return (
-    <section className="bg-brand-deep">
-      <div className="container-site flex flex-col items-start justify-between gap-6 py-12 md:flex-row md:items-center">
+    <section className="cta-stripes bg-brand-deep">
+      <div data-reveal className="container-site flex flex-col items-start justify-between gap-6 py-12 md:flex-row md:items-center">
         <div className="max-w-2xl">
           <h2 className="text-2xl font-bold md:text-3xl">{t.cta.title}</h2>
           <p className="mt-2 text-white/90">{t.cta.lead}</p>
         </div>
         <div className="flex shrink-0 flex-wrap gap-3">
-          <Link href={localePath("/contact", lang)} className="btn bg-white text-ink hover:bg-neutral-200">
+          <Link href={localePath("/contact", lang)} className="btn hero-lift bg-white text-ink hover:bg-neutral-200">
             {t.nav.estimate}
           </Link>
           <a href={telHref} className="btn btn-outline">

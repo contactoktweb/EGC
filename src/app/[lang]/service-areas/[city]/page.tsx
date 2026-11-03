@@ -84,16 +84,18 @@ export default async function CityPage({ params }: PageProps<"/[lang]/service-ar
       <Section>
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="text-lg leading-relaxed text-neutral-300">{c.note[lang]}</p>
+            <p data-reveal className="text-lg leading-relaxed text-neutral-300">
+              {c.note[lang]}
+            </p>
             <h2 className="mt-10 mb-5 text-2xl font-bold">
               {t.common.servicesIn} {c.name}
             </h2>
-            <ul className="grid gap-3 sm:grid-cols-2">
+            <ul className="grid gap-3 sm:grid-cols-2" data-reveal-stagger="60">
               {services.map((s) => (
                 <li key={s.slug}>
                   <Link
                     href={localePath(`/services/${s.slug}`, lang)}
-                    className="flex h-full items-start gap-3 rounded border border-line bg-ink-2 p-4 hover:border-brand"
+                    className="card-lift flex h-full items-start gap-3 rounded border border-line bg-ink-2 p-4 hover:border-brand"
                   >
                     <ServiceGlyph icon={s.icon} className="h-6 w-6 shrink-0 text-brand-light" />
                     <span>
@@ -122,7 +124,7 @@ export default async function CityPage({ params }: PageProps<"/[lang]/service-ar
               </>
             )}
           </div>
-          <div className="lg:sticky lg:top-28 lg:self-start">
+          <div data-reveal="zoom" className="lg:sticky lg:top-28 lg:self-start">
             <ServiceMap title={`${t.area.mapTitle} — ${c.name}`} query={`${c.name}, WA`} />
           </div>
         </div>

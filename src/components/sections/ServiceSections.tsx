@@ -13,12 +13,10 @@ export function FeaturedServices({ lang }: { lang: Locale }) {
   return (
     <Section>
       <SectionTitle eyebrow={t.featured.eyebrow} title={t.featured.title} lead={t.featured.lead} />
-      <div className="grid gap-6 md:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-3" data-reveal-stagger="140">
         {featuredServices.map((s) => (
-          <article
-            key={s.slug}
-            className="group flex flex-col overflow-hidden rounded-md border border-line bg-ink-2 transition hover:border-brand/70"
-          >
+          <div key={s.slug}>
+          <article className="card-lift group flex h-full flex-col overflow-hidden rounded-md border border-line bg-ink-2 hover:border-brand/70">
             <div className="relative aspect-[4/3] overflow-hidden">
               <Image
                 src={s.image}
@@ -26,7 +24,7 @@ export function FeaturedServices({ lang }: { lang: Locale }) {
                 fill
                 placeholder="blur"
                 sizes="(min-width: 768px) 33vw, 100vw"
-                className="object-cover transition duration-500 group-hover:scale-105"
+                className="object-cover transition duration-700 group-hover:scale-110"
               />
             </div>
             <div className="flex flex-1 flex-col p-6">
@@ -53,6 +51,7 @@ export function FeaturedServices({ lang }: { lang: Locale }) {
               </Link>
             </div>
           </article>
+          </div>
         ))}
       </div>
     </Section>
@@ -65,16 +64,19 @@ export function ServicesGrid({ lang, tone = "darker" }: { lang: Locale; tone?: "
   return (
     <Section tone={tone}>
       <SectionTitle eyebrow={t.services.eyebrow} title={t.services.title} lead={t.services.lead} />
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="70">
         {services.map((s, i) => (
           <li key={s.slug}>
             <Link
               href={localePath(`/services/${s.slug}`, lang)}
-              className="group flex h-full flex-col rounded-md border border-line bg-ink p-6 transition hover:border-brand/70 hover:bg-ink-3"
+              className="card-lift group flex h-full flex-col rounded-md border border-line bg-ink p-6 hover:border-brand/70 hover:bg-ink-3"
             >
               <div className="flex items-center justify-between">
-                <ServiceGlyph icon={s.icon} className="h-8 w-8 text-brand-light" />
-                <span className="text-sm font-bold text-neutral-500">{String(i + 1).padStart(2, "0")}</span>
+                <ServiceGlyph
+                  icon={s.icon}
+                  className="h-8 w-8 text-brand-light transition duration-300 group-hover:-translate-y-1 group-hover:scale-110"
+                />
+                <span className="text-sm font-bold text-neutral-500 transition group-hover:text-brand-light">{String(i + 1).padStart(2, "0")}</span>
               </div>
               <h3 className="mt-5 text-lg leading-snug font-bold">{s.name[lang]}</h3>
               <p className="mt-2 text-sm leading-relaxed text-neutral-400">{s.short[lang]}</p>
@@ -87,9 +89,9 @@ export function ServicesGrid({ lang, tone = "darker" }: { lang: Locale; tone?: "
         <li>
           <Link
             href={localePath("/contact", lang)}
-            className="flex h-full flex-col justify-between rounded-md bg-brand-deep p-6 transition hover:bg-brand-deeper"
+            className="card-lift cta-stripes group flex h-full flex-col justify-between rounded-md bg-brand-deep p-6 hover:bg-brand-deeper"
           >
-            <ArrowRight className="h-8 w-8" />
+            <ArrowRight className="h-8 w-8 transition duration-300 group-hover:translate-x-2" />
             <span>
               <span className="block text-lg font-bold">{t.services.notSure}</span>
               <span className="mt-2 block text-sm text-white/85">{t.services.notSureCta}</span>

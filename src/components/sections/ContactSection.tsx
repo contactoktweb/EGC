@@ -22,17 +22,19 @@ export function ContactSection({ lang, withTitle = true }: { lang: Locale; withT
     <Section id="estimate">
       {withTitle && <SectionTitle title={t.cta.title} lead={t.cta.lead} />}
       <div className="grid gap-10 lg:grid-cols-[1.35fr_0.65fr]">
+        <div data-reveal="left">
         <ContactForm
           lang={lang}
           labels={t.form}
           services={services.map((s) => ({ value: s.name.en, label: s.name[lang] }))}
           cities={cities.map((c) => c.name)}
         />
+        </div>
         <address className="not-italic">
-          <ul className="grid gap-6">
+          <ul className="grid gap-6" data-reveal-stagger="90">
             {info.map(({ icon: Icon, label, value, href, extra }) => (
-              <li key={label} className="flex gap-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-brand-light">
+              <li key={label} className="group flex gap-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-line text-brand-light transition duration-300 group-hover:border-brand group-hover:bg-brand-deep group-hover:text-white">
                   <Icon className="h-5 w-5" />
                 </span>
                 <span>

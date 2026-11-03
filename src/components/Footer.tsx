@@ -14,7 +14,7 @@ export function Footer({ lang }: { lang: Locale }) {
   return (
     <footer className="mt-auto bg-ink text-sm text-neutral-300">
       <BrandWave className="block h-10 w-full" />
-      <div className="container-site grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr]">
+      <div className="container-site grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.1fr]" data-reveal-stagger="100">
         <div>
           <Logo />
           <p className="mt-5 max-w-xs leading-relaxed">
@@ -109,7 +109,7 @@ export function Footer({ lang }: { lang: Locale }) {
               className="inline-flex items-center gap-1.5 hover:text-white"
             >
               Desarrollado por K&amp;T
-              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-red-500" fill="currentColor" aria-label="con amor">
+              <svg viewBox="0 0 24 24" className="heartbeat h-3.5 w-3.5 text-red-500" fill="currentColor" aria-label="con amor">
                 <path d="M12 21s-7.5-4.6-10-9.3C.4 8.4 2.3 4.5 6 4.5c2.1 0 3.5 1.1 4.3 2.3h3.4c.8-1.2 2.2-2.3 4.3-2.3 3.7 0 5.6 3.9 4 7.2C19.5 16.4 12 21 12 21Z" />
               </svg>
             </a>

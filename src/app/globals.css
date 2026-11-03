@@ -25,6 +25,18 @@
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    /* Permite animar a "auto" (apertura suave de las preguntas frecuentes). */
+    interpolate-size: allow-keywords;
+  }
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+      content-visibility 0.35s allow-discrete;
+  }
+  details[open]::details-content {
+    block-size: auto;
   }
   body {
     background: var(--color-ink);
@@ -202,6 +214,201 @@
       animation: none !important;
     }
     .hero-lift:hover {
+      transform: none;
+    }
+  }
+
+  /* ---------------- Aparición al hacer scroll ----------------
+     Solo se oculta si hay JS (data-js); ScrollReveal añade .is-visible. */
+  [data-js] :is([data-reveal], [data-reveal-stagger] > *) {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) var(--rd, 0ms),
+      border-color 0.2s,
+      background-color 0.2s,
+      box-shadow 0.25s;
+  }
+  [data-js] [data-reveal="left"] {
+    transform: translateX(-40px);
+  }
+  [data-js] [data-reveal="right"] {
+    transform: translateX(40px);
+  }
+  [data-js] [data-reveal="zoom"] {
+    transform: scale(0.94);
+  }
+  [data-js] :is([data-reveal], [data-reveal-stagger] > *).is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Línea verde que crece al aparecer (Por qué elegirnos, títulos). */
+  .reveal-line {
+    transform-origin: left;
+    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) calc(var(--rd, 0ms) + 0.15s);
+  }
+  [data-js] :is([data-reveal], [data-reveal-stagger] > *):not(.is-visible) .reveal-line {
+    transform: scaleX(0);
+  }
+
+  /* Tarjetas: elevación con brillo verde al pasar el mouse. */
+  .card-lift {
+    transition:
+      transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1),
+      box-shadow 0.25s,
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+  .card-lift:hover {
+    transform: translateY(-6px);
+    box-shadow:
+      0 18px 40px -18px rgb(0 0 0 / 0.65),
+      0 0 0 1px rgb(95 154 79 / 0.55);
+  }
+
+  /* Enlaces del menú con subrayado verde que se dibuja. */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 2px;
+    background: var(--color-brand);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+  .nav-link:hover::after,
+  .nav-link[aria-current="page"]::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Botón principal: destello que cruza al pasar el mouse. */
+  .btn-primary {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.28) 50%, transparent 70%);
+    transform: translateX(-120%);
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .btn-primary:hover::before {
+    transform: translateX(120%);
+  }
+
+  /* Franja de servicios en movimiento. */
+  .marquee-row {
+    animation: marquee 38s linear infinite;
+  }
+  .marquee:hover .marquee-row {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  /* Franja CTA con rayas diagonales que avanzan lentamente. */
+  .cta-stripes {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(255 255 255 / 0.05) 0 14px,
+      transparent 14px 28px
+    );
+    background-size: 40px 40px;
+    animation: stripes 2.4s linear infinite;
+  }
+  @keyframes stripes {
+    to {
+      background-position: 40px 0;
+    }
+  }
+
+  /* Flecha que "respira" (indicadores y llamados). */
+  .float-up {
+    animation: float-up 2.6s ease-in-out infinite;
+  }
+  @keyframes float-up {
+    50% {
+      transform: translateY(-4px);
+    }
+  }
+
+  /* Pulso suave en el teléfono del header. */
+  .pulse-ring {
+    position: relative;
+  }
+  .pulse-ring::after {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    border-radius: 9999px;
+    border: 2px solid var(--color-brand-light);
+    opacity: 0;
+    animation: pulse-ring 2.8s ease-out infinite;
+  }
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.8;
+    }
+    70%,
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  /* Corazón del crédito K&T latiendo. */
+  .heartbeat {
+    animation: heartbeat 1.6s ease-in-out infinite;
+  }
+  @keyframes heartbeat {
+    0%,
+    40%,
+    100% {
+      transform: scale(1);
+    }
+    15% {
+      transform: scale(1.25);
+    }
+    28% {
+      transform: scale(1.1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .heartbeat {
+      animation: none !important;
+    }
+    [data-js] :is([data-reveal], [data-reveal-stagger] > *) {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .reveal-line {
+      transform: none !important;
+    }
+    .marquee-row,
+    .cta-stripes,
+    .float-up,
+    .pulse-ring::after {
+      animation: none !important;
+    }
+    .card-lift:hover {
       transform: none;
     }
   }
