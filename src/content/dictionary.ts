@@ -43,7 +43,7 @@ const en = {
     nearby: "Nearby communities",
   },
   hero: {
-    eyebrow: "General Construction · Snohomish & King County, WA",
+    eyebrow: "General Construction · Snohomish & King, WA",
     title: "Concrete, Epoxy & Polished Floors in Snohomish & King County, WA",
     lead: "Quality workmanship, reliable service and professional results. For more than 20 years we have served homeowners, property managers, general contractors and commercial clients in Washington State.",
     badges: ["20+ Years Experience", "Licensed, Bonded & Insured", "Residential & Commercial"],
@@ -205,7 +205,7 @@ const es: Dictionary = {
     nearby: "Comunidades cercanas",
   },
   hero: {
-    eyebrow: "Construcción general · Condados de Snohomish y King, WA",
+    eyebrow: "Construcción general · Snohomish y King, WA",
     title: "Concreto, epoxy y pisos pulidos en los condados de Snohomish y King, WA",
     lead: "Trabajo de calidad, servicio confiable y resultados profesionales. Desde hace más de 20 años atendemos a propietarios, administradores de propiedades, contratistas generales y clientes comerciales en el estado de Washington.",
     badges: ["Más de 20 años de experiencia", "Con licencia, fianza y seguro", "Residencial y comercial"],

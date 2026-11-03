@@ -103,6 +103,109 @@
     background: rgb(255 255 255 / 0.08);
   }
 
+  /* ---------------- Animación del hero ----------------
+     Solo CSS (sin JS): se ejecuta una vez al cargar, con duraciones cortas para no
+     retrasar la lectura ni el LCP. Se desactiva con "reducir movimiento". */
+  .hero-rise {
+    animation: hero-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .hero-bar {
+    transform-origin: left;
+    animation: hero-bar 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .hero-arrow {
+    animation: hero-arrow 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+  }
+  /* La imagen ya es visible desde el inicio (35 %) para que el LCP no espere a la animación. */
+  .hero-reveal {
+    animation: hero-reveal 1.1s cubic-bezier(0.65, 0, 0.35, 1) both;
+  }
+  .hero-zoom {
+    animation: hero-zoom 2.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-wave {
+    animation: hero-wave 1.4s cubic-bezier(0.65, 0, 0.35, 1) 0.45s both;
+  }
+  .hero-lift {
+    transition: transform 0.2s ease, background-color 0.15s, color 0.15s;
+  }
+  .hero-lift:hover {
+    transform: translateY(-2px);
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hero-bar {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  @keyframes hero-arrow {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(-3px);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes hero-reveal {
+    from {
+      clip-path: inset(0 0 0 35%);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  @keyframes hero-zoom {
+    from {
+      transform: scale(1.12);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @keyframes hero-wave {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-rise,
+    .hero-bar,
+    .hero-arrow,
+    .hero-reveal,
+    .hero-zoom,
+    .hero-wave {
+      animation: none !important;
+    }
+    .hero-lift:hover {
+      transform: none;
+    }
+  }
+
   /* Contenido de texto largo (páginas de servicio / ciudad). */
   .prose-ecg p {
     color: #d4d4d4;
