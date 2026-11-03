@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/* Identidad visual tomada del logo de ECG Construction:
+   fondo carbón, verde de la flecha y blanco. */
+@theme {
+  --color-ink: #1b1a1b;
+  --color-ink-2: #232223;
+  --color-ink-3: #2c2b2c;
+  --color-line: #3a393a;
+  --color-paper: #f4f4f2;
+  --color-mute: #b8b8b8;
+  /* Verde del logo (acentos sobre fondo oscuro). */
+  --color-brand: #5f9a4f;
+  --color-brand-light: #7cb96b;
+  /* Verde más profundo para botones con texto blanco (contraste AA). */
+  --color-brand-deep: #44783a;
+  --color-brand-deeper: #3a6831;
+
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+
+  --container-site: 1200px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-ink);
+    color: #fff;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-light);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-site {
+    width: 100%;
+    max-width: var(--container-site);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--color-brand-light);
+  }
+  .on-light .eyebrow {
+    color: var(--color-brand-deep);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 0.25rem;
+    padding: 0.8rem 1.25rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.2;
+    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .btn-primary {
+    background: var(--color-brand-deep);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    background: var(--color-brand-deeper);
+  }
+  .btn-outline {
+    border: 1.5px solid currentColor;
+  }
+  .btn-outline:hover {
+    background: rgb(255 255 255 / 0.08);
+  }
+
+  /* Contenido de texto largo (páginas de servicio / ciudad). */
+  .prose-ecg p {
+    color: #d4d4d4;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+  }
+}
