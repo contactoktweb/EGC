@@ -99,6 +99,22 @@ export function Footer({ lang }: { lang: Locale }) {
             </Link>
           </p>
         </div>
+        {/* OBLIGATORIO: crédito del desarrollador (ver CLAUDE.md). No eliminar. */}
+        <div className="border-t border-line/60">
+          <p className="container-site py-4 text-center text-xs text-neutral-400">
+            <a
+              href="https://kytcode.lat"
+              target="_blank"
+              rel="noopener"
+              className="inline-flex items-center gap-1.5 hover:text-white"
+            >
+              Desarrollado por K&amp;T
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 text-red-500" fill="currentColor" aria-label="con amor">
+                <path d="M12 21s-7.5-4.6-10-9.3C.4 8.4 2.3 4.5 6 4.5c2.1 0 3.5 1.1 4.3 2.3h3.4c.8-1.2 2.2-2.3 4.3-2.3 3.7 0 5.6 3.9 4 7.2C19.5 16.4 12 21 12 21Z" />
+              </svg>
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
