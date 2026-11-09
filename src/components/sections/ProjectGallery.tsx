@@ -3,12 +3,14 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { CloseIcon } from "../Icons";
-import type { Project, ProjectCategory } from "@/content/projects";
+import type { Project, ProjectCategory } from "@/lib/content/types";
 import type { Locale } from "@/lib/i18n";
 
 type Labels = { all: string; pour: string; polish: string; epoxy: string; close: string; open: string };
 
-/** Galería filtrable (Pour concrete / Polished / Epoxy) con visor ampliado. */
+const CATEGORY_KEYS: ProjectCategory[] = ["pour", "polish", "epoxy"];
+
+/** Galería filtrable (Pour concrete / Polished / Epoxy) con visor ampliado. Admite fotos y videos. */
 export function ProjectGallery({
   projects,
   lang,
@@ -38,11 +40,9 @@ export function ProjectGallery({
 
   const tabs: { key: ProjectCategory | "all"; label: string }[] = [
     { key: "all", label: labels.all },
-    { key: "pour", label: labels.pour },
-    { key: "polish", label: labels.polish },
-    { key: "epoxy", label: labels.epoxy },
+    ...CATEGORY_KEYS.map((key) => ({ key, label: labels[key] })),
   ];
-  const catLabel = (c: ProjectCategory) => labels[c];
+  const catLabel = (c: ProjectCategory) => (CATEGORY_KEYS.includes(c) ? labels[c] : c);
 
   return (
     <div>
@@ -88,8 +88,16 @@ export function ProjectGallery({
                 aria-hidden="true"
                 className="absolute top-1/2 left-1/2 flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 scale-50 items-center justify-center rounded-full bg-brand-deep text-xl font-bold text-white opacity-0 transition duration-300 group-hover:scale-100 group-hover:opacity-100"
               >
-                +
+                {p.video ? "▶" : "+"}
               </span>
+              {p.video && (
+                <span
+                  aria-hidden="true"
+                  className="absolute top-2 right-2 rounded-full bg-ink/85 px-2 py-1 text-[0.65rem] font-bold text-white"
+                >
+                  ▶ VIDEO
+                </span>
+              )}
               <span className="absolute bottom-2 left-2 rounded-sm bg-ink/85 px-2 py-1 text-[0.65rem] font-bold tracking-wide text-white uppercase">
                 {catLabel(p.category)}
               </span>
@@ -109,13 +117,25 @@ export function ProjectGallery({
       >
         {active && (
           <figure className="relative">
-            <Image
-              src={active.image}
-              alt={active.alt[lang]}
-              placeholder="blur"
-              sizes="94vw"
-              className="max-h-[82vh] w-full rounded object-contain"
-            />
+            {active.video ? (
+              <video
+                src={active.video.url}
+                poster={active.image.src}
+                controls
+                autoPlay
+                playsInline
+                className="max-h-[82vh] w-full rounded bg-black"
+                aria-label={active.alt[lang]}
+              />
+            ) : (
+              <Image
+                src={active.image}
+                alt={active.alt[lang]}
+                placeholder="blur"
+                sizes="94vw"
+                className="max-h-[82vh] w-full rounded object-contain"
+              />
+            )}
             <figcaption className="mt-3 text-center text-sm text-neutral-200">{active.alt[lang]}</figcaption>
             <button
               type="button"

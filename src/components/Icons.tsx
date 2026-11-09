@@ -1,4 +1,4 @@
-import type { ServiceIcon } from "@/content/services";
+import type { ServiceIcon } from "@/lib/content/types";
 
 type P = { className?: string };
 const base = {

@@ -7,21 +7,19 @@ import { ArrowRight, PhoneIcon, ServiceGlyph, UpArrow } from "@/components/Icons
 import { JsonLd } from "@/components/JsonLd";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { CtaBand, FaqList, WhyChoose } from "@/components/sections/InfoSections";
-import { getDictionary } from "@/content/dictionary";
-import { getService, services } from "@/content/services";
-import { projectsByCategory } from "@/content/projects";
-import { cities } from "@/content/cities";
+import { getContent, getPageContent } from "@/lib/content";
+import { findService, projectsIn, telHref } from "@/lib/content/helpers";
 import { hasLocale, localePath } from "@/lib/i18n";
 import { faqJsonLd, pageMetadata, serviceJsonLd } from "@/lib/seo";
-import { site, telHref } from "@/lib/site";
 
 export async function generateStaticParams() {
+  const { services } = await getContent();
   return services.map((s) => ({ slug: s.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/services/[slug]">): Promise<Metadata> {
   const { lang, slug } = await params;
-  const s = getService(slug);
+  const s = findService((await getContent()).services, slug);
   if (!hasLocale(lang) || !s) return {};
   const where = lang === "en" ? "in Snohomish, Skagit & North King County, WA" : "en Snohomish, Skagit y el norte de King County, WA";
   return pageMetadata({
@@ -37,11 +35,13 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/services/[
 
 export default async function ServicePage({ params }: PageProps<"/[lang]/services/[slug]">) {
   const { lang, slug } = await params;
-  const s = getService(slug);
-  if (!hasLocale(lang) || !s) notFound();
-  const t = getDictionary(lang);
-  const gallery = s.gallery ? projectsByCategory(s.gallery) : [];
-  const related = s.related.map(getService).filter((x) => x !== undefined);
+  if (!hasLocale(lang)) notFound();
+  const content = await getPageContent(lang);
+  const s = findService(content.services, slug);
+  if (!s) notFound();
+  const { t, settings } = content;
+  const gallery = s.gallery ? projectsIn(content.projects, s.gallery) : [];
+  const related = s.related.map((r) => findService(content.services, r)).filter((x) => x !== undefined);
 
   return (
     <>
@@ -59,8 +59,8 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
           <Link href={localePath("/contact", lang)} className="btn btn-primary">
             {t.common.requestEstimate}
           </Link>
-          <a href={telHref} className="btn btn-outline">
-            <PhoneIcon className="h-4 w-4" /> {site.phoneDisplay}
+          <a href={telHref(settings)} className="btn btn-outline">
+            <PhoneIcon className="h-4 w-4" /> {settings.phoneDisplay}
           </a>
         </div>
       </PageHero>
@@ -107,7 +107,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
 
       <FaqList faqs={s.faqs} lang={lang} title={t.common.faq} />
       <JsonLd data={faqJsonLd(lang, s.faqs)} />
-      <JsonLd data={serviceJsonLd(lang, s.slug)} />
+      <JsonLd data={serviceJsonLd(content, lang, s.slug)} />
 
       <Section tone="darker">
         <div className="grid gap-12 lg:grid-cols-2">
@@ -133,7 +133,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
               {s.name[lang]} — {t.nav.areas}
             </h2>
             <ul className="flex flex-wrap gap-2" data-reveal-stagger="40">
-              {cities.map((c) => (
+              {content.cities.map((c) => (
                 <li key={c.slug}>
                   <Link
                     href={localePath(`/service-areas/${c.slug}`, lang)}

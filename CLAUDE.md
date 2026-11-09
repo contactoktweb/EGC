@@ -20,7 +20,7 @@ Reglas:
 ## OBLIGATORIO: registro de contratista L&I (ley de Washington)
 
 - El footer de todas las páginas (inglés y español) debe mostrar **"WA Contractor Reg # ECGCOCL749K2"**
-  (RCW 18.27.100). Valor en `src/lib/site.ts` (`contractorLicense` / `contractorRegText`).
+  (RCW 18.27.100). Valor en Configuración general (`contractorLicense`); se renderiza con `contractorRegText()`.
 - No usar "Licensed, Bonded & Insured" ni "Con licencia, fianza y seguro". Usar
   "Licensed WA General Contractor – Reg # ECGCOCL749K2" / "Contratista general con licencia en WA – Reg # ECGCOCL749K2".
 
@@ -29,11 +29,18 @@ Reglas:
 - Next.js 16 (App Router, Cache Components), React 19, Tailwind CSS 4. Leer `AGENTS.md` y
   `node_modules/next/dist/docs/` antes de escribir código de Next.js.
 - Sitio bilingüe: rutas `/en/...` y `/es/...` bajo `src/app/[lang]/`; redirección por idioma en `src/proxy.ts`.
-- Contenido editable en `src/content/` (textos EN/ES, servicios, ciudades, proyectos, FAQ, fotos).
-- Datos del negocio (nombre, teléfono, correo, horario, área) solo en `src/lib/site.ts`.
+- **Contenido desde Sanity** (ver `docs/SANITY.md`). Los componentes NUNCA importan `src/content/*`
+  directamente: usan `getContent()` / `getPageContent(lang)` de `src/lib/content`.
+  `src/content/` es solo respaldo (sin claves) y la fuente de `npm run sanity:seed`.
+- Esquemas de Sanity: sin campos de clases/estilos ni URLs de imágenes; imágenes y videos se suben
+  como archivos. Todo texto visible es bilingüe ({ en, es }) y cada campo lleva un ejemplo.
+- Al agregar contenido nuevo: actualizar el esquema, `src/lib/content/sanity.ts`, el respaldo en
+  `src/content/` y `scripts/seed-sanity.ts`; luego `npm run sanity:check` debe pasar.
+- Datos del negocio (nombre, teléfono, correo, horario, área, registro): "Configuración general"
+  en Sanity; respaldo en `src/content/settings.ts`. `src/lib/site.ts` solo tiene la URL pública.
   Correo: ecgconstructionwa@gmail.com · Horario: lunes a viernes, 9:00 a. m. – 5:00 p. m.
   Área: condado de Snohomish, condado de Skagit y el norte del condado de King (sin Bellevue, Redmond ni Seattle).
 - SEO/GEO: metadata y JSON-LD en `src/lib/seo.ts`; `sitemap.ts`, `robots.ts`, `llms.txt/route.ts`.
 - Usar siempre el nombre **ECG** Construction LLC (no "EGC").
 - Formulario de contacto: el envío con Resend está pendiente (`src/app/api/contact/route.ts`).
-- Comprobar con `npm run build` y `npm run lint` antes de hacer commit.
+- Comprobar con `npm run build`, `npm run lint` y `npm run sanity:check` antes de hacer commit.

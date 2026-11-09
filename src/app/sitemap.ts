@@ -1,10 +1,13 @@
 import type { MetadataRoute } from "next";
-import { services } from "@/content/services";
-import { cities, counties } from "@/content/cities";
+import { getContent } from "@/lib/content";
 import { localePath, locales } from "@/lib/i18n";
 import { site } from "@/lib/site";
 
-const paths: { path: string; priority: number; changeFrequency: "monthly" | "yearly" }[] = [
+type Entry = { path: string; priority: number; changeFrequency: "monthly" | "yearly" };
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { services, counties, cities } = await getContent();
+  const paths: Entry[] = [
   { path: "/", priority: 1, changeFrequency: "monthly" },
   { path: "/services", priority: 0.9, changeFrequency: "monthly" },
   ...services.map((s) => ({ path: `/services/${s.slug}`, priority: 0.9, changeFrequency: "monthly" as const })),
@@ -15,9 +18,8 @@ const paths: { path: string; priority: number; changeFrequency: "monthly" | "yea
   ...cities.map((c) => ({ path: `/service-areas/${c.slug}`, priority: 0.7, changeFrequency: "yearly" as const })),
   { path: "/privacy", priority: 0.2, changeFrequency: "yearly" },
   { path: "/contact", priority: 0.8, changeFrequency: "yearly" },
-];
+  ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
   return paths.flatMap(({ path, priority, changeFrequency }) =>
     locales.map((lang) => ({
       url: `${site.url}${localePath(path, lang)}`,

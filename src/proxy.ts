@@ -26,6 +26,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Excluye internos de Next, la API y archivos (sitemap.xml, robots.txt, llms.txt, imágenes…).
-  matcher: ["/((?!_next|api|.*\\..*).*)"],
+  // Excluye internos de Next, la API, el Studio de Sanity y archivos (sitemap.xml, robots.txt, llms.txt…).
+  matcher: ["/((?!_next|api|studio|.*\\..*).*)"],
 };

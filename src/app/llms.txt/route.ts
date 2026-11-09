@@ -1,44 +1,43 @@
-import { services } from "@/content/services";
-import { cities, counties, getCounty } from "@/content/cities";
-import { generalFaqs } from "@/content/faqs";
+import { getContent } from "@/lib/content";
+import { findCounty } from "@/lib/content/helpers";
 import { site } from "@/lib/site";
 
 /**
  * /llms.txt — resumen en Markdown para asistentes y motores de IA (GEO).
- * Formato propuesto en https://llmstxt.org
+ * Formato propuesto en https://llmstxt.org. Se genera con el contenido de Sanity.
  */
-export function GET() {
+export async function GET() {
+  const { settings: s, services, counties, cities, faqs } = await getContent();
   const u = site.url;
   const lines = [
-    `# ${site.legalName}`,
+    `# ${s.legalName}`,
     "",
-    `> ${site.legalName} is a licensed Washington general contractor (WA Contractor Reg # ${site.contractorLicense}) with ${site.yearsExperience}+ years of experience, serving Snohomish County, Skagit County and North King County in Washington State. Services: concrete construction and repair, concrete polishing and floor preparation, epoxy and protective floor coatings, asphalt, excavation and grading, pressure washing and property maintenance. Website available in English and Spanish.`,
+    `> ${s.legalName} is a licensed Washington general contractor (WA Contractor Reg # ${s.contractorLicense}) with ${s.yearsExperience}+ years of experience, serving ${counties.map((c) => c.name.en).join(", ")} in Washington State. Services: ${services.map((x) => x.name.en.toLowerCase()).join("; ")}. Website available in English and Spanish.`,
     "",
     "## Contact",
-    `- Phone: ${site.phoneDisplay} (${site.phoneE164})`,
-    `- Email: ${site.email}`,
-    `- Contact person: ${site.contactName}`,
-    "- Business hours: Monday–Friday, 9:00 AM–5:00 PM Pacific Time",
-    `- Service area: ${site.counties.join(", ")}, Washington — ${cities.map((c) => c.name).join(", ")}`,
+    `- Phone: ${s.phoneDisplay} (${s.phoneE164})`,
+    `- Email: ${s.email}`,
+    s.contactName ? `- Contact person: ${s.contactName}` : "",
+    `- Business hours: ${s.hoursText.en}`,
+    `- Service area: ${s.serviceAreaText.en} — ${cities.map((c) => c.name).join(", ")}`,
     `- Free estimates: ${u}/en/contact`,
     "",
     "## Services",
-    ...services.map((s) => `- [${s.name.en}](${u}/en/services/${s.slug}): ${s.short.en}`),
+    ...services.map((x) => `- [${x.name.en}](${u}/en/services/${x.slug}): ${x.short.en}`),
     "",
     "## Service areas",
     ...counties.map((c) => `- [${c.name.en}, WA](${u}/en/service-areas/${c.slug})`),
-    ...cities.map((c) => `- [${c.name}, WA](${u}/en/service-areas/${c.slug}) — ${getCounty(c.county)!.name.en}`),
+    ...cities.map((c) => `- [${c.name}, WA](${u}/en/service-areas/${c.slug}) — ${findCounty(counties, c.county)?.name.en ?? ""}`),
     "",
     "## FAQ",
-    ...generalFaqs.flatMap((f) => [`### ${f.q.en}`, f.a.en, ""]),
+    ...faqs.flatMap((f) => [`### ${f.q.en}`, f.a.en, ""]),
     "## Optional",
     `- [Project gallery](${u}/en/projects): photos of poured concrete, polished concrete and epoxy floors`,
     `- [About](${u}/en/about)`,
+    `- [Privacy Policy](${u}/en/privacy)`,
     `- [Versión en español](${u}/es)`,
     "",
-  ];
+  ].filter((line, i, arr) => line !== "" || arr[i - 1] !== "");
 
-  return new Response(lines.join("\n"), {
-    headers: { "Content-Type": "text/plain; charset=utf-8" },
-  });
+  return new Response(lines.join("\n"), { headers: { "Content-Type": "text/plain; charset=utf-8" } });
 }

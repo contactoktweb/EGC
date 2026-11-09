@@ -3,17 +3,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { BrandWave } from "../Logo";
 import { ArrowRight, PhoneIcon, ServiceGlyph, UpArrow } from "../Icons";
-import heroImg from "@/content/images/decorative-flake-epoxy-garage-floor.jpg";
-import { getDictionary } from "@/content/dictionary";
-import { featuredServices } from "@/content/services";
 import { localePath, type Locale } from "@/lib/i18n";
-import { site, telHref } from "@/lib/site";
+import { getPageContent } from "@/lib/content";
+import { featuredOf, telHref } from "@/lib/content/helpers";
 
 /** Retraso escalonado para la animación de entrada (ms). */
 const delay = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-export function Hero({ lang }: { lang: Locale }) {
-  const t = getDictionary(lang);
+export async function Hero({ lang }: { lang: Locale }) {
+  const content = await getPageContent(lang);
+  const { t, settings } = content;
   return (
     <section className="relative overflow-hidden bg-ink">
       <div className="grid lg:min-h-[640px] lg:grid-cols-[1.08fr_0.92fr]">
@@ -37,8 +36,8 @@ export function Hero({ lang }: { lang: Locale }) {
             <Link href={localePath("/contact", lang)} className="btn btn-primary hero-lift">
               {t.common.requestEstimate}
             </Link>
-            <a href={telHref} className="btn btn-outline hero-lift">
-              <PhoneIcon className="h-4 w-4" /> {t.common.call} {site.phoneDisplay}
+            <a href={telHref(settings)} className="btn btn-outline hero-lift">
+              <PhoneIcon className="h-4 w-4" /> {t.common.call} {settings.phoneDisplay}
             </a>
           </div>
           <ul className="mt-8 flex flex-wrap gap-2.5">
@@ -58,7 +57,7 @@ export function Hero({ lang }: { lang: Locale }) {
         {/* Imagen: se descubre de derecha a izquierda con un zoom suave */}
         <div className="hero-reveal relative min-h-[420px] overflow-hidden sm:min-h-[480px] lg:min-h-full">
           <Image
-            src={heroImg}
+            src={content.images.hero}
             alt={t.hero.imageAlt}
             fill
             priority
@@ -80,7 +79,7 @@ export function Hero({ lang }: { lang: Locale }) {
           >
             <p className="eyebrow mb-3 !text-[0.65rem]">{t.featured.eyebrow}</p>
             <ul className="grid gap-1">
-              {featuredServices.map((s, i) => (
+              {featuredOf(content.services).map((s, i) => (
                 <li key={s.slug} className="hero-rise" style={delay(820 + i * 110)}>
                   <Link
                     href={localePath(`/services/${s.slug}`, lang)}

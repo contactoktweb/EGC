@@ -5,15 +5,15 @@ import { PageHero, Section } from "@/components/ui";
 import { ArrowRight, PhoneIcon, ServiceGlyph } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
 import { CtaBand, ServiceMap } from "@/components/sections/InfoSections";
-import { getDictionary } from "@/content/dictionary";
-import { cities, citiesInCounty, counties, countyName, getCity, getCounty } from "@/content/cities";
-import { services } from "@/content/services";
+import { getContent, getPageContent } from "@/lib/content";
+import { citiesIn, countyLabel, findCity, findCounty, telHref } from "@/lib/content/helpers";
 import { hasLocale, localePath, type Locale } from "@/lib/i18n";
+import type { SiteContent } from "@/lib/content/types";
 import { businessId, pageMetadata } from "@/lib/seo";
-import { site, telHref } from "@/lib/site";
 
 /** Una página por ciudad y una por condado (/service-areas/skagit, /service-areas/everett…). */
 export async function generateStaticParams() {
+  const { counties, cities } = await getContent();
   return [...counties.map((c) => ({ city: c.slug })), ...cities.map((c) => ({ city: c.slug }))];
 }
 
@@ -31,9 +31,12 @@ type AreaView = {
   schemaArea: object;
 };
 
-function resolveArea(slug: string, lang: Locale): AreaView | null {
-  const t = getDictionary(lang);
-  const county = getCounty(slug);
+function resolveArea(content: SiteContent, slug: string, lang: Locale): AreaView | null {
+  const t = content.dict[lang];
+  const { counties, cities } = content;
+  const countyName = (key: string, l: Locale) => countyLabel(counties, key, l);
+  const getCity = (x: string) => findCity(cities, x);
+  const county = findCounty(counties, slug);
   if (county) {
     return {
       slug,
@@ -41,9 +44,9 @@ function resolveArea(slug: string, lang: Locale): AreaView | null {
       inName: lang === "en" ? county.name.en : `el ${countyName(county.slug, "es")}`,
       place: lang === "en" ? county.name.en : `el ${countyName(county.slug, "es")}`,
       note: county.note[lang],
-      links: citiesInCounty(county.slug).map((c) => ({ slug: c.slug, name: c.name })),
+      links: citiesIn(cities, county.slug).map((c) => ({ slug: c.slug, name: c.name })),
       linksTitle: lang === "en" ? `Cities we serve in ${county.name.en}` : `Ciudades que atendemos en el ${countyName(county.slug, "es")}`,
-      mapQuery: county.slug === "north-king-county" ? "Bothell, WA" : county.schemaName,
+      mapQuery: county.mapQuery,
       schemaArea: { "@type": "AdministrativeArea", name: county.schemaName },
     };
   }
@@ -57,7 +60,7 @@ function resolveArea(slug: string, lang: Locale): AreaView | null {
     place: `${city.name}, ${cName}`,
     note: city.note[lang],
     links: city.nearby
-      .map(getCity)
+      .map((x) => getCity(x))
       .filter((x) => x !== undefined)
       .map((n) => ({ slug: n.slug, name: n.name })),
     linksTitle: t.common.nearby,
@@ -65,7 +68,7 @@ function resolveArea(slug: string, lang: Locale): AreaView | null {
     schemaArea: {
       "@type": "City",
       name: `${city.name}, WA`,
-      containedInPlace: { "@type": "AdministrativeArea", name: getCounty(city.county)!.schemaName },
+      containedInPlace: { "@type": "AdministrativeArea", name: findCounty(counties, city.county)?.schemaName },
     },
   };
 }
@@ -79,26 +82,29 @@ function areaTitle(lang: Locale, name: string) {
 export async function generateMetadata({ params }: PageProps<"/[lang]/service-areas/[city]">): Promise<Metadata> {
   const { lang, city } = await params;
   if (!hasLocale(lang)) return {};
-  const a = resolveArea(city, lang);
+  const content = await getContent();
+  const { settings } = content;
+  const a = resolveArea(content, city, lang);
   if (!a) return {};
   const description =
     lang === "en"
-      ? `ECG Construction serves ${a.place}, WA: concrete driveways and patios, polished concrete, epoxy floors, asphalt, excavation, pressure washing and property maintenance. Call ${site.phoneDisplay}.`
-      : `ECG Construction atiende ${a.place}, WA: entradas y patios de concreto, concreto pulido, pisos epóxicos, asfalto, excavación, lavado a presión y mantenimiento. Llama al ${site.phoneDisplay}.`;
+      ? `ECG Construction serves ${a.place}, WA: concrete driveways and patios, polished concrete, epoxy floors, asphalt, excavation, pressure washing and property maintenance. Call ${settings.phoneDisplay}.`
+      : `ECG Construction atiende ${a.place}, WA: entradas y patios de concreto, concreto pulido, pisos epóxicos, asfalto, excavación, lavado a presión y mantenimiento. Llama al ${settings.phoneDisplay}.`;
   return pageMetadata({ lang, path: `/service-areas/${a.slug}`, title: areaTitle(lang, a.inName), description });
 }
 
 export default async function AreaPage({ params }: PageProps<"/[lang]/service-areas/[city]">) {
   const { lang, city } = await params;
   if (!hasLocale(lang)) notFound();
-  const a = resolveArea(city, lang);
+  const content = await getPageContent(lang);
+  const { t, settings } = content;
+  const a = resolveArea(content, city, lang);
   if (!a) notFound();
-  const t = getDictionary(lang);
 
   const intro =
     lang === "en"
-      ? `ECG Construction LLC provides concrete construction, concrete polishing, epoxy floor coatings, asphalt, excavation, pressure washing and property maintenance in ${a.place}, Washington. Licensed WA general contractor (Reg # ${site.contractorLicense}) with more than 20 years of hands-on experience.`
-      : `ECG Construction LLC ofrece construcción en concreto, pulido de concreto, recubrimientos epóxicos, asfalto, excavación, lavado a presión y mantenimiento de propiedades en ${a.place}, Washington. Contratista general con licencia en WA (Reg # ${site.contractorLicense}) y más de 20 años de experiencia práctica.`;
+      ? `ECG Construction LLC provides concrete construction, concrete polishing, epoxy floor coatings, asphalt, excavation, pressure washing and property maintenance in ${a.place}, Washington. Licensed WA general contractor (Reg # ${settings.contractorLicense}) with more than ${settings.yearsExperience} years of hands-on experience.`
+      : `ECG Construction LLC ofrece construcción en concreto, pulido de concreto, recubrimientos epóxicos, asfalto, excavación, lavado a presión y mantenimiento de propiedades en ${a.place}, Washington. Contratista general con licencia en WA (Reg # ${settings.contractorLicense}) y más de ${settings.yearsExperience} años de experiencia práctica.`;
 
   const placeJsonLd = {
     "@context": "https://schema.org",
@@ -106,7 +112,7 @@ export default async function AreaPage({ params }: PageProps<"/[lang]/service-ar
     name: areaTitle(lang, a.inName),
     provider: { "@id": businessId },
     areaServed: a.schemaArea,
-    serviceType: services.map((s) => s.name.en),
+    serviceType: content.services.map((s) => s.name.en),
   };
 
   return (
@@ -125,8 +131,8 @@ export default async function AreaPage({ params }: PageProps<"/[lang]/service-ar
           <Link href={localePath("/contact", lang)} className="btn btn-primary">
             {t.common.requestEstimate}
           </Link>
-          <a href={telHref} className="btn btn-outline">
-            <PhoneIcon className="h-4 w-4" /> {site.phoneDisplay}
+          <a href={telHref(settings)} className="btn btn-outline">
+            <PhoneIcon className="h-4 w-4" /> {settings.phoneDisplay}
           </a>
         </div>
       </PageHero>
@@ -141,7 +147,7 @@ export default async function AreaPage({ params }: PageProps<"/[lang]/service-ar
               {t.common.servicesIn} {a.inName}
             </h2>
             <ul className="grid gap-3 sm:grid-cols-2" data-reveal-stagger="60">
-              {services.map((s) => (
+              {content.services.map((s) => (
                 <li key={s.slug}>
                   <Link
                     href={localePath(`/services/${s.slug}`, lang)}
@@ -175,7 +181,7 @@ export default async function AreaPage({ params }: PageProps<"/[lang]/service-ar
             )}
           </div>
           <div data-reveal="zoom" className="lg:sticky lg:top-28 lg:self-start">
-            <ServiceMap title={`${t.area.mapTitle} — ${a.name}`} query={a.mapQuery} zoom={getCounty(a.slug) ? 9 : 11} />
+            <ServiceMap title={`${t.area.mapTitle} — ${a.name}`} query={a.mapQuery} zoom={findCounty(content.counties, a.slug) ? 9 : 11} />
           </div>
         </div>
       </Section>

@@ -1,21 +1,12 @@
-import type { L } from "@/lib/i18n";
+import type { City, County } from "@/lib/content/types";
 
 /** Condados del área de servicio (cada uno tiene su página: /service-areas/[slug]). */
-export type CountyKey = "snohomish-county" | "skagit" | "north-king-county";
-
-export type County = {
-  slug: CountyKey;
-  name: L;
-  /** Nombre para schema.org / textos en inglés. */
-  schemaName: string;
-  note: L;
-};
-
 export const counties: County[] = [
   {
     slug: "snohomish-county",
     name: { en: "Snohomish County", es: "Condado de Snohomish" },
     schemaName: "Snohomish County, Washington",
+    mapQuery: "Snohomish County, WA",
     note: {
       en: "Snohomish County is our home base. We work in Everett, Marysville, Lake Stevens, Snohomish, Arlington and Monroe on residential, commercial and contractor projects.",
       es: "El condado de Snohomish es nuestra base. Trabajamos en Everett, Marysville, Lake Stevens, Snohomish, Arlington y Monroe en proyectos residenciales, comerciales y para contratistas.",
@@ -25,6 +16,7 @@ export const counties: County[] = [
     slug: "skagit",
     name: { en: "Skagit County", es: "Condado de Skagit" },
     schemaName: "Skagit County, Washington",
+    mapQuery: "Skagit County, WA",
     note: {
       en: "North of Snohomish County along I-5, we serve Mount Vernon, Burlington, Anacortes and Sedro-Woolley with concrete, floor coatings, site work and property maintenance.",
       es: "Al norte del condado de Snohomish, por la I-5, atendemos Mount Vernon, Burlington, Anacortes y Sedro-Woolley con concreto, recubrimientos de pisos, trabajos de terreno y mantenimiento.",
@@ -34,21 +26,13 @@ export const counties: County[] = [
     slug: "north-king-county",
     name: { en: "North King County", es: "Norte del condado de King" },
     schemaName: "North King County, Washington",
+    mapQuery: "Bothell, WA",
     note: {
       en: "In the north end of King County we serve Bothell, Woodinville and Kirkland, for homeowners, businesses and general contractors.",
       es: "En el norte del condado de King atendemos Bothell, Woodinville y Kirkland, para propietarios, negocios y contratistas generales.",
     },
   },
 ];
-
-export type City = {
-  slug: string;
-  name: string;
-  county: CountyKey;
-  nearby: string[];
-  /** Contexto local breve y verificable para evitar páginas duplicadas. */
-  note: L;
-};
 
 export const cities: City[] = [
   {
@@ -183,18 +167,3 @@ export const cities: City[] = [
   },
 ];
 
-export function getCity(slug: string): City | undefined {
-  return cities.find((c) => c.slug === slug);
-}
-
-export function getCounty(slug: string): County | undefined {
-  return counties.find((c) => c.slug === slug);
-}
-
-export const citiesInCounty = (county: CountyKey) => cities.filter((c) => c.county === county);
-
-/** Nombre del condado de una ciudad en el idioma pedido ("Snohomish County" / "condado de Snohomish"). */
-export function countyName(county: CountyKey, lang: "en" | "es"): string {
-  const c = getCounty(county)!;
-  return lang === "en" ? c.name.en : c.name.es.charAt(0).toLowerCase() + c.name.es.slice(1);
-}

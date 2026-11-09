@@ -4,23 +4,25 @@ import { notFound } from "next/navigation";
 import { PageHero, Section } from "@/components/ui";
 import { ArrowRight, PinIcon } from "@/components/Icons";
 import { CtaBand, ServiceMap } from "@/components/sections/InfoSections";
-import { getDictionary } from "@/content/dictionary";
-import { citiesInCounty, counties } from "@/content/cities";
+import { getPageContent } from "@/lib/content";
+import { citiesIn } from "@/lib/content/helpers";
 import { hasLocale, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/service-areas">): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
-  const t = getDictionary(lang);
+  const content = await getPageContent(lang);
+  const { t } = content;
   return pageMetadata({ lang, path: "/service-areas", title: t.pages.areasTitle, description: t.pages.areasDescription });
 }
 
 export default async function ServiceAreasPage({ params }: PageProps<"/[lang]/service-areas">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const t = getDictionary(lang);
-  const groups = counties.map((county) => ({ county, items: citiesInCounty(county.slug) }));
+  const content = await getPageContent(lang);
+  const { t } = content;
+  const groups = content.counties.map((county) => ({ county, items: citiesIn(content.cities, county.slug) }));
 
   return (
     <>

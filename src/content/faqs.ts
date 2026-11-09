@@ -1,4 +1,4 @@
-import type { Faq } from "./services";
+import type { Faq } from "@/lib/content/types";
 
 /** Preguntas generales de la empresa (home + llms.txt). Respuestas directas para GEO. */
 export const generalFaqs: Faq[] = [
@@ -8,8 +8,8 @@ export const generalFaqs: Faq[] = [
       es: "¿ECG Construction es un contratista con licencia en Washington?",
     },
     a: {
-      en: "Yes. ECG Construction LLC is a licensed Washington general contractor, WA Contractor Reg # ECGCOCL749K2.",
-      es: "Sí. ECG Construction LLC es un contratista general con licencia en Washington, registro WA # ECGCOCL749K2.",
+      en: "Yes. ECG Construction LLC is a licensed Washington general contractor, WA Contractor Reg # {license}.",
+      es: "Sí. ECG Construction LLC es un contratista general con licencia en Washington, registro WA # {license}.",
     },
   },
   {
@@ -28,8 +28,8 @@ export const generalFaqs: Faq[] = [
       es: "¿Ofrecen estimados gratis?",
     },
     a: {
-      en: "Yes. Call 425.200.7230 or send the contact form with your project details and we will prepare a clear, detailed estimate.",
-      es: "Sí. Llama al 425.200.7230 o envía el formulario de contacto con los detalles de tu proyecto y te prepararemos un estimado claro y detallado.",
+      en: "Yes. Call {phone} or send the contact form with your project details and we will prepare a clear, detailed estimate.",
+      es: "Sí. Llama al {phone} o envía el formulario de contacto con los detalles de tu proyecto y te prepararemos un estimado claro y detallado.",
     },
   },
   {

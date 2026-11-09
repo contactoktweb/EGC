@@ -16,6 +16,18 @@ npm run lint
 
 Copia `.env.example` a `.env.local` y define al menos `NEXT_PUBLIC_SITE_URL` antes de publicar.
 
+## Contenido: Sanity CMS
+
+Todo el contenido (textos EN/ES, servicios, áreas, galería con fotos/videos, FAQ, privacidad y la
+**Configuración general** con logos y datos de contacto) se edita en Sanity, en `/studio`.
+
+1. Pon las claves de Sanity en `.env.local` (ver `.env.example`).
+2. `npm run sanity:seed` sube todo el contenido actual y las fotos.
+3. Desde ese momento la web lee todo desde Sanity.
+
+Guía completa con ejemplos de cada campo: **[docs/SANITY.md](docs/SANITY.md)**.
+Sin claves, la web usa el respaldo de `src/content/`.
+
 ## Estructura
 
 ```
@@ -34,10 +46,12 @@ src/
   proxy.ts                   # redirección por idioma (Accept-Language)
   components/                # Header, Footer, Logo, secciones
   content/                   # textos EN/ES, servicios, ciudades, proyectos, FAQ, fotos
-  lib/                       # datos del negocio (site.ts), i18n, SEO / JSON-LD
+  lib/                       # capa de contenido (Sanity / respaldo), i18n, SEO / JSON-LD
+  sanity/                    # esquemas y configuración del Studio (ver docs/SANITY.md)
 ```
 
-Todo el contenido editable vive en `src/content/` y los datos de contacto y horario en `src/lib/site.ts`.
+El contenido se edita en Sanity. `src/content/` es el respaldo y la fuente del script de subida;
+la configuración general de respaldo está en `src/content/settings.ts`.
 
 ## SEO
 
@@ -55,12 +69,12 @@ Todo el contenido editable vive en `src/content/` y los datos de contacto y hora
 - `/llms.txt` con el resumen de la empresa, servicios, áreas y preguntas frecuentes.
 - Cada servicio abre con un párrafo de respuesta directa (quién, qué, dónde).
 - Preguntas frecuentes visibles + schema `FAQPage`.
-- Nombre, teléfono y área (NAP) centralizados en `src/lib/site.ts` para que sean idénticos en todo el sitio.
+- Nombre, teléfono y área (NAP) centralizados en "Configuración general" (Sanity) para que sean idénticos en todo el sitio.
 
 ## Horario
 
 Lunes a viernes, 9:00 a. m. – 5:00 p. m., hora del Pacífico.
-Se edita en `src/lib/site.ts` y en los textos de `src/content/dictionary.ts`.
+Se edita en Sanity → Configuración general.
 
 ## Pendientes
 

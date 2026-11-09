@@ -36,7 +36,7 @@ const en = {
     contactPerson: "Contact",
     serviceArea: "Service Area",
     serviceAreaValue: "Snohomish County, Skagit County & North King County, WA",
-    licensed: "Licensed WA General Contractor – Reg # ECGCOCL749K2",
+    licensed: "Licensed WA General Contractor – Reg # {license}",
     rights: "All rights reserved.",
     generalConstruction: "General Construction",
     servicesIn: "Services in",
@@ -46,7 +46,7 @@ const en = {
     eyebrow: "General Construction · Snohomish, Skagit & North King County, WA",
     title: "Concrete, Epoxy & Polished Floors in Snohomish, Skagit & North King County, WA",
     lead: "Quality workmanship, reliable service and professional results. For more than 20 years we have served homeowners, property managers, general contractors and commercial clients in Washington State.",
-    badges: ["20+ Years Experience", "Licensed WA General Contractor – Reg # ECGCOCL749K2", "Residential & Commercial"],
+    badges: ["20+ Years Experience", "Licensed WA General Contractor – Reg # {license}", "Residential & Commercial"],
     imageAlt: "Decorative flake epoxy garage floor installed by ECG Construction",
   },
   featured: {
@@ -78,7 +78,7 @@ const en = {
     title: "Why Choose ECG Construction?",
     items: [
       ["20+ Years of Experience", "Hands-on construction expertise on every job."],
-      ["Licensed WA General Contractor", "Reg # ECGCOCL749K2 — build with confidence."],
+      ["Licensed WA General Contractor", "Reg # {license} — build with confidence."],
       ["Residential & Commercial", "From small repairs to commercial projects."],
       ["Professional Equipment", "An experienced team and the right tools."],
       ["Clear Communication", "Detailed estimates with no surprises."],
@@ -90,7 +90,7 @@ const en = {
   about: {
     eyebrow: "About our company",
     title: "Built on Experience. Driven by Quality.",
-    p1: "ECG Construction LLC is a licensed Washington general contractor (Reg # ECGCOCL749K2) serving Snohomish County, Skagit County and North King County in Washington State.",
+    p1: "ECG Construction LLC is a licensed Washington general contractor (Reg # {license}) serving Snohomish County, Skagit County and North King County in Washington State.",
     p2: "With over 20 years of hands-on construction experience, we specialize in concrete services, decorative and protective flooring systems, exterior improvements and property maintenance.",
     p3: "We work with homeowners, property managers, general contractors and commercial clients, delivering dependable service, quality workmanship and practical solutions tailored to each project.",
     p4: "From small residential improvements to commercial construction projects, our goal is to complete every job safely, efficiently and to the highest professional standards.",
@@ -137,7 +137,7 @@ const en = {
     submit: "Send Request",
     sending: "Sending…",
     success: "Thank you! We received your request and will contact you during business hours.",
-    error: "We could not send your message right now. Please call us at 425.200.7230 or email ecgconstructionwa@gmail.com.",
+    error: "We could not send your message right now. Please call us at {phone} or email {email}.",
     required: "Required",
     privacy: "We only use your information to reply to your request. See our",
   },
@@ -147,13 +147,13 @@ const en = {
     projectsTitle: "Project Gallery",
     projectsDescription: "Photos of concrete driveways, stamped patios, polished concrete floors and epoxy garage floors completed by ECG Construction in Snohomish, Skagit and North King County, WA.",
     aboutTitle: "About ECG Construction LLC",
-    aboutDescription: "Licensed WA general contractor (Reg # ECGCOCL749K2) with 20+ years of experience serving Snohomish County, Skagit County and North King County in Washington State.",
+    aboutDescription: "Licensed WA general contractor (Reg # {license}) with 20+ years of experience serving Snohomish County, Skagit County and North King County in Washington State.",
     areasTitle: "Service Areas in Snohomish, Skagit & North King County",
     areasDescription: "ECG Construction serves Snohomish, Skagit and North King County: Everett, Marysville, Lake Stevens, Arlington, Monroe, Mount Vernon, Burlington, Anacortes, Sedro-Woolley, Bothell, Woodinville, Kirkland and nearby communities.",
     contactTitle: "Contact Us & Free Estimates",
-    contactDescription: "Request a free estimate from ECG Construction LLC. Call 425.200.7230 — Monday to Friday, 9:00 AM to 5:00 PM. Serving Snohomish, Skagit & North King County, WA.",
+    contactDescription: "Request a free estimate from ECG Construction LLC. Call {phone} — Monday to Friday, 9:00 AM to 5:00 PM. Serving Snohomish, Skagit & North King County, WA.",
     homeTitle: "ECG Construction LLC | Concrete, Epoxy & Polished Floors in Snohomish, Skagit & North King County, WA",
-    homeDescription: "Licensed WA general contractor (Reg # ECGCOCL749K2) with 20+ years of experience: concrete driveways and patios, polished concrete, epoxy garage floors, asphalt, excavation and property maintenance in Snohomish, Skagit & North King County, WA.",
+    homeDescription: "Licensed WA general contractor (Reg # {license}) with 20+ years of experience: concrete driveways and patios, polished concrete, epoxy garage floors, asphalt, excavation and property maintenance in Snohomish, Skagit & North King County, WA.",
     notFoundTitle: "Page not found",
     notFoundText: "The page you are looking for does not exist or was moved.",
     backHome: "Back to home",
@@ -198,7 +198,7 @@ const es: Dictionary = {
     contactPerson: "Contacto",
     serviceArea: "Área de servicio",
     serviceAreaValue: "Condados de Snohomish y Skagit y el norte del condado de King, WA",
-    licensed: "Contratista general con licencia en WA – Reg # ECGCOCL749K2",
+    licensed: "Contratista general con licencia en WA – Reg # {license}",
     rights: "Todos los derechos reservados.",
     generalConstruction: "Construcción general",
     servicesIn: "Servicios en",
@@ -208,7 +208,7 @@ const es: Dictionary = {
     eyebrow: "Construcción general · Snohomish, Skagit y el norte de King County, WA",
     title: "Concreto, epoxy y pisos pulidos en Snohomish, Skagit y el norte de King County, WA",
     lead: "Trabajo de calidad, servicio confiable y resultados profesionales. Desde hace más de 20 años atendemos a propietarios, administradores de propiedades, contratistas generales y clientes comerciales en el estado de Washington.",
-    badges: ["Más de 20 años de experiencia", "Contratista general con licencia en WA – Reg # ECGCOCL749K2", "Residencial y comercial"],
+    badges: ["Más de 20 años de experiencia", "Contratista general con licencia en WA – Reg # {license}", "Residencial y comercial"],
     imageAlt: "Piso de garaje con epoxy decorativo tipo flake instalado por ECG Construction",
   },
   featured: {
@@ -240,7 +240,7 @@ const es: Dictionary = {
     title: "¿Por qué elegir ECG Construction?",
     items: [
       ["Más de 20 años de experiencia", "Experiencia práctica en construcción en cada trabajo."],
-      ["Contratista general con licencia en WA", "Reg # ECGCOCL749K2 — construye con confianza."],
+      ["Contratista general con licencia en WA", "Reg # {license} — construye con confianza."],
       ["Residencial y comercial", "Desde reparaciones pequeñas hasta proyectos comerciales."],
       ["Equipo profesional", "Un equipo con experiencia y las herramientas adecuadas."],
       ["Comunicación clara", "Estimados detallados y sin sorpresas."],
@@ -252,7 +252,7 @@ const es: Dictionary = {
   about: {
     eyebrow: "Sobre nuestra empresa",
     title: "Construidos con experiencia. Impulsados por la calidad.",
-    p1: "ECG Construction LLC es un contratista general con licencia en Washington (Reg # ECGCOCL749K2) que atiende los condados de Snohomish y Skagit y el norte del condado de King, en el estado de Washington.",
+    p1: "ECG Construction LLC es un contratista general con licencia en Washington (Reg # {license}) que atiende los condados de Snohomish y Skagit y el norte del condado de King, en el estado de Washington.",
     p2: "Con más de 20 años de experiencia práctica en construcción, nos especializamos en servicios de concreto, sistemas de pisos decorativos y protectores, mejoras exteriores y mantenimiento de propiedades.",
     p3: "Trabajamos con propietarios, administradores de propiedades, contratistas generales y clientes comerciales, ofreciendo un servicio confiable, trabajo de calidad y soluciones prácticas adaptadas a cada proyecto.",
     p4: "Desde pequeñas mejoras residenciales hasta proyectos de construcción comercial, nuestro objetivo es completar cada trabajo de forma segura, eficiente y con los más altos estándares profesionales.",
@@ -299,7 +299,7 @@ const es: Dictionary = {
     submit: "Enviar solicitud",
     sending: "Enviando…",
     success: "¡Gracias! Recibimos tu solicitud y te contactaremos en horario laboral.",
-    error: "No pudimos enviar tu mensaje en este momento. Llámanos al 425.200.7230 o escribe a ecgconstructionwa@gmail.com.",
+    error: "No pudimos enviar tu mensaje en este momento. Llámanos al {phone} o escribe a {email}.",
     required: "Obligatorio",
     privacy: "Solo usamos tus datos para responder a tu solicitud. Consulta nuestra",
   },
@@ -309,21 +309,18 @@ const es: Dictionary = {
     projectsTitle: "Galería de proyectos",
     projectsDescription: "Fotos de entradas de concreto, patios estampados, pisos de concreto pulido y garajes con epoxy realizados por ECG Construction en los condados de Snohomish y Skagit y el norte del condado de King, WA.",
     aboutTitle: "Sobre ECG Construction LLC",
-    aboutDescription: "Contratista general con licencia en WA (Reg # ECGCOCL749K2), con más de 20 años de experiencia en los condados de Snohomish y Skagit y el norte del condado de King, Washington.",
+    aboutDescription: "Contratista general con licencia en WA (Reg # {license}), con más de 20 años de experiencia en los condados de Snohomish y Skagit y el norte del condado de King, Washington.",
     areasTitle: "Áreas de servicio en Snohomish, Skagit y el norte de King County",
     areasDescription: "ECG Construction atiende los condados de Snohomish y Skagit y el norte de King: Everett, Marysville, Lake Stevens, Arlington, Monroe, Mount Vernon, Burlington, Anacortes, Sedro-Woolley, Bothell, Woodinville, Kirkland y comunidades cercanas.",
     contactTitle: "Contacto y estimados gratis",
-    contactDescription: "Solicita un estimado gratis a ECG Construction LLC. Llama al 425.200.7230 — lunes a viernes de 9:00 a. m. a 5:00 p. m. Snohomish, Skagit y el norte de King County, WA.",
+    contactDescription: "Solicita un estimado gratis a ECG Construction LLC. Llama al {phone} — lunes a viernes de 9:00 a. m. a 5:00 p. m. Snohomish, Skagit y el norte de King County, WA.",
     homeTitle: "ECG Construction LLC | Concreto, epoxy y pisos pulidos en Snohomish, Skagit y el norte de King County, WA",
-    homeDescription: "Contratista general con licencia en WA (Reg # ECGCOCL749K2) y más de 20 años de experiencia: entradas y patios de concreto, concreto pulido, garajes con epoxy, asfalto, excavación y mantenimiento de propiedades en Snohomish, Skagit y el norte de King County, WA.",
+    homeDescription: "Contratista general con licencia en WA (Reg # {license}) y más de 20 años de experiencia: entradas y patios de concreto, concreto pulido, garajes con epoxy, asfalto, excavación y mantenimiento de propiedades en Snohomish, Skagit y el norte de King County, WA.",
     notFoundTitle: "Página no encontrada",
     notFoundText: "La página que buscas no existe o fue movida.",
     backHome: "Volver al inicio",
   },
 };
 
-const dictionaries: Record<Locale, Dictionary> = { en, es };
-
-export function getDictionary(lang: Locale): Dictionary {
-  return dictionaries[lang];
-}
+/** Textos estáticos (respaldo y fuente del script de subida a Sanity). */
+export const dictionaries: Record<Locale, Dictionary> = { en, es };

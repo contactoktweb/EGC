@@ -2,19 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ServiceGlyph, UpArrow } from "../Icons";
 import { Section, SectionTitle } from "../ui";
-import { getDictionary } from "@/content/dictionary";
-import { featuredServices, services } from "@/content/services";
 import { localePath, type Locale } from "@/lib/i18n";
+import { getPageContent } from "@/lib/content";
+import { featuredOf } from "@/lib/content/helpers";
 
 /** Bloque 3: Pour concrete · Polishing concrete · Epoxy work (con foto real). */
-export function FeaturedServices({ lang }: { lang: Locale }) {
-  const t = getDictionary(lang);
+export async function FeaturedServices({ lang }: { lang: Locale }) {
+  const content = await getPageContent(lang);
+  const { t } = content;
   const other: Locale = lang === "en" ? "es" : "en";
   return (
     <Section>
       <SectionTitle eyebrow={t.featured.eyebrow} title={t.featured.title} lead={t.featured.lead} />
       <div className="grid gap-6 md:grid-cols-3" data-reveal-stagger="140">
-        {featuredServices.map((s) => (
+        {featuredOf(content.services).map((s) => (
           <div key={s.slug}>
           <article className="card-lift group flex h-full flex-col overflow-hidden rounded-md border border-line bg-ink-2 hover:border-brand/70">
             <div className="relative aspect-[4/3] overflow-hidden">
@@ -59,13 +60,14 @@ export function FeaturedServices({ lang }: { lang: Locale }) {
 }
 
 /** Bloque 4: los 7 servicios → páginas /services/[slug]. */
-export function ServicesGrid({ lang, tone = "darker" }: { lang: Locale; tone?: "dark" | "darker" }) {
-  const t = getDictionary(lang);
+export async function ServicesGrid({ lang, tone = "darker" }: { lang: Locale; tone?: "dark" | "darker" }) {
+  const content = await getPageContent(lang);
+  const { t } = content;
   return (
     <Section tone={tone}>
       <SectionTitle eyebrow={t.services.eyebrow} title={t.services.title} lead={t.services.lead} />
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" data-reveal-stagger="70">
-        {services.map((s, i) => (
+        {content.services.map((s, i) => (
           <li key={s.slug}>
             <Link
               href={localePath(`/services/${s.slug}`, lang)}

@@ -1,10 +1,9 @@
 import type { Locale } from "@/lib/i18n";
+import type { PrivacyContent } from "@/lib/content/types";
 
-export type PrivacySection = { title: string; paragraphs?: string[]; bullets?: string[] };
-export type PrivacyContent = { title: string; description: string; updated: string; intro: string; sections: PrivacySection[] };
-
-const EMAIL = "ecgconstructionwa@gmail.com";
-const PHONE = "425.200.7230";
+// {email}, {phone} y {license} se reemplazan con los datos de "Configuración general".
+const EMAIL = "{email}";
+const PHONE = "{phone}";
 
 /** Política de privacidad (requerida por Google Ads cuando la página tiene un formulario). */
 export const privacy: Record<Locale, PrivacyContent> = {
@@ -72,7 +71,7 @@ export const privacy: Record<Locale, PrivacyContent> = {
       {
         title: "Contact us",
         paragraphs: [
-          `ECG Construction LLC · WA Contractor Reg # ECGCOCL749K2 · Phone: ${PHONE} · Email: ${EMAIL}`,
+          `ECG Construction LLC · WA Contractor Reg # {license} · Phone: ${PHONE} · Email: ${EMAIL}`,
         ],
       },
     ],
@@ -141,7 +140,7 @@ export const privacy: Record<Locale, PrivacyContent> = {
       {
         title: "Contacto",
         paragraphs: [
-          `ECG Construction LLC · Registro de contratista WA # ECGCOCL749K2 · Teléfono: ${PHONE} · Correo: ${EMAIL}`,
+          `ECG Construction LLC · Registro de contratista WA # {license} · Teléfono: ${PHONE} · Correo: ${EMAIL}`,
         ],
       },
     ],

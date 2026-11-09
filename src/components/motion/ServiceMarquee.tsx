@@ -1,9 +1,10 @@
 import { UpArrow } from "../Icons";
-import { services } from "@/content/services";
 import type { Locale } from "@/lib/i18n";
+import { getPageContent } from "@/lib/content";
 
 /** Franja verde con los servicios desplazándose en bucle (se pausa al pasar el mouse). */
-export function ServiceMarquee({ lang }: { lang: Locale }) {
+export async function ServiceMarquee({ lang }: { lang: Locale }) {
+  const { services } = await getPageContent(lang);
   const items = services.flatMap((s) => [s.featured?.[lang] ?? s.name[lang]]);
   const row = (hidden: boolean) => (
     <ul className="marquee-row flex shrink-0 items-center gap-10 pr-10" aria-hidden={hidden || undefined}>

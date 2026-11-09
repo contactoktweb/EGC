@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,6 +8,7 @@ import { Logo } from "./Logo";
 import { ChevronDown, CloseIcon, MenuIcon, PhoneIcon } from "./Icons";
 import type { Dictionary } from "@/content/dictionary";
 import type { Locale } from "@/lib/i18n";
+import type { Img } from "@/lib/content/types";
 
 type Props = {
   lang: Locale;
@@ -14,9 +16,12 @@ type Props = {
   services: { slug: string; name: string }[];
   phoneDisplay: string;
   telHref: string;
+  /** Logo de "Configuración general" (si no hay, se dibuja el logo SVG). */
+  logo: Img | null;
+  logoAlt: string;
 };
 
-export function Header({ lang, nav, services, phoneDisplay, telHref }: Props) {
+export function Header({ lang, nav, services, phoneDisplay, telHref, logo, logoAlt }: Props) {
   const pathname = usePathname() || `/${lang}`;
   // El menú queda abierto solo en la ruta donde se abrió: al navegar se cierra solo.
   const [openOn, setOpenOn] = useState<string | null>(null);
@@ -68,7 +73,17 @@ export function Header({ lang, nav, services, phoneDisplay, telHref }: Props) {
       </a>
       <div className="container-site flex h-[72px] items-center justify-between gap-6">
         <Link href={href("/")} aria-label="ECG Construction — home" className="shrink-0">
-          <Logo className={`origin-left transition-transform duration-300 ${scrolled ? "scale-90" : ""}`} />
+          {logo ? (
+            <Image
+              src={logo}
+              alt={logoAlt}
+              priority
+              unoptimized={logo.src.includes(".svg")}
+              className={`h-9 w-auto origin-left transition-transform duration-300 ${scrolled ? "scale-90" : ""}`}
+            />
+          ) : (
+            <Logo className={`origin-left transition-transform duration-300 ${scrolled ? "scale-90" : ""}`} />
+          )}
         </Link>
 
         <nav aria-label="Main" className="hidden lg:block">

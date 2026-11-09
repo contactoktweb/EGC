@@ -1,19 +1,18 @@
 import { ContactForm } from "./ContactForm";
 import { ClockIcon, MailIcon, PhoneIcon, PinIcon, UserIcon } from "../Icons";
 import { Section, SectionTitle } from "../ui";
-import { getDictionary } from "@/content/dictionary";
-import { services } from "@/content/services";
-import { cities } from "@/content/cities";
 import { localePath, type Locale } from "@/lib/i18n";
-import { mailHref, site, telHref } from "@/lib/site";
+import { getPageContent } from "@/lib/content";
+import { mailHref, telHref } from "@/lib/content/helpers";
 
 /** Bloque 11: formulario de estimado + datos del negocio. */
-export function ContactSection({ lang, withTitle = true }: { lang: Locale; withTitle?: boolean }) {
-  const t = getDictionary(lang);
+export async function ContactSection({ lang, withTitle = true }: { lang: Locale; withTitle?: boolean }) {
+  const content = await getPageContent(lang);
+  const { t, settings } = content;
   const info = [
-    { icon: UserIcon, label: t.common.contactPerson, value: site.contactName },
-    { icon: PhoneIcon, label: t.common.phone, value: site.phoneDisplay, href: telHref },
-    { icon: MailIcon, label: t.common.email, value: site.email, href: mailHref },
+    { icon: UserIcon, label: t.common.contactPerson, value: settings.contactName },
+    { icon: PhoneIcon, label: t.common.phone, value: settings.phoneDisplay, href: telHref(settings) },
+    { icon: MailIcon, label: t.common.email, value: settings.email, href: mailHref(settings) },
     { icon: ClockIcon, label: t.common.hours, value: t.common.hoursValue, extra: t.common.weekend },
     { icon: PinIcon, label: t.common.serviceArea, value: t.common.serviceAreaValue },
   ];
@@ -26,8 +25,8 @@ export function ContactSection({ lang, withTitle = true }: { lang: Locale; withT
         <ContactForm
           lang={lang}
           labels={t.form}
-          services={services.map((s) => ({ value: s.name.en, label: s.name[lang] }))}
-          cities={cities.map((c) => c.name)}
+          services={content.services.map((s) => ({ value: s.name.en, label: s.name[lang] }))}
+          cities={content.cities.map((c) => c.name)}
           privacy={{ href: localePath("/privacy", lang), label: t.nav.privacy }}
         />
         </div>

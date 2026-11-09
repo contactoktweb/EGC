@@ -3,16 +3,15 @@ import Link from "next/link";
 import { ArrowRight, PhoneIcon, PinIcon, ShieldIcon } from "../Icons";
 import { Section, SectionTitle } from "../ui";
 import { CountUp } from "../motion/CountUp";
-import aboutImg from "@/content/images/concrete-grinding-polishing-in-progress.jpg";
-import { getDictionary } from "@/content/dictionary";
-import { cities } from "@/content/cities";
-import type { Faq } from "@/content/services";
 import { localePath, type Locale } from "@/lib/i18n";
-import { site, telHref } from "@/lib/site";
+import { getPageContent } from "@/lib/content";
+import { telHref } from "@/lib/content/helpers";
+import type { Faq } from "@/lib/content/types";
 
 /** Bloque 6: Por qué elegirnos. */
-export function WhyChoose({ lang }: { lang: Locale }) {
-  const t = getDictionary(lang);
+export async function WhyChoose({ lang }: { lang: Locale }) {
+  const content = await getPageContent(lang);
+  const { t } = content;
   return (
     <Section>
       <SectionTitle eyebrow={t.why.eyebrow} title={t.why.title} />
@@ -34,14 +33,15 @@ export function WhyChoose({ lang }: { lang: Locale }) {
 }
 
 /** Bloque 7: Sobre nosotros (split screen). */
-export function AboutSplit({ lang, full = false }: { lang: Locale; full?: boolean }) {
-  const t = getDictionary(lang);
+export async function AboutSplit({ lang, full = false }: { lang: Locale; full?: boolean }) {
+  const content = await getPageContent(lang);
+  const { t } = content;
   return (
     <Section tone="darker">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
         <div data-reveal="left" className="group relative aspect-[4/3] overflow-hidden rounded-md">
           <Image
-            src={aboutImg}
+            src={content.images.about}
             alt={t.about.imageAlt}
             fill
             placeholder="blur"
@@ -88,8 +88,9 @@ export function AboutSplit({ lang, full = false }: { lang: Locale; full?: boolea
 }
 
 /** Bloque 8: A quién servimos. */
-export function WhoWeServe({ lang }: { lang: Locale }) {
-  const t = getDictionary(lang);
+export async function WhoWeServe({ lang }: { lang: Locale }) {
+  const content = await getPageContent(lang);
+  const { t } = content;
   return (
     <Section tone="light">
       <SectionTitle eyebrow={t.serve.eyebrow} title={t.serve.title} />
@@ -111,8 +112,9 @@ export function WhoWeServe({ lang }: { lang: Locale }) {
 }
 
 /** Bloque 9: Área de servicio (SEO local). */
-export function ServiceArea({ lang }: { lang: Locale }) {
-  const t = getDictionary(lang);
+export async function ServiceArea({ lang }: { lang: Locale }) {
+  const content = await getPageContent(lang);
+  const { t } = content;
   return (
     <Section>
       <div className="grid items-center gap-10 lg:grid-cols-2">
@@ -121,7 +123,7 @@ export function ServiceArea({ lang }: { lang: Locale }) {
           <h2 className="text-3xl font-bold md:text-4xl">{t.area.title}</h2>
           <p className="mt-4 text-neutral-300">{t.area.lead}</p>
           <ul className="mt-6 flex flex-wrap gap-2" data-reveal-stagger="45">
-            {cities.map((c) => (
+            {content.cities.map((c) => (
               <li key={c.slug}>
                 <Link
                   href={localePath(`/service-areas/${c.slug}`, lang)}
@@ -198,8 +200,9 @@ export function FaqList({
 }
 
 /** Franja de llamada a la acción. */
-export function CtaBand({ lang }: { lang: Locale }) {
-  const t = getDictionary(lang);
+export async function CtaBand({ lang }: { lang: Locale }) {
+  const content = await getPageContent(lang);
+  const { t, settings } = content;
   return (
     <section className="cta-stripes bg-brand-deep">
       <div data-reveal className="container-site flex flex-col items-start justify-between gap-6 py-12 md:flex-row md:items-center">
@@ -211,8 +214,8 @@ export function CtaBand({ lang }: { lang: Locale }) {
           <Link href={localePath("/contact", lang)} className="btn hero-lift bg-white text-ink hover:bg-neutral-200">
             {t.nav.estimate}
           </Link>
-          <a href={telHref} className="btn btn-outline">
-            <PhoneIcon className="h-4 w-4" /> {site.phoneDisplay}
+          <a href={telHref(settings)} className="btn btn-outline">
+            <PhoneIcon className="h-4 w-4" /> {settings.phoneDisplay}
           </a>
         </div>
       </div>

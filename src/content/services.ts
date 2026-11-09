@@ -1,47 +1,13 @@
-import type { StaticImageData } from "next/image";
-import type { L, LList } from "@/lib/i18n";
-import imgStamped from "./images/stamped-concrete-patio-curved-border.jpg";
-import imgPolished from "./images/polished-concrete-hallway.jpg";
-import imgEpoxy from "./images/decorative-flake-epoxy-garage-floor.jpg";
-import imgDriveway from "./images/concrete-driveway-broom-finish.jpg";
-import imgSite from "./images/concrete-walkway-forming.jpg";
-import imgPatio from "./images/broom-finish-concrete-patio.jpg";
-import imgPorch from "./images/stamped-concrete-entry-porch.jpg";
+import type { Service } from "@/lib/content/types";
 
-export type ServiceIcon =
-  | "concrete"
-  | "polish"
-  | "epoxy"
-  | "asphalt"
-  | "excavation"
-  | "washing"
-  | "maintenance";
+/** Servicio tal como se escribe en el código: la imagen es el nombre del archivo en ./images. */
+export type ServiceSource = Omit<Service, "image"> & { image: string };
 
-export type Faq = { q: L; a: L };
-
-export type Service = {
-  slug: string;
-  icon: ServiceIcon;
-  image: StaticImageData;
-  imageAlt: L;
-  name: L;
-  /** Nombre corto para tarjetas destacadas (Pour concrete, Polishing, Epoxy). */
-  featured?: L;
-  short: L;
-  /** Primer párrafo con respuesta directa: optimizado para motores de IA (GEO). */
-  intro: L;
-  items: LList;
-  /** Categoría de fotos asociada (galería). */
-  gallery?: "pour" | "polish" | "epoxy";
-  faqs: Faq[];
-  related: string[];
-};
-
-export const services: Service[] = [
+export const serviceData: ServiceSource[] = [
   {
     slug: "concrete-construction-repair",
     icon: "concrete",
-    image: imgStamped,
+    image: "stamped-concrete-patio-curved-border.jpg",
     imageAlt: {
       en: "Stamped concrete patio with curved border poured by ECG Construction",
       es: "Patio de concreto estampado con borde curvo vaciado por ECG Construction",
@@ -53,8 +19,8 @@ export const services: Service[] = [
       es: "Entradas de autos, patios, banquetas, escaleras, losas, cimientos y concreto estampado decorativo.",
     },
     intro: {
-      en: "ECG Construction pours, replaces and repairs concrete for homes and businesses in Snohomish County and King County, WA. We form, place and finish driveways, patios, sidewalks, stairs, slabs, footings and stamped decorative concrete with 20+ years of hands-on experience.",
-      es: "ECG Construction vacía, reemplaza y repara concreto para casas y negocios en los condados de Snohomish y King, WA. Cimbramos, colocamos y damos acabado a entradas de autos, patios, banquetas, escaleras, losas, zapatas y concreto estampado decorativo con más de 20 años de experiencia práctica.",
+      en: "ECG Construction pours, replaces and repairs concrete for homes and businesses in Snohomish County, Skagit County and North King County, WA. We form, place and finish driveways, patios, sidewalks, stairs, slabs, footings and stamped decorative concrete with 20+ years of hands-on experience.",
+      es: "ECG Construction vacía, reemplaza y repara concreto para casas y negocios en los condados de Snohomish y Skagit y el norte del condado de King, WA. Cimbramos, colocamos y damos acabado a entradas de autos, patios, banquetas, escaleras, losas, zapatas y concreto estampado decorativo con más de 20 años de experiencia práctica.",
     },
     items: {
       en: [
@@ -86,8 +52,8 @@ export const services: Service[] = [
           es: "¿Hacen entradas de autos y patios de concreto nuevos?",
         },
         a: {
-          en: "Yes. We handle the full process: excavation and base preparation, forming, reinforcement, pouring and finishing (broom, smooth or stamped), for residential and commercial properties in Snohomish and King County.",
-          es: "Sí. Nos encargamos de todo el proceso: excavación y preparación de la base, cimbra, refuerzo, vaciado y acabado (escobillado, liso o estampado), para propiedades residenciales y comerciales en los condados de Snohomish y King.",
+          en: "Yes. We handle the full process: excavation and base preparation, forming, reinforcement, pouring and finishing (broom, smooth or stamped), for residential and commercial properties in Snohomish, Skagit and North King County.",
+          es: "Sí. Nos encargamos de todo el proceso: excavación y preparación de la base, cimbra, refuerzo, vaciado y acabado (escobillado, liso o estampado), para propiedades residenciales y comerciales en los condados de Snohomish y Skagit y el norte del condado de King.",
         },
       },
       {
@@ -116,7 +82,7 @@ export const services: Service[] = [
   {
     slug: "concrete-floor-preparation-polishing",
     icon: "polish",
-    image: imgPolished,
+    image: "polished-concrete-hallway.jpg",
     imageAlt: {
       en: "Polished concrete hallway floor finished by ECG Construction",
       es: "Pasillo con piso de concreto pulido terminado por ECG Construction",
@@ -131,8 +97,8 @@ export const services: Service[] = [
       es: "Desbaste de concreto, concreto pulido, desbaste y sellado, autonivelantes y preparación de superficies.",
     },
     intro: {
-      en: "ECG Construction grinds, polishes and prepares concrete floors for homes, retail spaces, offices and warehouses in Snohomish and King County, WA. We deliver polished concrete, grind-and-seal systems, densified and burnished floors, and properly prepared surfaces ready for any flooring installation.",
-      es: "ECG Construction desbasta, pule y prepara pisos de concreto para casas, locales comerciales, oficinas y bodegas en los condados de Snohomish y King, WA. Entregamos concreto pulido, sistemas de desbaste y sellado, pisos densificados y abrillantados, y superficies bien preparadas para cualquier instalación de piso.",
+      en: "ECG Construction grinds, polishes and prepares concrete floors for homes, retail spaces, offices and warehouses in Snohomish, Skagit and North King County, WA. We deliver polished concrete, grind-and-seal systems, densified and burnished floors, and properly prepared surfaces ready for any flooring installation.",
+      es: "ECG Construction desbasta, pule y prepara pisos de concreto para casas, locales comerciales, oficinas y bodegas en los condados de Snohomish y Skagit y el norte del condado de King, WA. Entregamos concreto pulido, sistemas de desbaste y sellado, pisos densificados y abrillantados, y superficies bien preparadas para cualquier instalación de piso.",
     },
     items: {
       en: [
@@ -194,7 +160,7 @@ export const services: Service[] = [
   {
     slug: "epoxy-floor-coatings",
     icon: "epoxy",
-    image: imgEpoxy,
+    image: "decorative-flake-epoxy-garage-floor.jpg",
     imageAlt: {
       en: "Garage floor with decorative flake epoxy system by ECG Construction",
       es: "Piso de garaje con sistema de epoxy decorativo tipo flake de ECG Construction",
@@ -206,8 +172,8 @@ export const services: Service[] = [
       es: "Epoxy para garajes, epoxy decorativo tipo flake y metálico, recubrimientos comerciales, selladores e impermeabilización.",
     },
     intro: {
-      en: "ECG Construction installs epoxy and protective floor coatings in garages, shops, commercial kitchens, warehouses and industrial spaces across Snohomish and King County, WA. Every system starts with mechanical surface preparation and moisture evaluation, so the coating bonds correctly and lasts.",
-      es: "ECG Construction instala epoxy y recubrimientos protectores para pisos en garajes, talleres, cocinas comerciales, bodegas y espacios industriales en los condados de Snohomish y King, WA. Cada sistema comienza con preparación mecánica de la superficie y evaluación de humedad, para que el recubrimiento se adhiera correctamente y dure.",
+      en: "ECG Construction installs epoxy and protective floor coatings in garages, shops, commercial kitchens, warehouses and industrial spaces across Snohomish, Skagit and North King County, WA. Every system starts with mechanical surface preparation and moisture evaluation, so the coating bonds correctly and lasts.",
+      es: "ECG Construction instala epoxy y recubrimientos protectores para pisos en garajes, talleres, cocinas comerciales, bodegas y espacios industriales en los condados de Snohomish y Skagit y el norte del condado de King, WA. Cada sistema comienza con preparación mecánica de la superficie y evaluación de humedad, para que el recubrimiento se adhiera correctamente y dure.",
     },
     items: {
       en: [
@@ -269,7 +235,7 @@ export const services: Service[] = [
   {
     slug: "asphalt-exterior-surfaces",
     icon: "asphalt",
-    image: imgDriveway,
+    image: "concrete-driveway-broom-finish.jpg",
     imageAlt: {
       en: "Residential driveway exterior surface project by ECG Construction",
       es: "Proyecto de superficie exterior en entrada residencial por ECG Construction",
@@ -280,8 +246,8 @@ export const services: Service[] = [
       es: "Bacheo, repavimentación, sobrecarpetas, sellado de asfalto, estacionamientos y restauración de entradas.",
     },
     intro: {
-      en: "ECG Construction repairs, resurfaces and maintains asphalt driveways and parking lots for homeowners, businesses and property managers in Snohomish and King County, WA, including patching, overlays, sealcoating and demolition.",
-      es: "ECG Construction repara, repavimenta y mantiene entradas y estacionamientos de asfalto para propietarios, negocios y administradores de propiedades en los condados de Snohomish y King, WA, incluyendo bacheo, sobrecarpetas, sellado y demolición.",
+      en: "ECG Construction repairs, resurfaces and maintains asphalt driveways and parking lots for homeowners, businesses and property managers in Snohomish, Skagit and North King County, WA, including patching, overlays, sealcoating and demolition.",
+      es: "ECG Construction repara, repavimenta y mantiene entradas y estacionamientos de asfalto para propietarios, negocios y administradores de propiedades en los condados de Snohomish y Skagit y el norte del condado de King, WA, incluyendo bacheo, sobrecarpetas, sellado y demolición.",
     },
     items: {
       en: [
@@ -330,7 +296,7 @@ export const services: Service[] = [
   {
     slug: "excavation-grading-site-work",
     icon: "excavation",
-    image: imgSite,
+    image: "concrete-walkway-forming.jpg",
     imageAlt: {
       en: "Site preparation and walkway forming by ECG Construction",
       es: "Preparación del terreno y cimbrado de andador por ECG Construction",
@@ -341,8 +307,8 @@ export const services: Service[] = [
       es: "Excavación ligera, nivelación, entradas de grava, preparación de terreno, muros de contención y drenaje.",
     },
     intro: {
-      en: "ECG Construction provides light excavation, grading and site preparation in Snohomish and King County, WA: gravel driveways and parking areas, leveling, retaining walls, drainage improvements, clearing and small demolition.",
-      es: "ECG Construction ofrece excavación ligera, nivelación y preparación de terrenos en los condados de Snohomish y King, WA: entradas y estacionamientos de grava, nivelación, muros de contención, mejoras de drenaje, desmonte y demoliciones pequeñas.",
+      en: "ECG Construction provides light excavation, grading and site preparation in Snohomish, Skagit and North King County, WA: gravel driveways and parking areas, leveling, retaining walls, drainage improvements, clearing and small demolition.",
+      es: "ECG Construction ofrece excavación ligera, nivelación y preparación de terrenos en los condados de Snohomish y Skagit y el norte del condado de King, WA: entradas y estacionamientos de grava, nivelación, muros de contención, mejoras de drenaje, desmonte y demoliciones pequeñas.",
     },
     items: {
       en: [
@@ -391,7 +357,7 @@ export const services: Service[] = [
   {
     slug: "pressure-washing",
     icon: "washing",
-    image: imgPatio,
+    image: "broom-finish-concrete-patio.jpg",
     imageAlt: {
       en: "Clean concrete patio and exterior surfaces",
       es: "Patio de concreto y superficies exteriores limpias",
@@ -402,8 +368,8 @@ export const services: Service[] = [
       es: "Lavado a presión residencial y comercial, lavado suave, entradas, terrazas, cercas y adoquines.",
     },
     intro: {
-      en: "ECG Construction offers residential and commercial pressure washing and soft washing in Snohomish and King County, WA, for houses, buildings, driveways, sidewalks, pavers, decks, patios, fences, trailers and recreational properties.",
-      es: "ECG Construction ofrece lavado a presión y lavado suave residencial y comercial en los condados de Snohomish y King, WA, para casas, edificios, entradas, banquetas, adoquines, terrazas, patios, cercas, remolques y propiedades recreativas.",
+      en: "ECG Construction offers residential and commercial pressure washing and soft washing in Snohomish, Skagit and North King County, WA, for houses, buildings, driveways, sidewalks, pavers, decks, patios, fences, trailers and recreational properties.",
+      es: "ECG Construction ofrece lavado a presión y lavado suave residencial y comercial en los condados de Snohomish y Skagit y el norte del condado de King, WA, para casas, edificios, entradas, banquetas, adoquines, terrazas, patios, cercas, remolques y propiedades recreativas.",
     },
     items: {
       en: [
@@ -454,7 +420,7 @@ export const services: Service[] = [
   {
     slug: "property-maintenance-repairs",
     icon: "maintenance",
-    image: imgPorch,
+    image: "stamped-concrete-entry-porch.jpg",
     imageAlt: {
       en: "Residential entry with stamped concrete porch",
       es: "Entrada residencial con porche de concreto estampado",
@@ -465,8 +431,8 @@ export const services: Service[] = [
       es: "Cercas, terrazas, cobertizos, carpintería menor, canaletas, limpieza de jardines, poda y destoconado.",
     },
     intro: {
-      en: "ECG Construction handles property maintenance and exterior repairs for homeowners, property managers, communities and recreational parks in Snohomish and King County, WA, from fence and deck repairs to gutter cleaning, yard cleanup, tree trimming and stump grinding.",
-      es: "ECG Construction realiza mantenimiento de propiedades y reparaciones exteriores para propietarios, administradores, comunidades y parques recreativos en los condados de Snohomish y King, WA, desde reparación de cercas y terrazas hasta limpieza de canaletas, limpieza de jardines, poda y destoconado.",
+      en: "ECG Construction handles property maintenance and exterior repairs for homeowners, property managers, communities and recreational parks in Snohomish, Skagit and North King County, WA, from fence and deck repairs to gutter cleaning, yard cleanup, tree trimming and stump grinding.",
+      es: "ECG Construction realiza mantenimiento de propiedades y reparaciones exteriores para propietarios, administradores, comunidades y parques recreativos en los condados de Snohomish y Skagit y el norte del condado de King, WA, desde reparación de cercas y terrazas hasta limpieza de canaletas, limpieza de jardines, poda y destoconado.",
     },
     items: {
       en: [
@@ -518,8 +484,3 @@ export const services: Service[] = [
   },
 ];
 
-export const featuredServices = services.filter((s) => s.featured);
-
-export function getService(slug: string): Service | undefined {
-  return services.find((s) => s.slug === slug);
-}

@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { getDictionary } from "@/content/dictionary";
+import { getContent } from "@/lib/content";
 
 // not-found no recibe params; se muestra en inglés con enlace también al español.
-export default function NotFound() {
-  const en = getDictionary("en");
-  const es = getDictionary("es");
+export default async function NotFound() {
+  const { dict } = await getContent();
+  const { en, es } = dict;
   return (
     <section className="container-site flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
       <p className="eyebrow mb-4">404</p>

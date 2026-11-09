@@ -6,11 +6,11 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
-import { services } from "@/content/services";
-import { getDictionary } from "@/content/dictionary";
 import { hasLocale, htmlLang, locales } from "@/lib/i18n";
 import { businessJsonLd, websiteJsonLd } from "@/lib/seo";
-import { site, telHref } from "@/lib/site";
+import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
+import { telHref } from "@/lib/content/helpers";
 
 const archivo = Archivo({
   subsets: ["latin"],
@@ -27,22 +27,27 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
-  title: { default: site.legalName, template: `%s | ${site.legalName}` },
-  applicationName: site.legalName,
-  authors: [{ name: site.legalName }],
-  creator: site.legalName,
-  publisher: site.legalName,
-  formatDetection: { telephone: true, email: true, address: false },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
-  category: "construction",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { settings } = await getContent();
+  const name = settings.legalName;
+  return {
+    metadataBase: new URL(site.url),
+    title: { default: name, template: `%s | ${name}` },
+    applicationName: name,
+    authors: [{ name }],
+    creator: name,
+    publisher: name,
+    formatDetection: { telephone: true, email: true, address: false },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
+    category: "construction",
+  };
+}
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const t = getDictionary(lang);
+  const content = await getContent();
+  const t = content.dict[lang];
 
   return (
     <html lang={htmlLang[lang]} className={archivo.variable} suppressHydrationWarning>
@@ -53,17 +58,19 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <Header
           lang={lang}
           nav={t.nav}
-          services={services.map((s) => ({ slug: s.slug, name: s.name[lang] }))}
-          phoneDisplay={site.phoneDisplay}
-          telHref={telHref}
+          services={content.services.map((s) => ({ slug: s.slug, name: s.name[lang] }))}
+          phoneDisplay={content.settings.phoneDisplay}
+          telHref={telHref(content.settings)}
+          logo={content.settings.logo}
+          logoAlt={content.settings.legalName}
         />
         {/* overflow-x-clip: recorta las animaciones laterales sin scroll horizontal (no rompe sticky). */}
         <main id="main" className="flex-1 overflow-x-clip">
           {children}
         </main>
         <Footer lang={lang} />
-        <JsonLd data={businessJsonLd(lang)} />
-        <JsonLd data={websiteJsonLd(lang)} />
+        <JsonLd data={businessJsonLd(content, lang)} />
+        <JsonLd data={websiteJsonLd(content, lang)} />
       </body>
     </html>
   );

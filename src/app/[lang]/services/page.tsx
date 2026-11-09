@@ -5,22 +5,23 @@ import { notFound } from "next/navigation";
 import { PageHero, Section } from "@/components/ui";
 import { ArrowRight, ServiceGlyph, UpArrow } from "@/components/Icons";
 import { CtaBand } from "@/components/sections/InfoSections";
-import { getDictionary } from "@/content/dictionary";
-import { services } from "@/content/services";
+import { getPageContent } from "@/lib/content";
 import { hasLocale, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/services">): Promise<Metadata> {
   const { lang } = await params;
   if (!hasLocale(lang)) return {};
-  const t = getDictionary(lang);
+  const content = await getPageContent(lang);
+  const { t } = content;
   return pageMetadata({ lang, path: "/services", title: t.pages.servicesTitle, description: t.pages.servicesDescription });
 }
 
 export default async function ServicesPage({ params }: PageProps<"/[lang]/services">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const t = getDictionary(lang);
+  const content = await getPageContent(lang);
+  const { t } = content;
 
   return (
     <>
@@ -35,7 +36,7 @@ export default async function ServicesPage({ params }: PageProps<"/[lang]/servic
       />
       <Section>
         <div className="grid gap-8">
-          {services.map((s, i) => (
+          {content.services.map((s, i) => (
             <article
               key={s.slug}
               id={s.slug}

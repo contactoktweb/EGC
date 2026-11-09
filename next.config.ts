@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  // Imágenes subidas a Sanity (se sirven desde su CDN).
+  images: {
+    remotePatterns: [{ protocol: "https", hostname: "cdn.sanity.io", pathname: "/images/**" }],
+  },
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {
