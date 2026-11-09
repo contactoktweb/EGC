@@ -113,7 +113,7 @@ function buildDictionaries(home: Raw, ui: Raw): Record<Locale, Dictionary> {
 
 /**
  * Lee todo el contenido de Sanity. Si algún documento todavía no existe (p. ej. antes de
- * ejecutar `npm run sanity:seed`), esa parte usa el respaldo estático para que la web no se rompa.
+ * crearlo en el Studio), esa parte usa el respaldo estático para que la web no se rompa.
  */
 export async function sanityContent(): Promise<SiteContent> {
   if (!sanityClient) return staticContent();

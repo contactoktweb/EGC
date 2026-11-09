@@ -31,11 +31,12 @@ Reglas:
 - Sitio bilingüe: rutas `/en/...` y `/es/...` bajo `src/app/[lang]/`; redirección por idioma en `src/proxy.ts`.
 - **Contenido desde Sanity** (ver `docs/SANITY.md`). Los componentes NUNCA importan `src/content/*`
   directamente: usan `getContent()` / `getPageContent(lang)` de `src/lib/content`.
-  `src/content/` es solo respaldo (sin claves) y la fuente de `npm run sanity:seed`.
+  `src/content/` es solo respaldo (si Sanity no responde o falta un campo). El contenido ya está
+  cargado en Sanity (proyecto `rflzedcs`, dataset `production`) y se edita en `/admin`.
 - Esquemas de Sanity: sin campos de clases/estilos ni URLs de imágenes; imágenes y videos se suben
   como archivos. Todo texto visible es bilingüe ({ en, es }) y cada campo lleva un ejemplo.
-- Al agregar contenido nuevo: actualizar el esquema, `src/lib/content/sanity.ts`, el respaldo en
-  `src/content/` y `scripts/seed-sanity.ts`; luego `npm run sanity:check` debe pasar.
+- Al agregar contenido nuevo: actualizar el esquema, `src/lib/content/sanity.ts` y el respaldo en
+  `src/content/`; luego cargar el contenido real desde `/admin`.
 - Datos del negocio (nombre, teléfono, correo, horario, área, registro): "Configuración general"
   en Sanity; respaldo en `src/content/settings.ts`. `src/lib/site.ts` solo tiene la URL pública.
   Correo: ecgconstructionwa@gmail.com · Horario: lunes a viernes, 9:00 a. m. – 5:00 p. m.
@@ -43,4 +44,4 @@ Reglas:
 - SEO/GEO: metadata y JSON-LD en `src/lib/seo.ts`; `sitemap.ts`, `robots.ts`, `llms.txt/route.ts`.
 - Usar siempre el nombre **ECG** Construction LLC (no "EGC").
 - Formulario de contacto: el envío con Resend está pendiente (`src/app/api/contact/route.ts`).
-- Comprobar con `npm run build`, `npm run lint` y `npm run sanity:check` antes de hacer commit.
+- Comprobar con `npm run build` y `npm run lint` antes de hacer commit.

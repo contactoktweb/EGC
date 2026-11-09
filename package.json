@@ -7,10 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "sanity:seed": "tsx scripts/seed-sanity.ts",
     "sanity:studio": "sanity dev",
-    "typecheck": "tsc --noEmit",
-    "sanity:check": "tsx scripts/check-sanity-roundtrip.ts"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@sanity/client": "^8.15.0",
@@ -31,7 +29,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.4.4",
     "tailwindcss": "^4",
-    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

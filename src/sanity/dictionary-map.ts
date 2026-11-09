@@ -3,7 +3,7 @@
  *
  * Una sola fuente para:
  *  - generar los campos del Studio ("Página de inicio" y "Textos generales"),
- *  - convertir el diccionario en documentos al subirlo (scripts/seed-sanity.ts),
+ *  - usar el diccionario estático como respaldo de cada campo,
  *  - y reconstruir el diccionario a partir de Sanity (src/lib/content/sanity.ts).
  *
  * En Sanity cada texto se guarda como { en, es }.

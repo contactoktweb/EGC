@@ -4,7 +4,6 @@ import type { Project, ProjectCategory } from "@/lib/content/types";
 /**
  * Proyecto tal como se escribe en el código.
  * - image: nombre del archivo en src/content/images (foto o portada del video).
- * - video (opcional): nombre del archivo en public/videos, p. ej. "epoxy-garage.mp4".
  */
 export type ProjectSource = Omit<Project, "image" | "video"> & { image: string; video?: string };
 

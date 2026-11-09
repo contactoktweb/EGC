@@ -8,36 +8,15 @@ Mientras no haya claves, la web usa el contenido de respaldo de `src/content/` y
 
 ---
 
-## 1. Puesta en marcha (solo poner las claves)
+## 1. Estado actual
 
-1. Crea un proyecto gratis en <https://www.sanity.io/manage> → **Create project**.
-   Copia el **Project ID** (8 caracteres, p. ej. `a1b2c3d4`). Dataset: `production`.
-2. En el proyecto → **API → Tokens → Add API token**: nombre "seed", permiso **Editor**. Copia el token.
-3. En el proyecto → **API → CORS origins → Add CORS origin**:
-   - `http://localhost:3000` (marca *Allow credentials*)
-   - `https://ecgconstructionwa.com` (o tu dominio; marca *Allow credentials*)
-4. Copia `.env.example` como `.env.local` y completa:
-
-   ```env
-   NEXT_PUBLIC_SANITY_PROJECT_ID=a1b2c3d4
-   NEXT_PUBLIC_SANITY_DATASET=production
-   SANITY_API_WRITE_TOKEN=sk...
-   SANITY_REVALIDATE_SECRET=un-texto-largo-y-aleatorio
-   ```
-
-5. Sube todo el contenido actual a Sanity:
-
-   ```bash
-   npm run sanity:seed
-   ```
-
-   Primero puedes simular sin escribir nada: `npm run sanity:seed -- --dry-run`.
-
-6. Listo: `npm run dev` y abre <http://localhost:3000/admin> para editar.
-   La web ya muestra la información de Sanity.
-
-7. En **Vercel** agrega las mismas variables (Project → Settings → Environment Variables) y
-   vuelve a desplegar. `SANITY_API_WRITE_TOKEN` no es necesario en Vercel.
+- Proyecto **`rflzedcs`**, dataset **`production`**. Todo el contenido y las fotos ya están cargados.
+- Panel de edición: **`/admin`** (p. ej. `https://ecgconstructionwa.com/admin`).
+- Variables en Vercel: `NEXT_PUBLIC_SANITY_PROJECT_ID=rflzedcs`, `NEXT_PUBLIC_SANITY_DATASET=production`
+  y `SANITY_REVALIDATE_SECRET` (el mismo secreto del webhook).
+- Para entrar a `/admin` desde un dominio nuevo, agrégalo en sanity.io/manage → **API → CORS origins**
+  con *Allow credentials*.
+- En local: copia `.env.example` como `.env.local` con el Project ID y el dataset.
 
 ### Actualización automática al publicar (webhook)
 
@@ -168,23 +147,10 @@ Así, si cambia el teléfono, se cambia **una sola vez** en Configuración gener
 
 ---
 
-## 4. Scripts
+## 4. Agregar videos a la galería
 
-| Comando | Para qué |
-|---|---|
-| `npm run sanity:seed` | Sube/actualiza todo el contenido y las fotos de `src/content` a Sanity |
-| `npm run sanity:seed -- --dry-run` | Simula la subida sin escribir nada |
-| `npm run sanity:seed -- --prune` | Además borra servicios/ciudades/proyectos que ya no estén en `src/content` |
-| `npm run sanity:check` | Prueba sin conexión: lo subido, leído por la web, es idéntico al contenido actual |
-| `npm run sanity:studio` | Abre el Studio aparte (requiere `SANITY_STUDIO_PROJECT_ID`) |
-
-> ⚠️ `sanity:seed` **sobrescribe** los documentos que sube. Úsalo para la carga inicial o para
-> restaurar; después edita en el Studio.
-
-Videos para el seed: colócalos en `public/videos/` y en `src/content/projects.ts` agrega
-`video: "nombre.mp4"` al proyecto (la foto del proyecto se usa como portada).
-
----
+En `/admin` → **Proyectos (galería)** → crear proyecto: sube la foto de portada y el video (MP4,
+menos de 50 MB, 15–60 s), elige la categoría y escribe la descripción en inglés y español.
 
 ## 5. Cómo está construido (para desarrolladores)
 
@@ -205,8 +171,6 @@ src/lib/content/
   types.ts                  Tipos compartidos
 src/app/admin/              Ruta del Studio
 src/app/api/revalidate/     Webhook → revalidateTag("sanity")
-scripts/seed-sanity.ts      Subida completa
-scripts/check-sanity-roundtrip.ts  Prueba de ida y vuelta
 ```
 
 - Para agregar un texto nuevo: agrégalo en `src/content/dictionary.ts` (EN y ES) y su título en

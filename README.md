@@ -21,9 +21,8 @@ Copia `.env.example` a `.env.local` y define al menos `NEXT_PUBLIC_SITE_URL` ant
 Todo el contenido (textos EN/ES, servicios, áreas, galería con fotos/videos, FAQ, privacidad y la
 **Configuración general** con logos y datos de contacto) se edita en Sanity, en `/admin`.
 
-1. Pon las claves de Sanity en `.env.local` (ver `.env.example`).
-2. `npm run sanity:seed` sube todo el contenido actual y las fotos.
-3. Desde ese momento la web lee todo desde Sanity.
+El contenido ya está cargado en Sanity (proyecto `rflzedcs`, dataset `production`).
+Para trabajar en local, pon las claves en `.env.local` (ver `.env.example`).
 
 Guía completa con ejemplos de cada campo: **[docs/SANITY.md](docs/SANITY.md)**.
 Sin claves, la web usa el respaldo de `src/content/`.

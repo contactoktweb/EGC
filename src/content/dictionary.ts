@@ -322,5 +322,5 @@ const es: Dictionary = {
   },
 };
 
-/** Textos estáticos (respaldo y fuente del script de subida a Sanity). */
+/** Textos estáticos de respaldo (el contenido real se edita en Sanity → /admin). */
 export const dictionaries: Record<Locale, Dictionary> = { en, es };

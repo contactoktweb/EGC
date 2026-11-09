@@ -1,8 +1,8 @@
 import type { Settings } from "@/lib/content/types";
 
 /**
- * "Configuración general" de respaldo. Es la misma información que el script
- * `npm run sanity:seed` sube al documento "Configuración general" de Sanity.
+ * "Configuración general" de respaldo (solo se usa si Sanity no está configurado).
+ * El contenido real se edita en Sanity → /admin → Configuración general.
  * Las imágenes se indican por nombre de archivo dentro de src/content/images.
  */
 export type SettingsSource = Omit<Settings, "logo" | "logoSquare" | "ogImage"> & {
