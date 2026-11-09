@@ -142,12 +142,13 @@ export function ServiceArea({ lang }: { lang: Locale }) {
   );
 }
 
-export function ServiceMap({ title, query = "Snohomish County, WA" }: { title: string; query?: string }) {
+/** Mapa del área. Por defecto centrado en Arlington con zoom amplio: cubre Skagit, Snohomish y el norte de King. */
+export function ServiceMap({ title, query = "Arlington, WA", zoom = 8 }: { title: string; query?: string; zoom?: number }) {
   return (
     <div className="overflow-hidden rounded-md border border-line bg-ink-2">
       <iframe
         title={title}
-        src={`https://www.google.com/maps?q=${encodeURIComponent(query)}&z=9&output=embed`}
+        src={`https://www.google.com/maps?q=${encodeURIComponent(query)}&z=${zoom}&output=embed`}
         className="h-[340px] w-full grayscale-[35%]"
         loading="lazy"
         referrerPolicy="no-referrer-when-downgrade"

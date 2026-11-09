@@ -1,7 +1,7 @@
 # ECG Construction LLC — Sitio web
 
 Sitio bilingüe (inglés / español) de **ECG Construction LLC**, empresa de construcción en los condados de
-Snohomish y King, Washington. Construido con **Next.js 16 (App Router)**, **React 19** y **Tailwind CSS 4**,
+Snohomish y Skagit y el norte del condado de King, Washington. Construido con **Next.js 16 (App Router)**, **React 19** y **Tailwind CSS 4**,
 inspirado en la estructura por bloques de una plantilla de construcción y con la identidad visual del logo
 (carbón `#1B1A1B`, verde `#5F9A4F`, blanco).
 
@@ -59,7 +59,7 @@ Todo el contenido editable vive en `src/content/` y los datos de contacto y hora
 
 ## Horario
 
-Lunes a viernes, 8:00 a. m. – 5:00 p. m., hora del Pacífico (horario laboral estándar en EE. UU.).
+Lunes a viernes, 9:00 a. m. – 5:00 p. m., hora del Pacífico.
 Se edita en `src/lib/site.ts` y en los textos de `src/content/dictionary.ts`.
 
 ## Pendientes
@@ -67,5 +67,4 @@ Se edita en `src/lib/site.ts` y en los textos de `src/content/dictionary.ts`.
 - [ ] **Resend**: conectar el envío de correos en `src/app/api/contact/route.ts` (instrucciones en el archivo).
   Mientras tanto el formulario responde con el teléfono y el correo como alternativa.
 - [ ] Definir el dominio en `NEXT_PUBLIC_SITE_URL`.
-- [ ] Agregar el número de registro de contratista de WA (`NEXT_PUBLIC_WA_CONTRACTOR_LICENSE`).
 - [ ] Crear/verificar el perfil de Google Business Profile con los mismos datos (NAP).

@@ -20,28 +20,32 @@ export const site = {
   contactName: "Manny Cobian",
   phoneDisplay: "425.200.7230",
   phoneE164: "+14252007230",
-  email: "Mane18882@gmail.com",
+  email: "ecgconstructionwa@gmail.com",
   region: "WA",
   regionName: "Washington",
   country: "US",
   yearsExperience: 20,
   /**
-   * Horario laboral estándar en EE. UU.: lunes a viernes, 8:00 a.m. – 5:00 p.m.
+   * Horario de atención: lunes a viernes, 9:00 a. m. – 5:00 p. m.
    * Zona horaria del Pacífico (Washington State).
    */
   hours: {
     days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"] as const,
-    opens: "08:00",
+    opens: "09:00",
     closes: "17:00",
     timeZone: "America/Los_Angeles",
   },
-  counties: ["Snohomish County", "King County"],
+  /** Área de servicio: condado de Snohomish, condado de Skagit y el norte del condado de King. */
+  counties: ["Snohomish County", "Skagit County", "North King County"],
   /**
    * Número de registro de contratista de Washington L&I.
-   * La ley de WA (RCW 18.27.100) exige mostrarlo en la publicidad: complétalo cuando lo tengas.
+   * OBLIGATORIO por ley (RCW 18.27.100): debe aparecer en el footer de todas las páginas.
    */
-  contractorLicense: process.env.NEXT_PUBLIC_WA_CONTRACTOR_LICENSE ?? "",
+  contractorLicense: "ECGCOCL749K2",
 } as const;
+
+/** Texto obligatorio del registro L&I (igual en inglés y español). */
+export const contractorRegText = `WA Contractor Reg # ${site.contractorLicense}`;
 
 export const telHref = `tel:${site.phoneE164}`;
 export const mailHref = `mailto:${site.email}`;

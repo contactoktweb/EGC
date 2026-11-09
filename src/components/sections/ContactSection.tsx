@@ -4,7 +4,7 @@ import { Section, SectionTitle } from "../ui";
 import { getDictionary } from "@/content/dictionary";
 import { services } from "@/content/services";
 import { cities } from "@/content/cities";
-import type { Locale } from "@/lib/i18n";
+import { localePath, type Locale } from "@/lib/i18n";
 import { mailHref, site, telHref } from "@/lib/site";
 
 /** Bloque 11: formulario de estimado + datos del negocio. */
@@ -28,6 +28,7 @@ export function ContactSection({ lang, withTitle = true }: { lang: Locale; withT
           labels={t.form}
           services={services.map((s) => ({ value: s.name.en, label: s.name[lang] }))}
           cities={cities.map((c) => c.name)}
+          privacy={{ href: localePath("/privacy", lang), label: t.nav.privacy }}
         />
         </div>
         <address className="not-italic">

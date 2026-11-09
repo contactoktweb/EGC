@@ -5,7 +5,7 @@ import { PageHero, Section } from "@/components/ui";
 import { ArrowRight, PinIcon } from "@/components/Icons";
 import { CtaBand, ServiceMap } from "@/components/sections/InfoSections";
 import { getDictionary } from "@/content/dictionary";
-import { cities, countyName } from "@/content/cities";
+import { citiesInCounty, counties } from "@/content/cities";
 import { hasLocale, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
 
@@ -20,10 +20,7 @@ export default async function ServiceAreasPage({ params }: PageProps<"/[lang]/se
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const t = getDictionary(lang);
-  const groups = (["Snohomish County", "King County"] as const).map((county) => ({
-    county,
-    items: cities.filter((c) => c.county === county),
-  }));
+  const groups = counties.map((county) => ({ county, items: citiesInCounty(county.slug) }));
 
   return (
     <>
@@ -40,8 +37,12 @@ export default async function ServiceAreasPage({ params }: PageProps<"/[lang]/se
         <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="grid gap-10">
             {groups.map((g) => (
-              <div key={g.county}>
-                <h2 className="mb-4 text-2xl font-bold capitalize">{countyName(g.county, lang)}</h2>
+              <div key={g.county.slug}>
+                <h2 className="mb-4 text-2xl font-bold">
+                  <Link href={localePath(`/service-areas/${g.county.slug}`, lang)} className="hover:text-brand-light">
+                    {g.county.name[lang]}
+                  </Link>
+                </h2>
                 <ul className="grid gap-3 sm:grid-cols-2" data-reveal-stagger="60">
                   {g.items.map((c) => (
                     <li key={c.slug}>

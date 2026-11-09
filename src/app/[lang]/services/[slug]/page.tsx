@@ -23,15 +23,15 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/services/[
   const { lang, slug } = await params;
   const s = getService(slug);
   if (!hasLocale(lang) || !s) return {};
-  const where = lang === "en" ? "in Snohomish & King County, WA" : "en Snohomish y King County, WA";
+  const where = lang === "en" ? "in Snohomish, Skagit & North King County, WA" : "en Snohomish, Skagit y el norte de King County, WA";
   return pageMetadata({
     lang,
     path: `/services/${s.slug}`,
     title: `${s.name[lang]} ${where}`,
     description:
       lang === "en"
-        ? `${s.name.en} ${where} by ECG Construction LLC: ${s.short.en.toLowerCase()} Licensed, bonded & insured. Free estimates.`
-        : `${s.name.es} ${where} con ECG Construction LLC: ${s.short.es.toLowerCase()} Licencia, fianza y seguro. Estimados gratis.`,
+        ? `${s.name.en} ${where} by ECG Construction LLC: ${s.short.en.toLowerCase()} Licensed WA general contractor. Free estimates.`
+        : `${s.name.es} ${where} con ECG Construction LLC: ${s.short.es.toLowerCase()} Contratista general con licencia en WA. Estimados gratis.`,
   });
 }
 

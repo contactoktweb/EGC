@@ -1,5 +1,5 @@
 import { services } from "@/content/services";
-import { cities } from "@/content/cities";
+import { cities, counties, getCounty } from "@/content/cities";
 import { generalFaqs } from "@/content/faqs";
 import { site } from "@/lib/site";
 
@@ -12,13 +12,13 @@ export function GET() {
   const lines = [
     `# ${site.legalName}`,
     "",
-    `> ${site.legalName} is a licensed, bonded and insured construction company with ${site.yearsExperience}+ years of experience, serving Snohomish County, King County and surrounding communities in Washington State. Services: concrete construction and repair, concrete polishing and floor preparation, epoxy and protective floor coatings, asphalt, excavation and grading, pressure washing and property maintenance. Website available in English and Spanish.`,
+    `> ${site.legalName} is a licensed Washington general contractor (WA Contractor Reg # ${site.contractorLicense}) with ${site.yearsExperience}+ years of experience, serving Snohomish County, Skagit County and North King County in Washington State. Services: concrete construction and repair, concrete polishing and floor preparation, epoxy and protective floor coatings, asphalt, excavation and grading, pressure washing and property maintenance. Website available in English and Spanish.`,
     "",
     "## Contact",
     `- Phone: ${site.phoneDisplay} (${site.phoneE164})`,
     `- Email: ${site.email}`,
     `- Contact person: ${site.contactName}`,
-    "- Business hours: Monday–Friday, 8:00 AM–5:00 PM Pacific Time",
+    "- Business hours: Monday–Friday, 9:00 AM–5:00 PM Pacific Time",
     `- Service area: ${site.counties.join(", ")}, Washington — ${cities.map((c) => c.name).join(", ")}`,
     `- Free estimates: ${u}/en/contact`,
     "",
@@ -26,7 +26,8 @@ export function GET() {
     ...services.map((s) => `- [${s.name.en}](${u}/en/services/${s.slug}): ${s.short.en}`),
     "",
     "## Service areas",
-    ...cities.map((c) => `- [${c.name}, WA](${u}/en/service-areas/${c.slug}) — ${c.county}`),
+    ...counties.map((c) => `- [${c.name.en}, WA](${u}/en/service-areas/${c.slug})`),
+    ...cities.map((c) => `- [${c.name}, WA](${u}/en/service-areas/${c.slug}) — ${getCounty(c.county)!.name.en}`),
     "",
     "## FAQ",
     ...generalFaqs.flatMap((f) => [`### ${f.q.en}`, f.a.en, ""]),

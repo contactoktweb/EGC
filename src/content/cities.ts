@@ -1,9 +1,50 @@
 import type { L } from "@/lib/i18n";
 
+/** Condados del área de servicio (cada uno tiene su página: /service-areas/[slug]). */
+export type CountyKey = "snohomish-county" | "skagit" | "north-king-county";
+
+export type County = {
+  slug: CountyKey;
+  name: L;
+  /** Nombre para schema.org / textos en inglés. */
+  schemaName: string;
+  note: L;
+};
+
+export const counties: County[] = [
+  {
+    slug: "snohomish-county",
+    name: { en: "Snohomish County", es: "Condado de Snohomish" },
+    schemaName: "Snohomish County, Washington",
+    note: {
+      en: "Snohomish County is our home base. We work in Everett, Marysville, Lake Stevens, Snohomish, Arlington and Monroe on residential, commercial and contractor projects.",
+      es: "El condado de Snohomish es nuestra base. Trabajamos en Everett, Marysville, Lake Stevens, Snohomish, Arlington y Monroe en proyectos residenciales, comerciales y para contratistas.",
+    },
+  },
+  {
+    slug: "skagit",
+    name: { en: "Skagit County", es: "Condado de Skagit" },
+    schemaName: "Skagit County, Washington",
+    note: {
+      en: "North of Snohomish County along I-5, we serve Mount Vernon, Burlington, Anacortes and Sedro-Woolley with concrete, floor coatings, site work and property maintenance.",
+      es: "Al norte del condado de Snohomish, por la I-5, atendemos Mount Vernon, Burlington, Anacortes y Sedro-Woolley con concreto, recubrimientos de pisos, trabajos de terreno y mantenimiento.",
+    },
+  },
+  {
+    slug: "north-king-county",
+    name: { en: "North King County", es: "Norte del condado de King" },
+    schemaName: "North King County, Washington",
+    note: {
+      en: "In the north end of King County we serve Bothell, Woodinville and Kirkland, for homeowners, businesses and general contractors.",
+      es: "En el norte del condado de King atendemos Bothell, Woodinville y Kirkland, para propietarios, negocios y contratistas generales.",
+    },
+  },
+];
+
 export type City = {
   slug: string;
   name: string;
-  county: "Snohomish County" | "King County";
+  county: CountyKey;
   nearby: string[];
   /** Contexto local breve y verificable para evitar páginas duplicadas. */
   note: L;
@@ -11,29 +52,9 @@ export type City = {
 
 export const cities: City[] = [
   {
-    slug: "snohomish",
-    name: "Snohomish",
-    county: "Snohomish County",
-    nearby: ["lake-stevens", "monroe", "everett"],
-    note: {
-      en: "From historic downtown homes to rural properties along the Snohomish River valley, we help Snohomish property owners with concrete, exterior and maintenance projects.",
-      es: "Desde casas del centro histórico hasta propiedades rurales en el valle del río Snohomish, ayudamos a los propietarios de Snohomish con proyectos de concreto, exteriores y mantenimiento.",
-    },
-  },
-  {
-    slug: "lake-stevens",
-    name: "Lake Stevens",
-    county: "Snohomish County",
-    nearby: ["snohomish", "marysville", "everett"],
-    note: {
-      en: "Lake Stevens is one of the fastest-growing communities in Snohomish County, and new homes here often need driveways, patios, garage floors and site work.",
-      es: "Lake Stevens es una de las comunidades de mayor crecimiento en el condado de Snohomish, y sus casas nuevas suelen necesitar entradas, patios, pisos de garaje y trabajos de terreno.",
-    },
-  },
-  {
     slug: "everett",
     name: "Everett",
-    county: "Snohomish County",
+    county: "snohomish-county",
     nearby: ["marysville", "lake-stevens", "snohomish"],
     note: {
       en: "As the Snohomish County seat with a large mix of homes, businesses and industrial facilities, Everett is a key area for our residential and commercial concrete and flooring work.",
@@ -43,7 +64,7 @@ export const cities: City[] = [
   {
     slug: "marysville",
     name: "Marysville",
-    county: "Snohomish County",
+    county: "snohomish-county",
     nearby: ["arlington", "lake-stevens", "everett"],
     note: {
       en: "We serve Marysville homeowners and businesses with concrete driveways, patios, epoxy garage floors, asphalt repairs and property maintenance.",
@@ -51,10 +72,30 @@ export const cities: City[] = [
     },
   },
   {
+    slug: "lake-stevens",
+    name: "Lake Stevens",
+    county: "snohomish-county",
+    nearby: ["snohomish", "marysville", "everett"],
+    note: {
+      en: "Lake Stevens is one of the fastest-growing communities in Snohomish County, and new homes here often need driveways, patios, garage floors and site work.",
+      es: "Lake Stevens es una de las comunidades de mayor crecimiento en el condado de Snohomish, y sus casas nuevas suelen necesitar entradas, patios, pisos de garaje y trabajos de terreno.",
+    },
+  },
+  {
+    slug: "snohomish",
+    name: "Snohomish",
+    county: "snohomish-county",
+    nearby: ["lake-stevens", "monroe", "everett"],
+    note: {
+      en: "From historic downtown homes to rural properties along the Snohomish River valley, we help Snohomish property owners with concrete, exterior and maintenance projects.",
+      es: "Desde casas del centro histórico hasta propiedades rurales en el valle del río Snohomish, ayudamos a los propietarios de Snohomish con proyectos de concreto, exteriores y mantenimiento.",
+    },
+  },
+  {
     slug: "arlington",
     name: "Arlington",
-    county: "Snohomish County",
-    nearby: ["marysville", "lake-stevens", "snohomish"],
+    county: "snohomish-county",
+    nearby: ["marysville", "mount-vernon", "lake-stevens"],
     note: {
       en: "In Arlington we work on everything from residential concrete and gravel driveways to shop floors, grading and drainage on larger rural lots.",
       es: "En Arlington trabajamos desde concreto residencial y entradas de grava hasta pisos de talleres, nivelación y drenaje en terrenos rurales grandes.",
@@ -63,7 +104,7 @@ export const cities: City[] = [
   {
     slug: "monroe",
     name: "Monroe",
-    county: "Snohomish County",
+    county: "snohomish-county",
     nearby: ["snohomish", "woodinville", "bothell"],
     note: {
       en: "Monroe property owners count on us for concrete pads, patios, garage and shop floor coatings, excavation and exterior cleaning.",
@@ -71,9 +112,49 @@ export const cities: City[] = [
     },
   },
   {
+    slug: "mount-vernon",
+    name: "Mount Vernon",
+    county: "skagit",
+    nearby: ["burlington", "sedro-woolley", "anacortes"],
+    note: {
+      en: "Mount Vernon is the Skagit County seat; we help its homeowners and businesses with concrete driveways and patios, garage epoxy, polished floors and site work.",
+      es: "Mount Vernon es la sede del condado de Skagit; ayudamos a sus propietarios y negocios con entradas y patios de concreto, epoxy para garajes, pisos pulidos y trabajos de terreno.",
+    },
+  },
+  {
+    slug: "burlington",
+    name: "Burlington",
+    county: "skagit",
+    nearby: ["mount-vernon", "sedro-woolley", "anacortes"],
+    note: {
+      en: "Right next to Mount Vernon along I-5, Burlington mixes homes, retail and commercial properties that need concrete, floor coatings, asphalt and exterior maintenance.",
+      es: "Junto a Mount Vernon por la I-5, Burlington combina casas, comercios y propiedades comerciales que necesitan concreto, recubrimientos de pisos, asfalto y mantenimiento exterior.",
+    },
+  },
+  {
+    slug: "anacortes",
+    name: "Anacortes",
+    county: "skagit",
+    nearby: ["burlington", "mount-vernon"],
+    note: {
+      en: "On Fidalgo Island, home of the ferry terminal to the San Juan Islands, Anacortes properties call for durable concrete, protective coatings and regular exterior cleaning.",
+      es: "En la isla Fidalgo, donde está la terminal de ferris a las islas San Juan, las propiedades de Anacortes necesitan concreto resistente, recubrimientos protectores y limpieza exterior regular.",
+    },
+  },
+  {
+    slug: "sedro-woolley",
+    name: "Sedro-Woolley",
+    county: "skagit",
+    nearby: ["burlington", "mount-vernon"],
+    note: {
+      en: "Known as the gateway to the North Cascades, Sedro-Woolley has many rural properties where we handle gravel driveways, grading, concrete pads and shop floors.",
+      es: "Conocida como la puerta de entrada a las North Cascades, Sedro-Woolley tiene muchas propiedades rurales donde hacemos entradas de grava, nivelación, bases de concreto y pisos de talleres.",
+    },
+  },
+  {
     slug: "bothell",
     name: "Bothell",
-    county: "King County",
+    county: "north-king-county",
     nearby: ["woodinville", "kirkland", "monroe"],
     note: {
       en: "Bothell sits on the line between King and Snohomish counties; we serve both sides with concrete, polished floors, epoxy coatings and maintenance services.",
@@ -83,8 +164,8 @@ export const cities: City[] = [
   {
     slug: "woodinville",
     name: "Woodinville",
-    county: "King County",
-    nearby: ["bothell", "redmond", "kirkland"],
+    county: "north-king-county",
+    nearby: ["bothell", "kirkland", "monroe"],
     note: {
       en: "From homes to wineries and commercial spaces, Woodinville clients hire us for decorative concrete, polished and coated floors, and exterior improvements.",
       es: "Desde casas hasta bodegas de vino y espacios comerciales, los clientes de Woodinville nos contratan para concreto decorativo, pisos pulidos y recubiertos, y mejoras exteriores.",
@@ -93,41 +174,11 @@ export const cities: City[] = [
   {
     slug: "kirkland",
     name: "Kirkland",
-    county: "King County",
-    nearby: ["redmond", "bellevue", "bothell"],
+    county: "north-king-county",
+    nearby: ["bothell", "woodinville"],
     note: {
       en: "We help Kirkland homeowners and businesses with stamped concrete patios, driveways, garage epoxy, polished concrete and pressure washing.",
       es: "Ayudamos a propietarios y negocios de Kirkland con patios de concreto estampado, entradas de autos, epoxy para garajes, concreto pulido y lavado a presión.",
-    },
-  },
-  {
-    slug: "redmond",
-    name: "Redmond",
-    county: "King County",
-    nearby: ["kirkland", "bellevue", "woodinville"],
-    note: {
-      en: "Redmond offices, retail spaces and homes rely on us for floor preparation, polished concrete, protective coatings and concrete repairs.",
-      es: "Oficinas, comercios y casas de Redmond confían en nosotros para preparación de pisos, concreto pulido, recubrimientos protectores y reparaciones de concreto.",
-    },
-  },
-  {
-    slug: "bellevue",
-    name: "Bellevue",
-    county: "King County",
-    nearby: ["redmond", "kirkland", "seattle"],
-    note: {
-      en: "In Bellevue we deliver commercial-grade polished concrete and coatings, as well as high-end residential driveways, patios and garage floors.",
-      es: "En Bellevue entregamos concreto pulido y recubrimientos de nivel comercial, además de entradas, patios y pisos de garaje residenciales de alta gama.",
-    },
-  },
-  {
-    slug: "seattle",
-    name: "Seattle",
-    county: "King County",
-    nearby: ["bellevue", "kirkland", "bothell"],
-    note: {
-      en: "We support Seattle general contractors, property managers and homeowners with concrete, floor preparation, specialty coatings and site improvements.",
-      es: "Apoyamos a contratistas generales, administradores de propiedades y propietarios de Seattle con concreto, preparación de pisos, recubrimientos especiales y mejoras del terreno.",
     },
   },
 ];
@@ -136,5 +187,14 @@ export function getCity(slug: string): City | undefined {
   return cities.find((c) => c.slug === slug);
 }
 
-export const countyName = (county: City["county"], lang: "en" | "es") =>
-  lang === "en" ? county : county === "King County" ? "condado de King" : "condado de Snohomish";
+export function getCounty(slug: string): County | undefined {
+  return counties.find((c) => c.slug === slug);
+}
+
+export const citiesInCounty = (county: CountyKey) => cities.filter((c) => c.county === county);
+
+/** Nombre del condado de una ciudad en el idioma pedido ("Snohomish County" / "condado de Snohomish"). */
+export function countyName(county: CountyKey, lang: "en" | "es"): string {
+  const c = getCounty(county)!;
+  return lang === "en" ? c.name.en : c.name.es.charAt(0).toLowerCase() + c.name.es.slice(1);
+}

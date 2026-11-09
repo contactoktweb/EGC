@@ -57,7 +57,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           phoneDisplay={site.phoneDisplay}
           telHref={telHref}
         />
-        <main id="main" className="flex-1">
+        {/* overflow-x-clip: recorta las animaciones laterales sin scroll horizontal (no rompe sticky). */}
+        <main id="main" className="flex-1 overflow-x-clip">
           {children}
         </main>
         <Footer lang={lang} />

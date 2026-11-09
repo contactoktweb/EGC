@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/content/services";
-import { cities } from "@/content/cities";
+import { cities, counties } from "@/content/cities";
 import { localePath, locales } from "@/lib/i18n";
 import { site } from "@/lib/site";
 
@@ -11,7 +11,9 @@ const paths: { path: string; priority: number; changeFrequency: "monthly" | "yea
   { path: "/projects", priority: 0.7, changeFrequency: "monthly" },
   { path: "/about", priority: 0.6, changeFrequency: "yearly" },
   { path: "/service-areas", priority: 0.7, changeFrequency: "yearly" },
+  ...counties.map((c) => ({ path: `/service-areas/${c.slug}`, priority: 0.7, changeFrequency: "yearly" as const })),
   ...cities.map((c) => ({ path: `/service-areas/${c.slug}`, priority: 0.7, changeFrequency: "yearly" as const })),
+  { path: "/privacy", priority: 0.2, changeFrequency: "yearly" },
   { path: "/contact", priority: 0.8, changeFrequency: "yearly" },
 ];
 

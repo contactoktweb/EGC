@@ -3,7 +3,7 @@
  *
  * PENDIENTE (etapa final): enviar el correo con Resend.
  *   1. npm install resend
- *   2. Variables de entorno: RESEND_API_KEY, CONTACT_TO_EMAIL (Mane18882@gmail.com) y CONTACT_FROM_EMAIL
+ *   2. Variables de entorno: RESEND_API_KEY, CONTACT_TO_EMAIL (ecgconstructionwa@gmail.com) y CONTACT_FROM_EMAIL
  *      (un remitente de un dominio verificado en Resend).
  *   3. Reemplazar el bloque marcado con TODO por:
  *        const resend = new Resend(process.env.RESEND_API_KEY);
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     lang: clean(body.lang, 5),
   };
 
-  if (!data.name || !data.phone || !data.message) {
+  if (!data.name || !data.phone || !data.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
     return Response.json({ ok: false, error: "missing_fields" }, { status: 422 });
   }
 

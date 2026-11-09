@@ -14,8 +14,11 @@ export function ContactForm({
   services,
   cities,
   lang,
+  privacy,
 }: {
   labels: Dictionary["form"];
+  /** Enlace a la política de privacidad (requerido por Google Ads en páginas con formulario). */
+  privacy: { href: string; label: string };
   services: { value: string; label: string }[];
   cities: string[];
   lang: string;
@@ -63,9 +66,9 @@ export function ContactForm({
       </div>
       <div>
         <label htmlFor="cf-email" className={label}>
-          {labels.email}
+          {labels.email} *
         </label>
-        <input id="cf-email" name="email" type="email" autoComplete="email" className={field} />
+        <input id="cf-email" name="email" type="email" required autoComplete="email" className={field} />
       </div>
       <div>
         <label htmlFor="cf-city" className={label}>
@@ -121,7 +124,12 @@ export function ContactForm({
         <button type="submit" disabled={status === "sending"} className="btn btn-primary w-full disabled:opacity-60">
           {status === "sending" ? labels.sending : labels.submit}
         </button>
-        <p className="mt-3 text-xs text-neutral-400">{labels.privacy}</p>
+        <p className="mt-3 text-xs text-neutral-400">
+          {labels.privacy}{" "}
+          <a href={privacy.href} className="underline underline-offset-2 hover:text-white">
+            {privacy.label}
+          </a>
+        </p>
         <p aria-live="polite" className="mt-2 text-sm">
           {status === "success" && <span className="text-brand-light">{labels.success}</span>}
           {status === "error" && <span className="text-amber-300">{labels.error}</span>}

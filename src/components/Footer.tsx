@@ -5,7 +5,7 @@ import { getDictionary } from "@/content/dictionary";
 import { services } from "@/content/services";
 import { cities } from "@/content/cities";
 import { localePath, type Locale } from "@/lib/i18n";
-import { mailHref, site, telHref } from "@/lib/site";
+import { contractorRegText, mailHref, site, telHref } from "@/lib/site";
 
 export function Footer({ lang }: { lang: Locale }) {
   const t = getDictionary(lang);
@@ -18,14 +18,12 @@ export function Footer({ lang }: { lang: Locale }) {
         <div>
           <Logo />
           <p className="mt-5 max-w-xs leading-relaxed">
-            {site.legalName}. {t.common.licensed}. {site.slogan}
+            {site.legalName}. {site.slogan}
           </p>
-          {site.contractorLicense && (
-            <p className="mt-3 text-xs text-neutral-400">
-              {t.common.license}
-              {site.contractorLicense}
-            </p>
-          )}
+          {/* OBLIGATORIO por ley en WA (RCW 18.27.100): registro L&I en todas las páginas. */}
+          <p className="mt-3 inline-block rounded border border-line px-2.5 py-1 text-xs font-bold tracking-wide text-white">
+            {contractorRegText}
+          </p>
         </div>
 
         <div>
@@ -85,8 +83,16 @@ export function Footer({ lang }: { lang: Locale }) {
       </div>
       <div className="border-t border-line">
         <div className="container-site flex flex-col items-center justify-between gap-3 py-5 text-xs text-neutral-400 md:flex-row">
-          <p>
-            © <CopyrightYear /> {site.legalName}. {t.common.rights}
+          <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-center md:justify-start md:text-left">
+            <span>
+              © <CopyrightYear /> {site.legalName}. {t.common.rights}
+            </span>
+            <span aria-hidden="true">·</span>
+            <span>{contractorRegText}</span>
+            <span aria-hidden="true">·</span>
+            <Link href={href("/privacy")} className="underline-offset-4 hover:text-white hover:underline">
+              {t.nav.privacy}
+            </Link>
           </p>
           <p className="tracking-[0.45em] text-neutral-300 uppercase">{t.common.generalConstruction}</p>
           <p className="flex gap-3">

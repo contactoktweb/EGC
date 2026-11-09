@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { site } from "./site";
 import { localePath, locales, ogLocale, type Locale } from "./i18n";
 import { services } from "@/content/services";
-import { cities } from "@/content/cities";
+import { cities, counties } from "@/content/cities";
 import type { Faq } from "@/content/services";
 
 const OG_IMAGE = { url: "/og-image.jpg", width: 1200, height: 630 };
@@ -65,8 +65,8 @@ export function businessJsonLd(lang: Locale) {
     slogan: site.slogan,
     description:
       lang === "en"
-        ? "Licensed, bonded and insured construction company with 20+ years of experience in concrete, polished concrete, epoxy floor coatings, asphalt, excavation, pressure washing and property maintenance in Snohomish County and King County, Washington."
-        : "Empresa de construcción con licencia, fianza y seguro y más de 20 años de experiencia en concreto, concreto pulido, recubrimientos epóxicos, asfalto, excavación, lavado a presión y mantenimiento de propiedades en los condados de Snohomish y King, Washington.",
+        ? "Licensed Washington general contractor (WA Contractor Reg # ECGCOCL749K2) with 20+ years of experience in concrete, polished concrete, epoxy floor coatings, asphalt, excavation, pressure washing and property maintenance in Snohomish County, Skagit County and North King County, Washington."
+        : "Contratista general con licencia en Washington (registro WA # ECGCOCL749K2) con más de 20 años de experiencia en concreto, concreto pulido, recubrimientos epóxicos, asfalto, excavación, lavado a presión y mantenimiento de propiedades en los condados de Snohomish y Skagit y el norte del condado de King, Washington.",
     url: abs(localePath("/", lang)),
     logo: abs("/logo-ecg-construction.png"),
     image: abs(OG_IMAGE.url),
@@ -80,10 +80,7 @@ export function businessJsonLd(lang: Locale) {
       addressCountry: site.country,
     },
     areaServed: [
-      ...site.counties.map((name) => ({
-        "@type": "AdministrativeArea",
-        name: `${name}, ${site.regionName}`,
-      })),
+      ...counties.map((c) => ({ "@type": "AdministrativeArea", name: c.schemaName })),
       ...cities.map((c) => ({ "@type": "City", name: `${c.name}, ${site.region}` })),
     ],
     openingHoursSpecification: [
@@ -152,7 +149,7 @@ export function serviceJsonLd(lang: Locale, slug: string) {
     url: abs(localePath(`/services/${s.slug}`, lang)),
     image: abs(s.image.src),
     provider: { "@id": businessId },
-    areaServed: site.counties.map((name) => ({ "@type": "AdministrativeArea", name: `${name}, ${site.regionName}` })),
+    areaServed: counties.map((c) => ({ "@type": "AdministrativeArea", name: c.schemaName })),
     hasOfferCatalog: {
       "@type": "OfferCatalog",
       name: s.name[lang],
