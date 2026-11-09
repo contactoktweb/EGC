@@ -19,7 +19,7 @@ Copia `.env.example` a `.env.local` y define al menos `NEXT_PUBLIC_SITE_URL` ant
 ## Contenido: Sanity CMS
 
 Todo el contenido (textos EN/ES, servicios, áreas, galería con fotos/videos, FAQ, privacidad y la
-**Configuración general** con logos y datos de contacto) se edita en Sanity, en `/studio`.
+**Configuración general** con logos y datos de contacto) se edita en Sanity, en `/admin`.
 
 1. Pon las claves de Sanity en `.env.local` (ver `.env.example`).
 2. `npm run sanity:seed` sube todo el contenido actual y las fotos.

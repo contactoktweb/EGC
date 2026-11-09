@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       // Buscadores tradicionales y motores de IA (GEO): acceso permitido al contenido público.
-      { userAgent: "*", allow: "/", disallow: ["/api/", "/studio"] },
+      { userAgent: "*", allow: "/", disallow: ["/api/", "/admin"] },
     ],
     sitemap: `${site.url}/sitemap.xml`,
     host: site.url,

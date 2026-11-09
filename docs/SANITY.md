@@ -33,7 +33,7 @@ Mientras no haya claves, la web usa el contenido de respaldo de `src/content/` y
 
    Primero puedes simular sin escribir nada: `npm run sanity:seed -- --dry-run`.
 
-6. Listo: `npm run dev` y abre <http://localhost:3000/studio> para editar.
+6. Listo: `npm run dev` y abre <http://localhost:3000/admin> para editar.
    La web ya muestra la información de Sanity.
 
 7. En **Vercel** agrega las mismas variables (Project → Settings → Environment Variables) y
@@ -55,7 +55,7 @@ Con el webhook, cada cambio publicado aparece en la web en segundos. Sin él, se
 
 ---
 
-## 2. Qué hay en el Studio (`/studio`)
+## 2. Qué hay en el Studio (`/admin`)
 
 | Sección | Tipo | Qué se edita |
 |---|---|---|
@@ -189,7 +189,7 @@ Videos para el seed: colócalos en `public/videos/` y en `src/content/projects.t
 ## 5. Cómo está construido (para desarrolladores)
 
 ```
-sanity.config.ts            Studio (integrado en /studio y para `sanity dev`)
+sanity.config.ts            Studio (integrado en /admin y para `sanity dev`)
 sanity.cli.ts               Config de la CLI
 src/sanity/
   env.ts                    Claves (projectId, dataset, apiVersion)
@@ -203,7 +203,7 @@ src/lib/content/
   static.ts                 Respaldo desde src/content
   finalize.ts               Variables {phone}/{email}/{license}/{years} y textos de horario
   types.ts                  Tipos compartidos
-src/app/studio/             Ruta del Studio
+src/app/admin/              Ruta del Studio
 src/app/api/revalidate/     Webhook → revalidateTag("sanity")
 scripts/seed-sanity.ts      Subida completa
 scripts/check-sanity-roundtrip.ts  Prueba de ida y vuelta

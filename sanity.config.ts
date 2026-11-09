@@ -2,7 +2,7 @@
 
 /**
  * Configuración del Studio de Sanity.
- * - Integrado en la web en /studio (src/app/studio).
+ * - Integrado en la web en /admin (src/app/admin).
  * - También se puede abrir aparte con `npx sanity dev`.
  */
 import { defineConfig } from "sanity";
@@ -17,7 +17,7 @@ const singletons = new Set<string>(SINGLETONS);
 export default defineConfig({
   name: "ecg-construction",
   title: "ECG Construction",
-  basePath: "/studio",
+  basePath: "/admin",
   projectId: projectId || "missing-project-id",
   dataset,
   plugins: [structureTool({ structure }), visionTool({ defaultApiVersion: apiVersion })],

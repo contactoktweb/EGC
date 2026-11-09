@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   // Ciudades que ya no forman parte del área de servicio: redirección permanente a la lista de áreas.
   redirects() {
     return [
+      // El Studio de Sanity ahora vive en /admin.
+      { source: "/studio/:path*", destination: "/admin/:path*", permanent: true },
       {
         source: "/:lang(en|es)/service-areas/:city(seattle|bellevue|redmond)",
         destination: "/:lang/service-areas",
