@@ -1,12 +1,12 @@
 import type { Locale } from "@/lib/i18n";
-import type { PrivacyContent } from "@/lib/content/types";
+import type { PrivacySource } from "@/lib/content/types";
 
 // {email}, {phone} y {license} se reemplazan con los datos de "Configuración general".
 const EMAIL = "{email}";
 const PHONE = "{phone}";
 
 /** Política de privacidad (requerida por Google Ads cuando la página tiene un formulario). */
-export const privacy: Record<Locale, PrivacyContent> = {
+export const privacy: Record<Locale, PrivacySource> = {
   en: {
     title: "Privacy Policy",
     description:

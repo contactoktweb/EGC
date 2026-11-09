@@ -1,3 +1,4 @@
+import type { PortableTextBlock } from "next-sanity";
 import type { Dictionary } from "@/content/dictionary";
 import type { L, LList, Locale } from "@/lib/i18n";
 
@@ -68,13 +69,22 @@ export type Project = {
   video?: Video;
 };
 
+/** Política tal como se escribe en el respaldo estático (se convierte a texto con formato). */
 export type PrivacySection = { title: string; paragraphs?: string[]; bullets?: string[] };
-export type PrivacyContent = {
+export type PrivacySource = {
   title: string;
   description: string;
   updated: string;
   intro: string;
   sections: PrivacySection[];
+};
+
+/** Política lista para mostrar: el cuerpo es texto con formato (Portable Text, editor WYSIWYG). */
+export type PrivacyContent = {
+  title: string;
+  description: string;
+  updated: string;
+  body: PortableTextBlock[];
 };
 
 export type SocialLink = { platform: string; url: string };

@@ -1,4 +1,4 @@
-import { faqItem, localeString, localeStringList, localeText, localeTextList } from "./objects/locale";
+import { faqItem, localeRichText, localeString, localeStringList, localeText, localeTextList, richText } from "./objects/locale";
 import { siteSettings } from "./documents/siteSettings";
 import { homePage } from "./documents/homePage";
 import { uiTexts } from "./documents/uiTexts";
@@ -14,6 +14,8 @@ export const schemaTypes = [
   localeText,
   localeStringList,
   localeTextList,
+  richText,
+  localeRichText,
   faqItem,
   // Documentos
   siteSettings,

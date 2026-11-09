@@ -35,6 +35,9 @@ Reglas:
   cargado en Sanity (proyecto `rflzedcs`, dataset `production`) y se edita en `/admin`.
 - Esquemas de Sanity: sin campos de clases/estilos ni URLs de imágenes; imágenes y videos se suben
   como archivos. Todo texto visible es bilingüe ({ en, es }) y cada campo lleva un ejemplo.
+- **Políticas (privacidad, términos, etc.): SIEMPRE con editor WYSIWYG** — tipo `localeRichText`
+  (Portable Text) en el esquema y renderizado con `src/components/RichText.tsx`. Nunca listas de
+  párrafos o campos sueltos.
 - Al agregar contenido nuevo: actualizar el esquema, `src/lib/content/sanity.ts` y el respaldo en
   `src/content/`; luego cargar el contenido real desde `/admin`.
 - Datos del negocio (nombre, teléfono, correo, horario, área, registro): "Configuración general"

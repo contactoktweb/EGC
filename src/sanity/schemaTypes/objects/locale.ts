@@ -70,3 +70,61 @@ export const faqItem = defineType({
   ],
   preview: { select: { title: "q.en", subtitle: "q.es" } },
 });
+
+/**
+ * Texto enriquecido (editor WYSIWYG de Sanity): títulos, negrita, cursiva, listas y enlaces.
+ * Se usa en las políticas para que se editen como en un procesador de textos.
+ */
+export const richText = defineType({
+  name: "richText",
+  title: "Texto con formato",
+  type: "array",
+  of: [
+    {
+      type: "block",
+      styles: [
+        { title: "Párrafo", value: "normal" },
+        { title: "Título de sección", value: "h2" },
+        { title: "Subtítulo", value: "h3" },
+      ],
+      lists: [
+        { title: "Viñetas", value: "bullet" },
+        { title: "Numerada", value: "number" },
+      ],
+      marks: {
+        decorators: [
+          { title: "Negrita", value: "strong" },
+          { title: "Cursiva", value: "em" },
+          { title: "Subrayado", value: "underline" },
+        ],
+        annotations: [
+          {
+            name: "link",
+            type: "object",
+            title: "Enlace",
+            fields: [
+              defineField({
+                name: "href",
+                title: "Dirección",
+                type: "url",
+                description: 'Ejemplos: "https://adssettings.google.com", "mailto:{email}", "tel:+14252007230".',
+                validation: (r) => r.required().uri({ scheme: ["http", "https", "mailto", "tel"], allowRelative: true }),
+              }),
+              defineField({ name: "blank", title: "Abrir en una pestaña nueva", type: "boolean", initialValue: false }),
+            ],
+          },
+        ],
+      },
+    },
+  ],
+});
+
+export const localeRichText = defineType({
+  name: "localeRichText",
+  title: "Texto con formato (EN / ES)",
+  type: "object",
+  fields: [
+    defineField({ name: "en", title: "English", type: "richText", validation: (r) => r.required() }),
+    defineField({ name: "es", title: "Español", type: "richText" }),
+  ],
+});

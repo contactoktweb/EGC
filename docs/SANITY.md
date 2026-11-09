@@ -46,7 +46,7 @@ Con el webhook, cada cambio publicado aparece en la web en segundos. Sin él, se
 | **Preguntas frecuentes** | lista | Preguntas generales (inicio, Google y asistentes de IA) |
 | **Condados** | lista | Snohomish, Skagit, norte de King (página `/service-areas/[slug]`) |
 | **Ciudades** | lista | Cada ciudad con su página `/service-areas/[slug]` |
-| **Política de privacidad** | único | Página `/privacy` |
+| **Política de privacidad** | único | Página `/privacy`, con editor visual (WYSIWYG) |
 
 Reglas del modelo:
 
@@ -147,12 +147,24 @@ Así, si cambia el teléfono, se cambia **una sola vez** en Configuración gener
 
 ---
 
-## 4. Agregar videos a la galería
+## 4. Editar la política de privacidad (editor visual)
+
+En `/admin` → **Política de privacidad** → campo **Contenido** (pestañas English / Español). Se edita
+como en un procesador de textos:
+
+- **Título de sección** para cada apartado ("Information we collect"…), **Párrafo** para el texto.
+- Botones de **viñetas** o lista **numerada**, **negrita**, *cursiva* y **enlace** (ej. `mailto:{email}`,
+  `https://adssettings.google.com`; marca "Abrir en una pestaña nueva" para sitios externos).
+- Puedes usar `{phone}`, `{email}` y `{license}`; actualiza también la **Fecha de actualización**.
+
+Toda política nueva (términos, cookies…) debe usar este mismo editor.
+
+## 5. Agregar videos a la galería
 
 En `/admin` → **Proyectos (galería)** → crear proyecto: sube la foto de portada y el video (MP4,
 menos de 50 MB, 15–60 s), elige la categoría y escribe la descripción en inglés y español.
 
-## 5. Cómo está construido (para desarrolladores)
+## 6. Cómo está construido (para desarrolladores)
 
 ```
 sanity.config.ts            Studio (integrado en /admin y para `sanity dev`)
@@ -171,6 +183,7 @@ src/lib/content/
   types.ts                  Tipos compartidos
 src/app/admin/              Ruta del Studio
 src/app/api/revalidate/     Webhook → revalidateTag("sanity")
+src/components/RichText.tsx Render del texto del editor visual (políticas)
 ```
 
 - Para agregar un texto nuevo: agrégalo en `src/content/dictionary.ts` (EN y ES) y su título en

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero, Section } from "@/components/ui";
+import { RichText } from "@/components/RichText";
 import { getContent, getPageContent } from "@/lib/content";
 import { hasLocale, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
@@ -30,27 +31,8 @@ export default async function PrivacyPage({ params }: PageProps<"/[lang]/privacy
         lead={p.updated}
       />
       <Section>
-        <article className="mx-auto max-w-3xl">
-          <p className="text-lg leading-relaxed text-neutral-200">{p.intro}</p>
-          {p.sections.map((s) => (
-            <section key={s.title} className="mt-10">
-              <h2 className="mb-3 text-xl font-bold">{s.title}</h2>
-              {s.paragraphs?.map((para) => (
-                <p key={para} className="mb-3 leading-relaxed text-neutral-300">
-                  {para}
-                </p>
-              ))}
-              {s.bullets && (
-                <ul className="grid gap-2 pl-5 text-neutral-300 marker:text-brand-light [list-style:disc]">
-                  {s.bullets.map((b) => (
-                    <li key={b} className="leading-relaxed">
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
-          ))}
+        <article className="mx-auto max-w-3xl text-lg [&>p:first-child]:text-neutral-200">
+          <RichText value={p.body} />
         </article>
       </Section>
     </>

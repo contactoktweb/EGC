@@ -7,7 +7,10 @@ import { privacy } from "@/content/privacy";
 import { settingsData } from "@/content/settings";
 import { staticImages } from "@/content/static-images";
 import { homeImages } from "@/content/home";
-import type { Img, SiteContent } from "./types";
+import { privacyToBlocks } from "./portable";
+import { locales } from "@/lib/i18n";
+import type { Img, PrivacyContent, SiteContent } from "./types";
+import type { Locale } from "@/lib/i18n";
 
 /** Convierte un nombre de archivo de src/content/images en imagen para next/image. */
 function img(file: string): Img {
@@ -40,6 +43,11 @@ export function staticContent(): SiteContent {
       video: p.video ? { url: `/videos/${p.video}`, mimeType: p.video.endsWith(".webm") ? "video/webm" : "video/mp4" } : undefined,
     })),
     faqs: generalFaqs,
-    privacy,
+    privacy: Object.fromEntries(
+      locales.map((lang) => {
+        const p = privacy[lang];
+        return [lang, { title: p.title, description: p.description, updated: p.updated, body: privacyToBlocks(p, lang) }];
+      }),
+    ) as Record<Locale, PrivacyContent>,
   };
 }

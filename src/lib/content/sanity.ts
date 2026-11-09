@@ -216,29 +216,22 @@ export function mapSanityData(data: Raw): SiteContent {
     ? data.faqs.map((f: Raw): Faq => ({ q: loc(f.question), a: loc(f.answer) }))
     : fb.faqs;
 
+  // Política: el cuerpo viene del editor WYSIWYG (Portable Text). Sin español, se usa el inglés.
   const pv = data?.privacy;
-  const privacy = pv
-    ? (Object.fromEntries(
-        locales.map((lang) => [
-          lang,
-          {
-            title: loc(pv.title)[lang],
-            description: loc(pv.description)[lang],
-            updated: loc(pv.updated)[lang],
-            intro: loc(pv.intro)[lang],
-            sections: (pv.sections ?? []).map((s: Raw) => {
-              const paragraphs = locList(s.paragraphs)[lang];
-              const bullets = locList(s.bullets)[lang];
-              return {
-                title: loc(s.title)[lang],
-                ...(paragraphs.length ? { paragraphs } : {}),
-                ...(bullets.length ? { bullets } : {}),
-              };
-            }),
-          } satisfies PrivacyContent,
-        ]),
-      ) as Record<Locale, PrivacyContent>)
-    : fb.privacy;
+  const privacy =
+    pv && Array.isArray(pv.body?.en) && pv.body.en.length
+      ? (Object.fromEntries(
+          locales.map((lang) => [
+            lang,
+            {
+              title: loc(pv.title, { en: fb.privacy.en.title, es: fb.privacy.es.title })[lang],
+              description: loc(pv.description)[lang],
+              updated: loc(pv.updated)[lang],
+              body: Array.isArray(pv.body?.[lang]) && pv.body[lang].length ? pv.body[lang] : pv.body.en,
+            } satisfies PrivacyContent,
+          ]),
+        ) as Record<Locale, PrivacyContent>)
+      : fb.privacy;
 
   return {
     source: "sanity",
