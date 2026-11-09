@@ -7,10 +7,10 @@ export const serviceData: ServiceSource[] = [
   {
     slug: "concrete-construction-repair",
     icon: "concrete",
-    image: "stamped-concrete-patio-curved-border.jpg",
+    image: "stamped-concrete-patio.jpg",
     imageAlt: {
-      en: "Stamped concrete patio with curved border poured by ECG Construction",
-      es: "Patio de concreto estampado con borde curvo vaciado por ECG Construction",
+      en: "Stamped concrete patio poured by ECG Construction",
+      es: "Patio de concreto estampado vaciado por ECG Construction",
     },
     name: { en: "Concrete Construction & Repair", es: "Construcción y reparación de concreto" },
     featured: { en: "Pour Concrete", es: "Vaciado de concreto" },

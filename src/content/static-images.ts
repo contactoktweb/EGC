@@ -18,7 +18,6 @@ import imgPolishedConcreteFloorCommercial from "./images/polished-concrete-floor
 import imgPolishedConcreteHallway from "./images/polished-concrete-hallway.jpg";
 import imgPolishedConcreteShowroomFloor from "./images/polished-concrete-showroom-floor.jpg";
 import imgStampedConcreteEntryPorch from "./images/stamped-concrete-entry-porch.jpg";
-import imgStampedConcretePatioCurvedBorder from "./images/stamped-concrete-patio-curved-border.jpg";
 import imgStampedConcretePatio from "./images/stamped-concrete-patio.jpg";
 import imgWoodPlankStampedConcrete from "./images/wood-plank-stamped-concrete.jpg";
 import imgBrandLogoHorizontal from "./images/brand/logo-horizontal.png";
@@ -49,7 +48,6 @@ export const staticImages: Record<string, StaticImageData> = {
   "polished-concrete-hallway.jpg": imgPolishedConcreteHallway,
   "polished-concrete-showroom-floor.jpg": imgPolishedConcreteShowroomFloor,
   "stamped-concrete-entry-porch.jpg": imgStampedConcreteEntryPorch,
-  "stamped-concrete-patio-curved-border.jpg": imgStampedConcretePatioCurvedBorder,
   "stamped-concrete-patio.jpg": imgStampedConcretePatio,
   "wood-plank-stamped-concrete.jpg": imgWoodPlankStampedConcrete,
   "brand/logo-horizontal.png": imgBrandLogoHorizontal,

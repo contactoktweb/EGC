@@ -143,7 +143,7 @@ Así, si cambia el teléfono, se cambia **una sola vez** en Configuración gener
 | Categoría | Vaciado de concreto · Concreto pulido · Epoxy |
 | Foto | foto del trabajo terminado (o portada del video) |
 | Video (opcional) | MP4 < 50 MB, 15–60 s |
-| Descripción | EN `Stamped concrete patio with curved decorative border` / ES `Patio de concreto estampado con borde curvo` |
+| Descripción | EN `Stamped concrete patio with stone pattern` / ES `Patio de concreto estampado con patrón de piedra` |
 | Orden | `1` (los primeros 12 salen en el inicio) |
 
 ### Condado / Ciudad

@@ -33,7 +33,7 @@ export const project = defineType({
       name: "alt",
       title: "Descripción",
       type: "localeString",
-      description: 'Describe el trabajo (también es el texto alternativo). Ejemplo: "Stamped concrete patio with curved decorative border" / "Patio de concreto estampado con borde curvo".',
+      description: 'Describe el trabajo (también es el texto alternativo). Ejemplo: "Stamped concrete patio with stone pattern" / "Patio de concreto estampado con patrón de piedra".',
       validation: (r) => r.required(),
     }),
     defineField({

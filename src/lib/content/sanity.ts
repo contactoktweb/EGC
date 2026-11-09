@@ -117,7 +117,9 @@ function buildDictionaries(home: Raw, ui: Raw): Record<Locale, Dictionary> {
  */
 export async function sanityContent(): Promise<SiteContent> {
   if (!sanityClient) return staticContent();
-  const data: Raw = await sanityClient.fetch(SITE_QUERY);
+  // Sin caché de fetch: la caché la maneja getContent() ("use cache" + webhook), así un build nuevo
+  // nunca reutiliza contenido viejo guardado en .next/cache.
+  const data: Raw = await sanityClient.fetch(SITE_QUERY, {}, { cache: "no-store" });
   return mapSanityData(data);
 }
 

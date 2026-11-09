@@ -90,7 +90,7 @@ export const service = defineType({
       name: "imageAlt",
       title: "Texto alternativo de la imagen",
       type: "localeString",
-      description: 'Describe la foto. Ejemplo: "Stamped concrete patio with curved border poured by ECG Construction".',
+      description: 'Describe la foto. Ejemplo: "Stamped concrete patio poured by ECG Construction".',
       validation: (r) => r.required(),
     }),
     defineField({

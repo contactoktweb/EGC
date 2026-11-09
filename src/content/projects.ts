@@ -19,7 +19,6 @@ export const projectData: ProjectSource[] = [
   // Epoxy work
   p("flake-garage-2", "epoxy", "decorative-flake-epoxy-garage-floor.jpg", "Decorative flake epoxy garage floor in gray, black and white", "Piso de garaje con epoxy decorativo tipo flake en gris, negro y blanco"),
   // Pour concrete
-  p("stamped-curved", "pour", "stamped-concrete-patio-curved-border.jpg", "Stamped concrete patio with curved decorative border", "Patio de concreto estampado con borde decorativo curvo"),
   // Polishing concrete
   p("polished-lobby", "polish", "polished-concrete-commercial-lobby.jpg", "Polished concrete floor in a commercial lobby", "Piso de concreto pulido en el vestíbulo de un edificio comercial"),
   p("driveway-garage", "pour", "new-concrete-driveway-garage.jpg", "New concrete driveway poured in front of a garage", "Entrada de autos de concreto nueva frente a un garaje"),
