@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { ScrollReveal } from "@/components/motion/ScrollReveal";
+import { AssistantWidget } from "@/components/AssistantWidget";
 import { hasLocale, htmlLang, locales } from "@/lib/i18n";
 import { businessJsonLd, websiteJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -69,6 +70,10 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           {children}
         </main>
         <Footer lang={lang} />
+        {/* Asistente de IA: activo si hay ANTHROPIC_API_KEY y está encendido en Configuración general. */}
+        {process.env.ANTHROPIC_API_KEY && content.settings.assistantEnabled && (
+          <AssistantWidget lang={lang} labels={t.assistant} />
+        )}
         <JsonLd data={businessJsonLd(content, lang)} />
         <JsonLd data={websiteJsonLd(content, lang)} />
       </body>

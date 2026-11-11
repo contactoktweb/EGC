@@ -7,6 +7,7 @@ import { FeaturedServices, ServicesGrid } from "@/components/sections/ServiceSec
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { AboutSplit, FaqList, ServiceArea, WhoWeServe, WhyChoose } from "@/components/sections/InfoSections";
 import { ContactSection } from "@/components/sections/ContactSection";
+import { Reviews } from "@/components/sections/Reviews";
 import { Section, SectionTitle } from "@/components/ui";
 import { JsonLd } from "@/components/JsonLd";
 import { ArrowRight } from "@/components/Icons";
@@ -56,6 +57,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       </Section>
       {/* 6 · Por qué elegirnos */}
       <WhyChoose lang={lang} />
+      {/* Reseñas de clientes (solo si hay reseñas cargadas en Sanity) */}
+      <Reviews lang={lang} />
       {/* 7 · Sobre nosotros */}
       <AboutSplit lang={lang} />
       {/* 8 · A quién servimos */}

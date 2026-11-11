@@ -89,6 +89,19 @@ export type PrivacyContent = {
 
 export type SocialLink = { platform: string; url: string };
 
+/** Reseña real de un cliente (se edita en Sanity → Reseñas). */
+export type Review = {
+  id: string;
+  author: string;
+  rating: number;
+  text: L;
+  source: string;
+  date?: string;
+  link?: string;
+  /** slug del servicio relacionado, si se eligió. */
+  service?: string;
+};
+
 /** "Configuración general": datos que cambian seguido (logos, contacto, horario…). */
 export type Settings = {
   legalName: string;
@@ -116,6 +129,10 @@ export type Settings = {
   /** Imagen para compartir en redes (1200×630). */
   ogImage: Img | null;
   social: SocialLink[];
+  /** Enlace de Google Business para escribir una reseña. */
+  googleReviewUrl: string;
+  /** Mostrar el asistente de IA (además requiere ANTHROPIC_API_KEY en el servidor). */
+  assistantEnabled: boolean;
 };
 
 export type SiteContent = {
@@ -128,5 +145,6 @@ export type SiteContent = {
   cities: City[];
   projects: Project[];
   faqs: Faq[];
+  reviews: Review[];
   privacy: Record<Locale, PrivacyContent>;
 };

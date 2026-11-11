@@ -7,6 +7,7 @@ import { ArrowRight, PhoneIcon, ServiceGlyph, UpArrow } from "@/components/Icons
 import { JsonLd } from "@/components/JsonLd";
 import { ProjectGallery } from "@/components/sections/ProjectGallery";
 import { CtaBand, FaqList, WhyChoose } from "@/components/sections/InfoSections";
+import { Reviews } from "@/components/sections/Reviews";
 import { getContent, getPageContent } from "@/lib/content";
 import { findService, projectsIn, telHref } from "@/lib/content/helpers";
 import { hasLocale, localePath } from "@/lib/i18n";
@@ -104,6 +105,7 @@ export default async function ServicePage({ params }: PageProps<"/[lang]/service
       )}
 
       <WhyChoose lang={lang} />
+      <Reviews lang={lang} service={s.slug} limit={3} />
 
       <FaqList faqs={s.faqs} lang={lang} title={t.common.faq} />
       <JsonLd data={faqJsonLd(lang, s.faqs)} />

@@ -1,60 +1,59 @@
+import { createLead, isAllowedPhoto, isLeadStorageReady, isValidEmail, isValidPhone, MAX_PHOTOS } from "@/lib/leads";
+
 /**
- * Recibe el formulario de estimado.
+ * Formulario de estimado.
  *
- * PENDIENTE (etapa final): enviar el correo con Resend.
- *   1. npm install resend
- *   2. Variables de entorno: RESEND_API_KEY, CONTACT_TO_EMAIL (ecgconstructionwa@gmail.com) y CONTACT_FROM_EMAIL
- *      (un remitente de un dominio verificado en Resend).
- *   3. Reemplazar el bloque marcado con TODO por:
- *        const resend = new Resend(process.env.RESEND_API_KEY);
- *        await resend.emails.send({ from, to, replyTo: data.email, subject, text });
+ * Guarda cada solicitud (con sus fotos) en Sanity → "Solicitudes de cotización", donde el equipo
+ * le da seguimiento. Requiere SANITY_API_WRITE_TOKEN en el servidor.
  *
- * Mientras no esté configurado responde 503 y el formulario muestra el teléfono y el correo
- * para que el cliente no pierda la solicitud.
+ * PENDIENTE (opcional): aviso por correo con Resend al recibir una solicitud.
+ *   npm install resend · RESEND_API_KEY, CONTACT_TO_EMAIL, CONTACT_FROM_EMAIL
  */
 
-type ContactPayload = {
-  name?: string;
-  phone?: string;
-  email?: string;
-  city?: string;
-  service?: string;
-  message?: string;
-  company?: string; // honeypot
-  lang?: string;
-};
-
-const clean = (v: unknown, max = 2000) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+const clean = (v: FormDataEntryValue | null, max = 2000) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 
 export async function POST(request: Request) {
-  let body: ContactPayload;
+  let form: FormData;
   try {
-    body = (await request.json()) as ContactPayload;
+    form = await request.formData();
   } catch {
-    return Response.json({ ok: false, error: "invalid_json" }, { status: 400 });
+    return Response.json({ ok: false, error: "invalid_body" }, { status: 400 });
   }
 
-  // Bots que llenan el campo oculto: respondemos OK sin hacer nada.
-  if (clean(body.company)) return Response.json({ ok: true });
+  // Bots que llenan el campo oculto: respondemos OK sin guardar nada.
+  if (clean(form.get("company"))) return Response.json({ ok: true });
 
   const data = {
-    name: clean(body.name, 120),
-    phone: clean(body.phone, 40),
-    email: clean(body.email, 200),
-    city: clean(body.city, 80),
-    service: clean(body.service, 120),
-    message: clean(body.message, 4000),
-    lang: clean(body.lang, 5),
+    name: clean(form.get("name"), 120),
+    phone: clean(form.get("phone"), 40),
+    email: clean(form.get("email"), 200),
+    city: clean(form.get("city"), 80),
+    service: clean(form.get("service"), 120),
+    message: clean(form.get("message"), 4000),
+    language: clean(form.get("lang"), 5),
   };
 
-  if (!data.name || !data.phone || !data.message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+  if (!data.name || !isValidPhone(data.phone) || !isValidEmail(data.email) || !data.message) {
     return Response.json({ ok: false, error: "missing_fields" }, { status: 422 });
   }
 
-  // TODO(Resend): enviar el correo aquí.
-  if (!process.env.RESEND_API_KEY) {
-    return Response.json({ ok: false, error: "email_not_configured" }, { status: 503 });
+  const files = form.getAll("photos").filter((f): f is File => f instanceof File && f.size > 0);
+  if (files.length > MAX_PHOTOS || files.some((f) => !isAllowedPhoto(f))) {
+    return Response.json({ ok: false, error: "invalid_photos" }, { status: 422 });
   }
 
-  return Response.json({ ok: false, error: "email_not_implemented" }, { status: 501 });
+  if (!isLeadStorageReady()) {
+    return Response.json({ ok: false, error: "lead_storage_not_configured" }, { status: 503 });
+  }
+
+  try {
+    const photos = await Promise.all(
+      files.map(async (f) => ({ data: Buffer.from(await f.arrayBuffer()), filename: f.name, contentType: f.type })),
+    );
+    await createLead({ ...data, source: "form", photos });
+    return Response.json({ ok: true });
+  } catch (err) {
+    console.error("contact: no se pudo guardar la solicitud", err);
+    return Response.json({ ok: false, error: "save_failed" }, { status: 500 });
+  }
 }

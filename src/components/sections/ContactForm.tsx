@@ -1,13 +1,36 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import type { Dictionary } from "@/content/dictionary";
 
 type Status = "idle" | "sending" | "success" | "error";
 
+const MAX_PHOTOS = 5;
+
 /**
- * Formulario de estimado. Envía a /api/contact.
- * El envío de correo con Resend se conectará en la etapa final (ver src/app/api/contact/route.ts).
+ * Reduce una foto en el navegador (máx. 1600 px, JPEG) antes de enviarla: llega más rápido
+ * y el envío completo queda por debajo del límite del servidor. Si el navegador no puede
+ * leer el formato (p. ej. HEIC), se envía el archivo original.
+ */
+async function shrinkPhoto(file: File): Promise<Blob> {
+  try {
+    const bitmap = await createImageBitmap(file);
+    const scale = Math.min(1, 1600 / Math.max(bitmap.width, bitmap.height));
+    const canvas = document.createElement("canvas");
+    canvas.width = Math.round(bitmap.width * scale);
+    canvas.height = Math.round(bitmap.height * scale);
+    canvas.getContext("2d")?.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
+    bitmap.close();
+    const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, "image/jpeg", 0.82));
+    return blob ?? file;
+  } catch {
+    return file;
+  }
+}
+
+/**
+ * Formulario de estimado (con fotos). Envía a /api/contact, que guarda la solicitud
+ * en Sanity → "Solicitudes de cotización".
  */
 export function ContactForm({
   labels,
@@ -24,20 +47,40 @@ export function ContactForm({
   lang: string;
 }) {
   const [status, setStatus] = useState<Status>("idle");
+  const [photos, setPhotos] = useState<{ file: File; url: string }[]>([]);
+  const [photoError, setPhotoError] = useState("");
+
+  function onPhotos(e: ChangeEvent<HTMLInputElement>) {
+    const picked = Array.from(e.target.files ?? []).filter((f) => f.type.startsWith("image/"));
+    e.target.value = "";
+    const next = [...photos, ...picked.map((file) => ({ file, url: URL.createObjectURL(file) }))];
+    setPhotoError(next.length > MAX_PHOTOS ? labels.photosTooMany : "");
+    next.slice(MAX_PHOTOS).forEach((p) => URL.revokeObjectURL(p.url));
+    setPhotos(next.slice(0, MAX_PHOTOS));
+  }
+
+  function removePhoto(i: number) {
+    URL.revokeObjectURL(photos[i].url);
+    setPhotos(photos.filter((_, j) => j !== i));
+    setPhotoError("");
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     setStatus("sending");
     try {
-      const data = Object.fromEntries(new FormData(form).entries());
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, lang }),
-      });
+      const body = new FormData(form);
+      body.delete("photos-picker");
+      body.set("lang", lang);
+      for (const [i, p] of photos.entries()) {
+        body.append("photos", await shrinkPhoto(p.file), `foto-${i + 1}.jpg`);
+      }
+      const res = await fetch("/api/contact", { method: "POST", body });
       if (!res.ok) throw new Error(String(res.status));
       form.reset();
+      photos.forEach((p) => URL.revokeObjectURL(p.url));
+      setPhotos([]);
       setStatus("success");
     } catch {
       setStatus("error");
@@ -112,6 +155,42 @@ export function ContactForm({
           placeholder={labels.messagePlaceholder}
           className={field}
         />
+      </div>
+
+      <div className="sm:col-span-2">
+        <span className={label}>{labels.photos}</span>
+        <p className="mb-2 text-xs text-neutral-400">{labels.photosHelp}</p>
+        <div className="flex flex-wrap items-center gap-3">
+          {photos.map((p, i) => (
+            <div key={p.url} className="relative h-20 w-20 overflow-hidden rounded border border-line">
+              {/* eslint-disable-next-line @next/next/no-img-element -- vista previa local (blob:) */}
+              <img src={p.url} alt="" className="h-full w-full object-cover" />
+              <button
+                type="button"
+                onClick={() => removePhoto(i)}
+                className="absolute top-1 right-1 flex h-6 w-6 items-center justify-center rounded-full bg-ink/90 text-sm text-white"
+                aria-label={`${labels.photos} ${i + 1}: ✕`}
+              >
+                ✕
+              </button>
+            </div>
+          ))}
+          {photos.length < MAX_PHOTOS && (
+            <label className="flex h-20 w-20 cursor-pointer flex-col items-center justify-center rounded border border-dashed border-line text-2xl text-neutral-400 transition hover:border-brand-light hover:text-brand-light">
+              +
+              <input
+                type="file"
+                name="photos-picker"
+                accept="image/*"
+                multiple
+                onChange={onPhotos}
+                className="sr-only"
+                aria-label={labels.photos}
+              />
+            </label>
+          )}
+        </div>
+        {photoError && <p className="mt-2 text-xs text-amber-300">{photoError}</p>}
       </div>
 
       {/* Honeypot anti-spam: invisible para personas. */}

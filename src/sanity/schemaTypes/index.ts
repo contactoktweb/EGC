@@ -7,6 +7,8 @@ import { city, county } from "./documents/area";
 import { project } from "./documents/project";
 import { faq } from "./documents/faq";
 import { privacyPolicy } from "./documents/privacyPolicy";
+import { review } from "./documents/review";
+import { lead } from "./documents/lead";
 
 export const schemaTypes = [
   // Objetos reutilizables
@@ -27,6 +29,8 @@ export const schemaTypes = [
   county,
   city,
   faq,
+  review,
+  lead,
 ];
 
 /** Documentos únicos (no se pueden crear ni borrar más). Su _id es igual a su tipo. */

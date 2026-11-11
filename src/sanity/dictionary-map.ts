@@ -10,9 +10,9 @@
  */
 
 /** Grupos del diccionario que van en el documento "Página de inicio". */
-export const HOME_GROUPS = ["hero", "featured", "services", "projects", "why", "about", "serve", "area", "cta"] as const;
+export const HOME_GROUPS = ["hero", "featured", "services", "projects", "why", "reviews", "about", "serve", "area", "cta"] as const;
 /** Grupos del diccionario que van en el documento "Textos generales". */
-export const UI_GROUPS = ["nav", "common", "form", "pages"] as const;
+export const UI_GROUPS = ["nav", "common", "form", "assistant", "pages"] as const;
 
 /**
  * Claves que NO se editan aquí porque vienen de "Configuración general"
@@ -36,7 +36,9 @@ export const GROUP_TITLES: Record<string, string> = {
   about: "Sobre nosotros",
   serve: "A quién servimos",
   area: "Área de servicio",
+  reviews: "Reseñas",
   cta: "Llamado a la acción (estimado gratis)",
+  assistant: "Asistente de IA (chat)",
   nav: "Menú y navegación",
   common: "Textos comunes",
   form: "Formulario de estimado",
@@ -95,6 +97,27 @@ export const FIELD_TITLES: Record<string, string> = {
   "area.lead": "Descripción",
   "area.mapTitle": "Título accesible del mapa",
   "area.andMore": "Texto bajo las ciudades",
+  // Reseñas
+  "reviews.eyebrow": "Texto pequeño",
+  "reviews.title": "Título",
+  "reviews.lead": "Descripción",
+  "reviews.leaveReview": "Botón para dejar reseña en Google",
+  "reviews.readReview": "Enlace \"ver la reseña\"",
+  "reviews.outOf": "Texto accesible de las estrellas (\"de 5 estrellas\")",
+  // Asistente
+  "assistant.open": "Botón para abrir el chat",
+  "assistant.title": "Nombre del asistente",
+  "assistant.subtitle": "Texto bajo el nombre",
+  "assistant.greeting": "Saludo inicial",
+  "assistant.placeholder": "Texto de ayuda de la caja de mensaje",
+  "assistant.send": "Botón enviar",
+  "assistant.close": "Botón cerrar",
+  "assistant.reset": "Botón nueva conversación",
+  "assistant.typing": "Texto mientras responde",
+  "assistant.suggestions": "Sugerencias rápidas (botones)",
+  "assistant.error": "Mensaje de error",
+  "assistant.quoteSaved": "Mensaje al registrar una solicitud",
+  "assistant.disclaimer": "Aviso bajo el chat",
   // CTA
   "cta.title": "Título",
   "cta.lead": "Descripción",
@@ -151,6 +174,9 @@ export const FIELD_TITLES: Record<string, string> = {
   "form.error": "Mensaje de error",
   "form.required": "Texto \"obligatorio\"",
   "form.privacy": "Aviso de privacidad (antes del enlace)",
+  "form.photos": "Campo fotos",
+  "form.photosHelp": "Fotos: texto de ayuda",
+  "form.photosTooMany": "Fotos: mensaje si son demasiadas",
   // SEO
   "pages.servicesTitle": "Servicios: título",
   "pages.servicesDescription": "Servicios: meta descripción",

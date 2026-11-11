@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/ui";
 import { AboutSplit, CtaBand, WhoWeServe, WhyChoose } from "@/components/sections/InfoSections";
+import { Reviews } from "@/components/sections/Reviews";
 import { getPageContent } from "@/lib/content";
 import { hasLocale, localePath } from "@/lib/i18n";
 import { pageMetadata } from "@/lib/seo";
@@ -34,6 +35,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       <AboutSplit lang={lang} full />
       <WhyChoose lang={lang} />
       <WhoWeServe lang={lang} />
+      <Reviews lang={lang} />
       <CtaBand lang={lang} />
     </>
   );

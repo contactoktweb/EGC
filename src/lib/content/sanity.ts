@@ -5,7 +5,7 @@ import { HOME_GROUPS, TUPLES, UI_GROUPS } from "@/sanity/dictionary-map";
 import { dictionaries, type Dictionary } from "@/content/dictionary";
 import { locales, type L, type LList, type Locale } from "@/lib/i18n";
 import { staticContent } from "./static";
-import type { City, County, Faq, Img, PrivacyContent, Project, ProjectCategory, Service, ServiceIcon, SiteContent } from "./types";
+import type { City, County, Faq, Img, PrivacyContent, Project, ProjectCategory, Review, Service, ServiceIcon, SiteContent } from "./types";
 
 /* ------------------------------------------------------------------ */
 /* Consulta                                                            */
@@ -30,7 +30,10 @@ export const SITE_QUERY = /* groq */ `{
   "projects": *[_type == "project"] | order(order asc) {
     _id, category, alt, "image": image${IMAGE}, "video": video.asset->{ url, mimeType }
   },
-  "faqs": *[_type == "faq"] | order(order asc) { question, answer }
+  "faqs": *[_type == "faq"] | order(order asc) { question, answer },
+  "reviews": *[_type == "review" && defined(author) && defined(text.en)] | order(order asc, date desc) {
+    _id, author, rating, text, source, date, link, "service": service->slug.current
+  }
 }`;
 
 /* ------------------------------------------------------------------ */
@@ -154,6 +157,8 @@ export function mapSanityData(data: Raw): SiteContent {
         logoSquare: toImg(st.logoSquare, 600),
         ogImage: toImg(st.ogImage, 1200),
         social: Array.isArray(st.social) ? st.social.filter((x: Raw) => x?.platform && x?.url) : [],
+        googleReviewUrl: typeof st.googleReviewUrl === "string" ? st.googleReviewUrl : "",
+        assistantEnabled: st.assistantEnabled !== false,
       }
     : fb.settings;
 
@@ -246,6 +251,20 @@ export function mapSanityData(data: Raw): SiteContent {
     cities,
     projects,
     faqs,
+    reviews: Array.isArray(data?.reviews)
+      ? data.reviews.map(
+          (r: Raw): Review => ({
+            id: r._id,
+            author: r.author,
+            rating: Math.min(5, Math.max(1, Math.round(Number(r.rating) || 5))),
+            text: loc(r.text),
+            source: r.source || "Google",
+            date: r.date || undefined,
+            link: r.link || undefined,
+            service: r.service || undefined,
+          }),
+        )
+      : [],
     privacy,
   };
 }

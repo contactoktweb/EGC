@@ -43,6 +43,8 @@ export function staticContent(): SiteContent {
       video: p.video ? { url: `/videos/${p.video}`, mimeType: p.video.endsWith(".webm") ? "video/webm" : "video/mp4" } : undefined,
     })),
     faqs: generalFaqs,
+    // Sin reseñas de ejemplo: solo se muestran reseñas reales cargadas en Sanity.
+    reviews: [],
     privacy: Object.fromEntries(
       locales.map((lang) => {
         const p = privacy[lang];

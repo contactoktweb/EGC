@@ -46,5 +46,10 @@ Reglas:
   Área: condado de Snohomish, condado de Skagit y el norte del condado de King (sin Bellevue, Redmond ni Seattle).
 - SEO/GEO: metadata y JSON-LD en `src/lib/seo.ts`; `sitemap.ts`, `robots.ts`, `llms.txt/route.ts`.
 - Usar siempre el nombre **ECG** Construction LLC (no "EGC").
-- Formulario de contacto: el envío con Resend está pendiente (`src/app/api/contact/route.ts`).
+- Formulario (con fotos) y asistente de IA guardan las solicitudes en Sanity → "Solicitudes de cotización"
+  (`src/lib/leads.ts`, requiere `SANITY_API_WRITE_TOKEN`). Aviso por correo con Resend: opcional/pendiente.
+- Asistente de IA: `src/app/api/assistant/route.ts` + `src/lib/assistant.ts` (SDK oficial `@anthropic-ai/sdk`,
+  modelo `claude-opus-5-5`, effort `low`, `fallbacks: "default"`). Requiere `ANTHROPIC_API_KEY`; se apaga en
+  Configuración general. Sus instrucciones se arman con el contenido de Sanity (no duplicar datos en el prompt).
+- Reseñas: solo reales (Sanity → Reseñas); nunca inventar reseñas ni usar `AggregateRating` con reseñas propias.
 - Comprobar con `npm run build` y `npm run lint` antes de hacer commit.

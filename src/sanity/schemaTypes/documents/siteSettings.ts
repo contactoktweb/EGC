@@ -25,7 +25,8 @@ export const siteSettings = defineType({
     { name: "contact", title: "Contacto" },
     { name: "hours", title: "Horario y área" },
     { name: "legal", title: "Legal" },
-    { name: "social", title: "Redes sociales" },
+    { name: "social", title: "Redes y reseñas" },
+    { name: "assistant", title: "Asistente de IA" },
   ],
   fields: [
     // ---------- Marca ----------
@@ -201,6 +202,28 @@ export const siteSettings = defineType({
       group: "legal",
       description: "Ejemplo: 20. Disponible en los textos como {years}.",
       validation: (r) => r.required().min(0).integer(),
+    }),
+
+    // ---------- Reseñas ----------
+    defineField({
+      name: "googleReviewUrl",
+      title: "Enlace para dejar reseña en Google",
+      type: "url",
+      group: "social",
+      description:
+        'Enlace de Google Business Profile para escribir una reseña (en Google Business → "Pedir reseñas" → copiar enlace). Ejemplo: "https://g.page/r/XXXX/review". Si está lleno, aparece el botón "Déjanos tu reseña".',
+      validation: (r) => r.uri({ scheme: ["https"] }),
+    }),
+
+    // ---------- Asistente de IA ----------
+    defineField({
+      name: "assistantEnabled",
+      title: "Mostrar el asistente de IA en la web",
+      type: "boolean",
+      group: "assistant",
+      initialValue: true,
+      description:
+        "Burbuja de chat que responde preguntas de los visitantes y registra solicitudes de cotización (aparecen en \"Solicitudes de cotización\"). Desactívalo para ocultarlo.",
     }),
 
     // ---------- Redes ----------

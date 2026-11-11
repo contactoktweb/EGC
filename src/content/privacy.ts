@@ -11,7 +11,7 @@ export const privacy: Record<Locale, PrivacySource> = {
     title: "Privacy Policy",
     description:
       "How ECG Construction LLC collects, uses and protects the information you share through our website and estimate request form.",
-    updated: "Last updated: November 9, 2026",
+    updated: "Last updated: November 11, 2026",
     intro:
       "ECG Construction LLC (“ECG Construction”, “we”, “us”) respects your privacy. This policy explains what information we collect when you visit our website or request an estimate, how we use it and the choices you have.",
     sections: [
@@ -22,6 +22,8 @@ export const privacy: Record<Locale, PrivacySource> = {
           "Your name, phone number and email address.",
           "Your city and the service you are interested in.",
           "The project details you choose to share with us.",
+          "Photos you attach to your estimate request.",
+          "Messages you write to our website assistant.",
         ],
       },
       {
@@ -41,9 +43,15 @@ export const privacy: Record<Locale, PrivacySource> = {
         ],
       },
       {
+        title: "Website assistant (AI)",
+        paragraphs: [
+          "Our website includes an assistant powered by artificial intelligence (Anthropic) that answers questions and can register your estimate request. The messages you write are sent to that provider only to generate the replies, and if you request an estimate, we keep the conversation with your request. Please do not share sensitive information in the chat. The assistant can make mistakes; for exact details, contact us at {phone}.",
+        ],
+      },
+      {
         title: "How we share your information",
         paragraphs: [
-          "We do not sell or rent your personal information. We only share it with service providers that help us operate the website, deliver email and measure advertising (for example, hosting, email delivery and Google), when required by law, or to protect our rights.",
+          "We do not sell or rent your personal information. We only share it with service providers that help us operate the website, store requests, power the website assistant, deliver email and measure advertising (for example, hosting, our content platform, Anthropic and Google), when required by law, or to protect our rights.",
         ],
       },
       {
@@ -80,7 +88,7 @@ export const privacy: Record<Locale, PrivacySource> = {
     title: "Política de privacidad",
     description:
       "Cómo ECG Construction LLC recopila, usa y protege la información que compartes en nuestro sitio web y en el formulario de estimado.",
-    updated: "Última actualización: 9 de noviembre de 2026",
+    updated: "Última actualización: 11 de noviembre de 2026",
     intro:
       "ECG Construction LLC (“ECG Construction”, “nosotros”) respeta tu privacidad. Esta política explica qué información recopilamos cuando visitas nuestro sitio o solicitas un estimado, cómo la usamos y qué opciones tienes.",
     sections: [
@@ -91,6 +99,8 @@ export const privacy: Record<Locale, PrivacySource> = {
           "Tu nombre, teléfono y correo electrónico.",
           "Tu ciudad y el servicio que te interesa.",
           "Los detalles del proyecto que decidas compartir.",
+          "Las fotos que adjuntes a tu solicitud de estimado.",
+          "Los mensajes que escribas a nuestro asistente de la web.",
         ],
       },
       {
@@ -110,9 +120,15 @@ export const privacy: Record<Locale, PrivacySource> = {
         ],
       },
       {
+        title: "Asistente de la web (IA)",
+        paragraphs: [
+          "Nuestra web incluye un asistente con inteligencia artificial (Anthropic) que responde preguntas y puede registrar tu solicitud de estimado. Los mensajes que escribes se envían a ese proveedor solo para generar las respuestas y, si pides un estimado, guardamos la conversación junto con tu solicitud. No compartas información sensible en el chat. El asistente puede cometer errores; para datos exactos, contáctanos al {phone}.",
+        ],
+      },
+      {
         title: "Con quién compartimos tu información",
         paragraphs: [
-          "No vendemos ni alquilamos tu información personal. Solo la compartimos con proveedores que nos ayudan a operar el sitio, enviar correos y medir la publicidad (por ejemplo, hosting, envío de correo y Google), cuando la ley lo exige o para proteger nuestros derechos.",
+          "No vendemos ni alquilamos tu información personal. Solo la compartimos con proveedores que nos ayudan a operar el sitio, guardar solicitudes, hacer funcionar el asistente de la web, enviar correos y medir la publicidad (por ejemplo, hosting, nuestra plataforma de contenido, Anthropic y Google), cuando la ley lo exige o para proteger nuestros derechos.",
         ],
       },
       {

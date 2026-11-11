@@ -38,11 +38,13 @@ Con el webhook, cada cambio publicado aparece en la web en segundos. Sin él, se
 
 | Sección | Tipo | Qué se edita |
 |---|---|---|
+| **Solicitudes de cotización** | lista | Pedidos del formulario y del asistente de IA (datos, fotos, conversación); el equipo cambia el estado y deja notas |
 | **Configuración general** | único | Logos, nombre, eslogan, teléfono, correo, horario, área, registro L&I, redes sociales |
 | **Página de inicio** | único | Imagen de portada, imagen de "Sobre nosotros" y los textos de cada sección |
 | **Textos generales** | único | Menú, botones, formulario, títulos y descripciones SEO de cada página |
 | **Servicios** | lista | Los 7 servicios (cada uno con su página `/services/[slug]`) |
 | **Proyectos (galería)** | lista | Fotos o videos de trabajos, con su categoría |
+| **Reseñas** | lista | Reseñas reales de clientes (estrellas, texto, origen, enlace). Sin reseñas, la sección no aparece |
 | **Preguntas frecuentes** | lista | Preguntas generales (inicio, Google y asistentes de IA) |
 | **Condados** | lista | Snohomish, Skagit, norte de King (página `/service-areas/[slug]`) |
 | **Ciudades** | lista | Cada ciudad con su página `/service-areas/[slug]` |
@@ -159,12 +161,25 @@ como en un procesador de textos:
 
 Toda política nueva (términos, cookies…) debe usar este mismo editor.
 
-## 5. Agregar videos a la galería
+## 5. Solicitudes, reseñas y asistente de IA
+
+- **Solicitudes de cotización:** cada envío del formulario (con hasta 5 fotos) o del asistente crea una
+  solicitud con estado 🆕 Nueva. Cambia el estado (Contactado, Cotización enviada, Ganado, Perdido) y usa
+  "Notas internas" para el seguimiento. Requiere `SANITY_API_WRITE_TOKEN` en Vercel.
+- **Reseñas:** copia reseñas reales (Google, Facebook…) con su autor, estrellas, fecha y enlace. Si eliges
+  un servicio, también salen en esa página. En Configuración general → "Redes y reseñas" pega el enlace de
+  Google para el botón "Déjanos tu reseña".
+- **Asistente de IA:** burbuja de chat que responde con la información del panel (servicios, zonas, horario,
+  preguntas frecuentes) y registra cotizaciones tras confirmar los datos. Requiere `ANTHROPIC_API_KEY` en
+  Vercel; se apaga en Configuración general → "Asistente de IA". Si cambias servicios o preguntas, el
+  asistente lo sabe automáticamente.
+
+## 6. Agregar videos a la galería
 
 En `/admin` → **Proyectos (galería)** → crear proyecto: sube la foto de portada y el video (MP4,
 menos de 50 MB, 15–60 s), elige la categoría y escribe la descripción en inglés y español.
 
-## 6. Cómo está construido (para desarrolladores)
+## 7. Cómo está construido (para desarrolladores)
 
 ```
 sanity.config.ts            Studio (integrado en /admin y para `sanity dev`)

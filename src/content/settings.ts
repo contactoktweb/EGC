@@ -46,4 +46,6 @@ export const settingsData: SettingsSource = {
   logoSquare: "brand/logo-square.png",
   ogImage: "brand/og-image.jpg",
   social: [],
+  googleReviewUrl: "",
+  assistantEnabled: true,
 };
