@@ -1,13 +1,13 @@
 import Anthropic from "@anthropic-ai/sdk";
 import { getContent } from "@/lib/content";
 import { ASSISTANT_MODEL, buildSystemPrompt, QUOTE_TOOL, type QuoteToolInput } from "@/lib/assistant";
-import { createLead, isLeadStorageReady, isValidEmail, isValidPhone } from "@/lib/leads";
+import { isLeadPipelineReady, isValidEmail, isValidPhone, submitLead } from "@/lib/leads";
 
 /**
  * Asistente de IA de la web (Claude).
  * - Responde preguntas con el contenido de Sanity (servicios, zonas, horario, preguntas frecuentes).
  * - Registra solicitudes de cotización en Sanity → "Solicitudes de cotización".
- * Requiere ANTHROPIC_API_KEY (y SANITY_API_WRITE_TOKEN para guardar las solicitudes).
+ * Requiere ANTHROPIC_API_KEY (y SANITY_API_WRITE_TOKEN / RESEND_API_KEY para guardar y avisar).
  */
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
@@ -145,7 +145,7 @@ async function runQuoteTool(
   if (missing.length) return { content: `Missing fields: ${missing.join(", ")}. Ask the visitor for them.`, is_error: true };
   if (!isValidEmail(data.email)) return { content: "The email address looks invalid. Ask the visitor to check it.", is_error: true };
   if (!isValidPhone(data.phone)) return { content: "The phone number looks invalid. Ask the visitor to check it.", is_error: true };
-  if (!isLeadStorageReady()) {
+  if (!isLeadPipelineReady()) {
     return { content: "The request could not be saved right now. Ask the visitor to call the phone number or use the contact form.", is_error: true };
   }
   if (rateLimited(ip, 3, 60 * 60_000, "lead")) {
@@ -154,7 +154,7 @@ async function runQuoteTool(
 
   const transcript = history.map((m) => `${m.role === "user" ? "Cliente" : "Asistente"}: ${m.content}`).join("\n\n");
   try {
-    await createLead({
+    const result = await submitLead({
       name: data.name,
       phone: data.phone,
       email: data.email,
@@ -165,6 +165,7 @@ async function runQuoteTool(
       source: "assistant",
       transcript,
     });
+    if (!result.ok) throw new Error("lead_not_saved");
     return { content: "Saved. The team will contact the visitor during business hours." };
   } catch (err) {
     console.error("assistant: no se pudo guardar la solicitud", err);

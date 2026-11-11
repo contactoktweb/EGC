@@ -48,4 +48,6 @@ export const settingsData: SettingsSource = {
   social: [],
   googleReviewUrl: "",
   assistantEnabled: true,
+  notificationEmail: "ecgconstructionwa@gmail.com",
+  sendClientConfirmation: true,
 };

@@ -133,6 +133,10 @@ export type Settings = {
   googleReviewUrl: string;
   /** Mostrar el asistente de IA (además requiere ANTHROPIC_API_KEY en el servidor). */
   assistantEnabled: boolean;
+  /** Correo que recibe los avisos de nuevas solicitudes. */
+  notificationEmail: string;
+  /** Enviar al cliente un correo de confirmación. */
+  sendClientConfirmation: boolean;
 };
 
 export type SiteContent = {

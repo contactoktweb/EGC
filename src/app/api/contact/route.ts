@@ -1,13 +1,12 @@
-import { createLead, isAllowedPhoto, isLeadStorageReady, isValidEmail, isValidPhone, MAX_PHOTOS } from "@/lib/leads";
+import { isAllowedPhoto, isLeadPipelineReady, isValidEmail, isValidPhone, MAX_PHOTOS, submitLead } from "@/lib/leads";
 
 /**
  * Formulario de estimado.
  *
- * Guarda cada solicitud (con sus fotos) en Sanity → "Solicitudes de cotización", donde el equipo
- * le da seguimiento. Requiere SANITY_API_WRITE_TOKEN en el servidor.
- *
- * PENDIENTE (opcional): aviso por correo con Resend al recibir una solicitud.
- *   npm install resend · RESEND_API_KEY, CONTACT_TO_EMAIL, CONTACT_FROM_EMAIL
+ * Cada solicitud (con sus fotos):
+ *  - se guarda en Sanity → "Solicitudes de cotización" (SANITY_API_WRITE_TOKEN), y
+ *  - se avisa por correo con Resend (RESEND_API_KEY) al correo de "Configuración general →
+ *    Notificaciones", con confirmación automática al cliente.
  */
 
 const clean = (v: FormDataEntryValue | null, max = 2000) => (typeof v === "string" ? v.trim().slice(0, max) : "");
@@ -42,18 +41,15 @@ export async function POST(request: Request) {
     return Response.json({ ok: false, error: "invalid_photos" }, { status: 422 });
   }
 
-  if (!isLeadStorageReady()) {
-    return Response.json({ ok: false, error: "lead_storage_not_configured" }, { status: 503 });
+  if (!isLeadPipelineReady()) {
+    return Response.json({ ok: false, error: "not_configured" }, { status: 503 });
   }
 
-  try {
-    const photos = await Promise.all(
-      files.map(async (f) => ({ data: Buffer.from(await f.arrayBuffer()), filename: f.name, contentType: f.type })),
-    );
-    await createLead({ ...data, source: "form", photos });
-    return Response.json({ ok: true });
-  } catch (err) {
-    console.error("contact: no se pudo guardar la solicitud", err);
-    return Response.json({ ok: false, error: "save_failed" }, { status: 500 });
-  }
+  const photos = await Promise.all(
+    files.map(async (f) => ({ data: Buffer.from(await f.arrayBuffer()), filename: f.name, contentType: f.type })),
+  );
+  const result = await submitLead({ ...data, source: "form", photos });
+  return result.ok
+    ? Response.json({ ok: true })
+    : Response.json({ ok: false, error: "save_failed" }, { status: 500 });
 }

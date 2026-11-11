@@ -26,6 +26,7 @@ export const siteSettings = defineType({
     { name: "hours", title: "Horario y área" },
     { name: "legal", title: "Legal" },
     { name: "social", title: "Redes y reseñas" },
+    { name: "notifications", title: "Notificaciones por correo" },
     { name: "assistant", title: "Asistente de IA" },
   ],
   fields: [
@@ -213,6 +214,26 @@ export const siteSettings = defineType({
       description:
         'Enlace de Google Business Profile para escribir una reseña (en Google Business → "Pedir reseñas" → copiar enlace). Ejemplo: "https://g.page/r/XXXX/review". Si está lleno, aparece el botón "Déjanos tu reseña".',
       validation: (r) => r.uri({ scheme: ["https"] }),
+    }),
+
+    // ---------- Notificaciones ----------
+    defineField({
+      name: "notificationEmail",
+      title: "Correo que recibe las solicitudes",
+      type: "string",
+      group: "notifications",
+      initialValue: "ecgconstructionwa@gmail.com",
+      description:
+        'Cada nueva solicitud de estimado (formulario o asistente de IA) llega a este correo con todos los datos del cliente. Ejemplo: "ecgconstructionwa@gmail.com". Los correos salen desde info@ecgcowa.com.',
+      validation: (r) => r.required().email(),
+    }),
+    defineField({
+      name: "sendClientConfirmation",
+      title: "Enviar confirmación automática al cliente",
+      type: "boolean",
+      group: "notifications",
+      initialValue: true,
+      description: "El cliente recibe un correo en su idioma confirmando que su solicitud llegó, con el resumen y los datos de contacto.",
     }),
 
     // ---------- Asistente de IA ----------

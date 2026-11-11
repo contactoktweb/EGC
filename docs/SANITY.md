@@ -166,6 +166,10 @@ Toda política nueva (términos, cookies…) debe usar este mismo editor.
 - **Solicitudes de cotización:** cada envío del formulario (con hasta 5 fotos) o del asistente crea una
   solicitud con estado 🆕 Nueva. Cambia el estado (Contactado, Cotización enviada, Ganado, Perdido) y usa
   "Notas internas" para el seguimiento. Requiere `SANITY_API_WRITE_TOKEN` en Vercel.
+- **Avisos por correo (Resend):** cada solicitud envía un correo al equipo con todos los datos, fotos,
+  conversación y un botón al panel (responderlo le escribe al cliente), y una confirmación al cliente en
+  su idioma. Salen desde `info@ecgcowa.com`. El correo que recibe los avisos y la confirmación al cliente
+  se configuran en Configuración general → **Notificaciones por correo**. Requiere `RESEND_API_KEY`.
 - **Reseñas:** copia reseñas reales (Google, Facebook…) con su autor, estrellas, fecha y enlace. Si eliges
   un servicio, también salen en esa página. En Configuración general → "Redes y reseñas" pega el enlace de
   Google para el botón "Déjanos tu reseña".

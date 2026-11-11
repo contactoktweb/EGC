@@ -159,6 +159,11 @@ export function mapSanityData(data: Raw): SiteContent {
         social: Array.isArray(st.social) ? st.social.filter((x: Raw) => x?.platform && x?.url) : [],
         googleReviewUrl: typeof st.googleReviewUrl === "string" ? st.googleReviewUrl : "",
         assistantEnabled: st.assistantEnabled !== false,
+        notificationEmail:
+          typeof st.notificationEmail === "string" && st.notificationEmail.includes("@")
+            ? st.notificationEmail.trim()
+            : fb.settings.notificationEmail,
+        sendClientConfirmation: st.sendClientConfirmation !== false,
       }
     : fb.settings;
 
