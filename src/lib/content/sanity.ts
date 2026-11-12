@@ -31,8 +31,8 @@ export const SITE_QUERY = /* groq */ `{
     _id, category, alt, "image": image${IMAGE}, "video": video.asset->{ url, mimeType }
   },
   "faqs": *[_type == "faq"] | order(order asc) { question, answer },
-  "reviews": *[_type == "review" && defined(author) && defined(text.en)] | order(order asc, date desc) {
-    _id, author, rating, text, source, date, link, "service": service->slug.current
+  "reviews": *[_type == "review" && (!defined(status) || status == "approved") && defined(author) && (defined(text.en) || defined(text.es))] | order(order asc, date desc) {
+    _id, author, rating, text, source, date, link, city, "service": service->slug.current
   }
 }`;
 
@@ -262,10 +262,11 @@ export function mapSanityData(data: Raw): SiteContent {
             id: r._id,
             author: r.author,
             rating: Math.min(5, Math.max(1, Math.round(Number(r.rating) || 5))),
-            text: loc(r.text),
+            text: loc({ en: r.text?.en || r.text?.es, es: r.text?.es }),
             source: r.source || "Google",
             date: r.date || undefined,
             link: r.link || undefined,
+            city: r.city || undefined,
             service: r.service || undefined,
           }),
         )

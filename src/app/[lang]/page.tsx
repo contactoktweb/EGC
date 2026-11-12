@@ -58,7 +58,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       {/* 6 · Por qué elegirnos */}
       <WhyChoose lang={lang} />
       {/* Reseñas de clientes (solo si hay reseñas cargadas en Sanity) */}
-      <Reviews lang={lang} />
+      <Reviews lang={lang} withForm />
       {/* 7 · Sobre nosotros */}
       <AboutSplit lang={lang} />
       {/* 8 · A quién servimos */}

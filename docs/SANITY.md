@@ -44,7 +44,7 @@ Con el webhook, cada cambio publicado aparece en la web en segundos. Sin él, se
 | **Textos generales** | único | Menú, botones, formulario, títulos y descripciones SEO de cada página |
 | **Servicios** | lista | Los 7 servicios (cada uno con su página `/services/[slug]`) |
 | **Proyectos (galería)** | lista | Fotos o videos de trabajos, con su categoría |
-| **Reseñas** | lista | Reseñas reales de clientes (estrellas, texto, origen, enlace). Sin reseñas, la sección no aparece |
+| **Reseñas** | lista | Pendientes de aprobación (dejadas en la web), publicadas y rechazadas; también se agregan a mano |
 | **Preguntas frecuentes** | lista | Preguntas generales (inicio, Google y asistentes de IA) |
 | **Condados** | lista | Snohomish, Skagit, norte de King (página `/service-areas/[slug]`) |
 | **Ciudades** | lista | Cada ciudad con su página `/service-areas/[slug]` |
@@ -170,9 +170,14 @@ Toda política nueva (términos, cookies…) debe usar este mismo editor.
   conversación y un botón al panel (responderlo le escribe al cliente), y una confirmación al cliente en
   su idioma. Salen desde `info@ecgcowa.com`. El correo que recibe los avisos y la confirmación al cliente
   se configuran en Configuración general → **Notificaciones por correo**. Requiere `RESEND_API_KEY`.
-- **Reseñas:** copia reseñas reales (Google, Facebook…) con su autor, estrellas, fecha y enlace. Si eliges
-  un servicio, también salen en esa página. En Configuración general → "Redes y reseñas" pega el enlace de
-  Google para el botón "Déjanos tu reseña".
+- **Reseñas:** solo se muestran las **Aprobadas**. Dos formas de que lleguen:
+  1. **El cliente la deja en la web** (botón "Escribir una reseña" en Inicio y Nosotros → `/api/reviews`):
+     se guarda con estado ⏳ *Pendiente* y origen "Web", y llega un aviso por correo (Resend) al correo de
+     notificaciones. En `/admin` → Reseñas → *Pendientes de aprobación*, cambia el Estado a *Aprobada* (o
+     *Rechazada*) y publica. El correo del cliente es privado. Requiere `SANITY_API_WRITE_TOKEN`.
+  2. **El equipo la agrega a mano** (copiada de Google, Facebook…): Reseñas → Todas → crear; queda *Aprobada*.
+  Si eliges un servicio, también sale en esa página. En Configuración general → "Redes y reseñas" pega el
+  enlace de Google para el botón "Déjanos tu reseña en Google".
 - **Asistente de IA:** burbuja de chat que responde con la información del panel (servicios, zonas, horario,
   preguntas frecuentes) y registra cotizaciones tras confirmar los datos. Requiere `ANTHROPIC_API_KEY` en
   Vercel; se apaga en Configuración general → "Asistente de IA". Si cambias servicios o preguntas, el

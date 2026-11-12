@@ -55,4 +55,6 @@ Reglas:
   modelo `claude-opus-5-5`, effort `low`, `fallbacks: "default"`). Requiere `ANTHROPIC_API_KEY`; se apaga en
   Configuración general. Sus instrucciones se arman con el contenido de Sanity (no duplicar datos en el prompt).
 - Reseñas: solo reales (Sanity → Reseñas); nunca inventar reseñas ni usar `AggregateRating` con reseñas propias.
+  Los clientes pueden dejarlas en la web (`/api/reviews`): entran como `status: "pending"` y solo se muestran
+  las `approved` (o sin estado, las antiguas). El equipo también puede agregarlas a mano en el panel.
 - Comprobar con `npm run build` y `npm run lint` antes de hacer commit.

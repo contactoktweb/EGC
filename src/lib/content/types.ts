@@ -98,6 +98,7 @@ export type Review = {
   source: string;
   date?: string;
   link?: string;
+  city?: string;
   /** slug del servicio relacionado, si se eligió. */
   service?: string;
 };

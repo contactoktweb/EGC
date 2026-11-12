@@ -8,6 +8,7 @@ import type { Settings } from "./content/types";
  * Correos de la web (Resend).
  *  1. Aviso al equipo de cada nueva solicitud de estimado (formulario o asistente de IA).
  *  2. Confirmación automática al cliente, en su idioma.
+ *  3. Aviso al equipo de cada reseña nueva dejada en la web (pendiente de aprobación).
  *
  * Remitente: info@ecgcowa.com (dominio verificado en Resend). Se puede cambiar con CONTACT_FROM_EMAIL.
  * Destinatario del aviso: "Configuración general → Notificaciones" en Sanity.
@@ -294,4 +295,79 @@ export async function sendLeadEmails(lead: LeadEmailData, s: Settings): Promise<
   }
 
   return notified;
+}
+
+/* ------------------------------------------------------------------ */
+/* 3. Aviso de nueva reseña pendiente de aprobación                    */
+/* ------------------------------------------------------------------ */
+
+export type ReviewEmailData = {
+  id?: string;
+  author: string;
+  rating: number;
+  text: string;
+  email?: string;
+  city?: string;
+  service?: string;
+  submittedAt: Date;
+};
+
+export function reviewNotificationEmail(r: ReviewEmailData, s: Settings) {
+  const stars = "★".repeat(r.rating) + "☆".repeat(5 - r.rating);
+  const adminUrl = r.id ? `${site.url}/admin/structure/reviews;reviews-pending;${encodeURIComponent(r.id)}` : `${site.url}/admin`;
+  const subject = `Nueva reseña por aprobar: ${stars} ${r.author}`;
+  const body = `
+<p style="margin:0 0 6px;font-size:12px;font-weight:bold;letter-spacing:2px;color:${C.brand};text-transform:uppercase">Reseña pendiente de aprobación</p>
+<h1 style="margin:0 0 16px;font-size:22px;line-height:28px">${esc(r.author)} dejó una reseña en la web</h1>
+<p style="margin:0 0 18px;font-size:22px;color:#e0a800;letter-spacing:2px">${stars}</p>
+<blockquote style="margin:0 0 20px;padding:14px 16px;background:${C.paper};border-left:4px solid ${C.brand};font-size:15px;line-height:22px">${nl2br(r.text)}</blockquote>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-top:1px solid #e6e6e3">
+${row("Nombre", esc(r.author))}
+${r.city ? row("Ciudad", esc(r.city)) : ""}
+${r.service ? row("Servicio", esc(r.service)) : ""}
+${r.email ? row("Correo", `<a href="mailto:${esc(r.email)}" style="color:${C.brand}">${esc(r.email)}</a>`) : ""}
+${row("Recibida", esc(pacificDate(r.submittedAt, "es")))}
+</table>
+<p style="margin:24px 0 0;font-size:14px;line-height:21px">No se publica hasta que la apruebes: en el panel, abre la reseña, cambia el <b>Estado</b> a <b>Aprobada</b> y presiona <b>Publish</b>.</p>
+<p style="margin:16px 0 0">${button(adminUrl, "Revisar y aprobar en el panel")}</p>`;
+  const text = [
+    subject,
+    "",
+    r.text,
+    "",
+    `Nombre: ${r.author}`,
+    r.city ? `Ciudad: ${r.city}` : "",
+    r.service ? `Servicio: ${r.service}` : "",
+    r.email ? `Correo: ${r.email}` : "",
+    "",
+    `Aprobar en el panel: ${adminUrl}`,
+  ]
+    .filter((l, i, a) => l || a[i - 1])
+    .join("\n");
+  return { subject, html: layout(s, `${stars} ${r.text.slice(0, 80)}`, body, "Aviso automático de la web: nueva reseña de cliente."), text };
+}
+
+/** Avisa al equipo de una reseña nueva. Nunca lanza errores. */
+export async function sendReviewEmail(r: ReviewEmailData, s: Settings): Promise<boolean> {
+  if (!resend) return false;
+  try {
+    const n = reviewNotificationEmail(r, s);
+    const { error } = await resend.emails.send({
+      from: FROM,
+      to: s.notificationEmail,
+      replyTo: r.email || undefined,
+      subject: n.subject,
+      html: n.html,
+      text: n.text,
+      tags: [{ name: "category", value: "review_notification" }],
+    });
+    if (error) {
+      console.error("email: aviso de reseña falló", error);
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("email: aviso de reseña falló", err);
+    return false;
+  }
 }

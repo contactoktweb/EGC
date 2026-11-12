@@ -35,7 +35,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       <AboutSplit lang={lang} full />
       <WhyChoose lang={lang} />
       <WhoWeServe lang={lang} />
-      <Reviews lang={lang} />
+      <Reviews lang={lang} withForm />
       <CtaBand lang={lang} />
     </>
   );
