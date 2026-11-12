@@ -79,10 +79,13 @@ export function ReviewForm({
       onSubmit={onSubmit}
       className="mx-auto grid max-w-2xl gap-4 rounded-md border border-line bg-ink p-6 text-left sm:grid-cols-2 md:p-8"
     >
-      <div className="sm:col-span-2">
-        <h3 className="text-xl font-bold">{labels.formTitle}</h3>
-        <p className="mt-1 text-sm text-neutral-400">{labels.formLead}</p>
-      </div>
+      {/* En la página /review el título ya está arriba. */}
+      {!startOpen && (
+        <div className="sm:col-span-2">
+          <h3 className="text-xl font-bold">{labels.formTitle}</h3>
+          <p className="mt-1 text-sm text-neutral-400">{labels.formLead}</p>
+        </div>
+      )}
 
       <fieldset className="sm:col-span-2">
         <legend className={label}>{labels.formRating} *</legend>
