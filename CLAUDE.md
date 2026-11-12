@@ -51,9 +51,9 @@ Reglas:
   (`src/lib/email.ts`, `RESEND_API_KEY`): aviso al equipo + confirmación al cliente. Remitente
   `info@ecgcowa.com`; el destinatario se edita en Sanity (Configuración general → Notificaciones,
   por defecto ecgconstructionwa@gmail.com). Todo dato del cliente en un correo va escapado con `esc()`.
-- Asistente de IA: `src/app/api/assistant/route.ts` + `src/lib/assistant.ts` (SDK oficial `@anthropic-ai/sdk`,
-  modelo `claude-opus-5-5`, effort `low`, `fallbacks: "default"`). Requiere `ANTHROPIC_API_KEY`; se apaga en
-  Configuración general. Sus instrucciones se arman con el contenido de Sanity (no duplicar datos en el prompt).
+- Asistente de IA: `src/app/api/assistant/route.ts` + `src/lib/assistant.ts` con **Google Gemini** (plan gratuito,
+  API REST `generateContent` + function calling, modelo `gemini-3.5-flash-lite`, cambiable con `GEMINI_MODEL`).
+  Requiere `GEMINI_API_KEY` (Google AI Studio) en el build y en el servidor; se apaga en Configuración general. Sus instrucciones se arman con el contenido de Sanity (no duplicar datos en el prompt).
 - Reseñas: solo reales (Sanity → Reseñas); nunca inventar reseñas ni usar `AggregateRating` con reseñas propias.
   Los clientes pueden dejarlas en la web (`/api/reviews`): entran como `status: "pending"` y solo se muestran
   las `approved` (o sin estado, las antiguas). El equipo también puede agregarlas a mano en el panel.

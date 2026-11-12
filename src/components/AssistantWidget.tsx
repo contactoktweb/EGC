@@ -25,7 +25,7 @@ function save(lang: Locale, msgs: Msg[]) {
   }
 }
 
-/** Asistente de IA de la web: burbuja flotante con chat (Claude, vía /api/assistant). */
+/** Asistente de IA de la web: burbuja flotante con chat (Google Gemini, vía /api/assistant). */
 export function AssistantWidget({ lang, labels }: { lang: Locale; labels: Dictionary["assistant"] }) {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Msg[]>([]);

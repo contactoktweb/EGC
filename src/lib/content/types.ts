@@ -132,7 +132,7 @@ export type Settings = {
   social: SocialLink[];
   /** Enlace de Google Business para escribir una reseña. */
   googleReviewUrl: string;
-  /** Mostrar el asistente de IA (además requiere ANTHROPIC_API_KEY en el servidor). */
+  /** Mostrar el asistente de IA (además requiere GEMINI_API_KEY en el servidor). */
   assistantEnabled: boolean;
   /** Correo que recibe los avisos de nuevas solicitudes. */
   notificationEmail: string;

@@ -45,13 +45,13 @@ export const privacy: Record<Locale, PrivacySource> = {
       {
         title: "Website assistant (AI)",
         paragraphs: [
-          "Our website includes an assistant powered by artificial intelligence (Anthropic) that answers questions and can register your estimate request. The messages you write are sent to that provider only to generate the replies, and if you request an estimate, we keep the conversation with your request. Please do not share sensitive information in the chat. The assistant can make mistakes; for exact details, contact us at {phone}.",
+          "Our website includes an assistant powered by artificial intelligence (Google Gemini) that answers questions and can register your estimate request. The messages you write are sent to that provider to generate the replies; under the terms of Google's free service, Google may also use them to improve its products. If you request an estimate, we keep the conversation with your request. Please do not share sensitive information in the chat. The assistant can make mistakes; for exact details, contact us at {phone}.",
         ],
       },
       {
         title: "How we share your information",
         paragraphs: [
-          "We do not sell or rent your personal information. We only share it with service providers that help us operate the website, store requests, power the website assistant, deliver email and measure advertising (for example, hosting, our content platform, Anthropic and Google), when required by law, or to protect our rights.",
+          "We do not sell or rent your personal information. We only share it with service providers that help us operate the website, store requests, power the website assistant, deliver email and measure advertising (for example, hosting, our content platform, Google), when required by law, or to protect our rights.",
         ],
       },
       {
@@ -122,13 +122,13 @@ export const privacy: Record<Locale, PrivacySource> = {
       {
         title: "Asistente de la web (IA)",
         paragraphs: [
-          "Nuestra web incluye un asistente con inteligencia artificial (Anthropic) que responde preguntas y puede registrar tu solicitud de estimado. Los mensajes que escribes se envían a ese proveedor solo para generar las respuestas y, si pides un estimado, guardamos la conversación junto con tu solicitud. No compartas información sensible en el chat. El asistente puede cometer errores; para datos exactos, contáctanos al {phone}.",
+          "Nuestra web incluye un asistente con inteligencia artificial (Google Gemini) que responde preguntas y puede registrar tu solicitud de estimado. Los mensajes que escribes se envían a ese proveedor para generar las respuestas; según las condiciones del servicio gratuito de Google, también puede usarlos para mejorar sus productos. Si pides un estimado, guardamos la conversación junto con tu solicitud. No compartas información sensible en el chat. El asistente puede cometer errores; para datos exactos, contáctanos al {phone}.",
         ],
       },
       {
         title: "Con quién compartimos tu información",
         paragraphs: [
-          "No vendemos ni alquilamos tu información personal. Solo la compartimos con proveedores que nos ayudan a operar el sitio, guardar solicitudes, hacer funcionar el asistente de la web, enviar correos y medir la publicidad (por ejemplo, hosting, nuestra plataforma de contenido, Anthropic y Google), cuando la ley lo exige o para proteger nuestros derechos.",
+          "No vendemos ni alquilamos tu información personal. Solo la compartimos con proveedores que nos ayudan a operar el sitio, guardar solicitudes, hacer funcionar el asistente de la web, enviar correos y medir la publicidad (por ejemplo, hosting, nuestra plataforma de contenido, Google), cuando la ley lo exige o para proteger nuestros derechos.",
         ],
       },
       {

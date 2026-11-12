@@ -179,8 +179,8 @@ Toda política nueva (términos, cookies…) debe usar este mismo editor.
   Si eliges un servicio, también sale en esa página. En Configuración general → "Redes y reseñas" pega el
   enlace de Google para el botón "Déjanos tu reseña en Google".
 - **Asistente de IA:** burbuja de chat que responde con la información del panel (servicios, zonas, horario,
-  preguntas frecuentes) y registra cotizaciones tras confirmar los datos. Requiere `ANTHROPIC_API_KEY` en
-  Vercel; se apaga en Configuración general → "Asistente de IA". Si cambias servicios o preguntas, el
+  preguntas frecuentes) y registra cotizaciones tras confirmar los datos. Usa Google Gemini (plan gratuito):
+  requiere `GEMINI_API_KEY` en Vercel y volver a desplegar; se apaga en Configuración general → "Asistente de IA". Si cambias servicios o preguntas, el
   asistente lo sabe automáticamente.
 
 ## 6. Agregar videos a la galería

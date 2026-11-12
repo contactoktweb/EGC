@@ -70,8 +70,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
           {children}
         </main>
         <Footer lang={lang} />
-        {/* Asistente de IA: activo si hay ANTHROPIC_API_KEY y está encendido en Configuración general. */}
-        {process.env.ANTHROPIC_API_KEY && content.settings.assistantEnabled && (
+        {/* Asistente de IA: activo si hay GEMINI_API_KEY y está encendido en Configuración general. */}
+        {process.env.GEMINI_API_KEY && content.settings.assistantEnabled && (
           <AssistantWidget lang={lang} labels={t.assistant} />
         )}
         <JsonLd data={businessJsonLd(content, lang)} />

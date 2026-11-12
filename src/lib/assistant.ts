@@ -1,23 +1,28 @@
 import "server-only";
-import type Anthropic from "@anthropic-ai/sdk";
 import type { SiteContent } from "./content/types";
 import { contractorRegText } from "./content/helpers";
 
-/** Modelo del asistente de la web. */
-export const ASSISTANT_MODEL = "claude-opus-5-5";
-
 /**
- * Instrucciones del asistente, armadas con el contenido actual de la web (Sanity).
- * No incluye nada que cambie por visita (fecha, hora…), así el prefijo se puede cachear.
+ * Modelo del asistente (Google Gemini, plan gratuito de Google AI Studio).
+ * Se puede cambiar sin tocar código con la variable GEMINI_MODEL.
  */
+export const ASSISTANT_MODEL =
+  process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
+
+/** Instrucciones del asistente, armadas con el contenido actual de la web (Sanity). */
 export function buildSystemPrompt(c: SiteContent): string {
   const s = c.settings;
   const services = c.services
-    .map((x) => `- ${x.name.en} (${x.name.es}): ${x.short.en}\n  Includes: ${x.items.en.join("; ")}`)
+    .map(
+      (x) =>
+        `- ${x.name.en} (${x.name.es}): ${x.short.en}\n  Includes: ${x.items.en.join("; ")}`,
+    )
     .join("\n");
   const areas = c.counties
     .map((county) => {
-      const cities = c.cities.filter((city) => city.county === county.slug).map((city) => city.name);
+      const cities = c.cities
+        .filter((city) => city.county === county.slug)
+        .map((city) => city.name);
       return `- ${county.name.en}: ${cities.join(", ")}`;
     })
     .join("\n");
@@ -61,26 +66,50 @@ Requesting a free estimate:
 5. After it succeeds, tell them the team will contact them during business hours. They can also attach photos through the contact form on the website.`;
 }
 
-export const QUOTE_TOOL: Anthropic.Beta.BetaTool = {
+/** Herramienta (function calling de Gemini) para guardar la solicitud de estimado. */
+export const QUOTE_TOOL = {
   name: "create_quote_request",
   description:
     "Saves a free-estimate request for the ECG Construction team, who will contact the visitor. Call it only after the visitor has given all fields and confirmed the summary.",
-  strict: true,
-  input_schema: {
+  parameters: {
     type: "object",
     properties: {
       name: { type: "string", description: "Visitor's full name" },
-      phone: { type: "string", description: "Phone number as the visitor wrote it" },
+      phone: {
+        type: "string",
+        description: "Phone number as the visitor wrote it",
+      },
       email: { type: "string", description: "Email address" },
-      city: { type: "string", description: "City where the project is located" },
-      service: { type: "string", description: "Service needed, e.g. Epoxy & Protective Floor Coatings" },
-      details: { type: "string", description: "Project description: size, location, timeline and any notes" },
-      language: { type: "string", enum: ["en", "es"], description: "Language of the conversation" },
+      city: {
+        type: "string",
+        description: "City where the project is located",
+      },
+      service: {
+        type: "string",
+        description: "Service needed, e.g. Epoxy & Protective Floor Coatings",
+      },
+      details: {
+        type: "string",
+        description:
+          "Project description: size, location, timeline and any notes",
+      },
+      language: {
+        type: "string",
+        enum: ["en", "es"],
+        description: "Language of the conversation",
+      },
     },
-    required: ["name", "phone", "email", "city", "service", "details", "language"],
-    additionalProperties: false,
+    required: [
+      "name",
+      "phone",
+      "email",
+      "city",
+      "service",
+      "details",
+      "language",
+    ],
   },
-};
+} as const;
 
 export type QuoteToolInput = {
   name: string;
